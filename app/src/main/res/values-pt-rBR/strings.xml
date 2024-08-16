@@ -27,4 +27,5 @@
     <string name="main_screen">Tela Principal</string>
     <string name="tip_list_title">Gorjetas</string>
     <string name="tip_will_be_deleted">Gorjeta será apagada</string>
+    <string name="tip">Gorjeta</string>
 </resources>

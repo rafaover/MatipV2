@@ -34,4 +34,5 @@
     <string name="main_screen">Main Screen</string>
     <string name="fab_add_list">Add a List</string>
     <string name="tip_will_be_deleted">Tip will be deleted</string>
+    <string name="tip">Tip</string>
 </resources>
