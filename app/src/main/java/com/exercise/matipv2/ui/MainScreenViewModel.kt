@@ -11,6 +11,7 @@ import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.MatipRepository
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
+import com.exercise.matipv2.util.convertTipAmountToCurrency
 import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,7 @@ class MainScreenViewModel (
     val uiState = _uiState.asStateFlow()
 
     var showAddListDialog by mutableStateOf(false)
+    var showAddTipValueToListDialog by mutableStateOf(false)
     var showDeleteListDialog by mutableStateOf(false)
     var showSnackBar by mutableStateOf(false)
     var newListName by mutableStateOf("")
@@ -75,6 +77,10 @@ class MainScreenViewModel (
 
     fun updateShowAddListDialog(showDialog: Boolean) {
         showAddListDialog = showDialog
+    }
+
+    fun updateShowAddTipValueToListDialog(showDialog: Boolean) {
+        showAddTipValueToListDialog = showDialog
     }
 
     fun updateShowDeleteListDialog(showDialog: Boolean) {
@@ -127,6 +133,20 @@ class MainScreenViewModel (
         }
     }
 
+    fun insertTipValueToList(listId: Int) {
+        val tipAmountConverted = convertTipAmountToCurrency(uiState.value.tipAmount)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val tip = Tip(
+                tipAmount = tipAmountConverted,
+                tipPercent = "0",
+                listId = listId,
+                dateCreated = uiState.value.dateCreated
+            )
+            matipRepository.insertTip(tip)
+        }
+    }
+
     fun insertList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
             matipRepository.insertList(list)
@@ -166,10 +186,6 @@ class MainScreenViewModel (
     * Get Functions
     */
 
-//    suspend fun getLastTipSaved(): Tip {
-//        return matipRepository.getLastTipSaved()
-//    }
-
     fun getAllLists(): Flow<kotlin.collections.List<List>> {
         return matipRepository.getAllLists()
     }
@@ -181,14 +197,5 @@ class MainScreenViewModel (
     fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
         return matipRepository.getAllTipsFromList(eventId)
     }
-
-    /*
-    * Extension Functions
-    */
-
-//    private fun TipCalculatorScreenUiState.toTip(): Tip = Tip(
-//        tipAmount = finalTip,
-//        tipPercent = tipPercent
-//    )
 }
 

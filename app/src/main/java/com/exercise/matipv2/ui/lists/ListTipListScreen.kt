@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,11 +36,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.R
+import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
 import com.exercise.matipv2.components.common.shareTextWithApps
+import com.exercise.matipv2.components.lists.AddTipValueToListDialog
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.util.tipListToString
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,7 +97,9 @@ fun ListTipListScreen(
                 modifier = Modifier.padding(it)
             ) {
                 Column(
-                    modifier = Modifier.padding(dimensionResource(R.dimen.padding_mid))
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_mid))
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -128,7 +135,8 @@ fun ListTipListScreen(
                             .padding(bottom = dimensionResource(R.dimen.padding_mid))
                     )
                     LazyColumn(
-                        userScrollEnabled = true
+                        userScrollEnabled = true,
+                        modifier = Modifier.padding(bottom = 65.dp)
                     ) {
                         /**
                          * Display rows of tips from specific List(List).
@@ -147,6 +155,30 @@ fun ListTipListScreen(
                             )
                         }
                     }
+                }
+
+                /** FAB to add a final tip value without calculation, to the current List **/
+                FabAdd(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(dimensionResource(R.dimen.padding_mid)),
+                    onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
+                    contentDescription = stringResource(R.string.add_tip_to_list)
+                )
+
+                /** Conditional attached to [FabAdd] composable above to
+                 * show dialog when clicked */
+
+                if(viewModel.showAddTipValueToListDialog) {
+                    AddTipValueToListDialog(
+                        viewModel = viewModel,
+                        onSaveRequest = {
+                            viewModel.viewModelScope.launch {
+                                viewModel.insertTipValueToList(listId)
+                                viewModel.updateShowAddTipValueToListDialog(false)
+                            }
+                        }
+                    )
                 }
             }
         }

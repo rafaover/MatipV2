@@ -28,9 +28,9 @@ import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.ConfirmationAlertDialog
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
-import com.exercise.matipv2.components.events.AddAnListDialog
-import com.exercise.matipv2.components.events.AllTipsFromListCounter
-import com.exercise.matipv2.components.events.SwipeBox
+import com.exercise.matipv2.components.lists.AddAnListDialog
+import com.exercise.matipv2.components.lists.AllTipsFromListCounter
+import com.exercise.matipv2.components.lists.SwipeBox
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.ui.MainScreenViewModel
 import kotlinx.coroutines.flow.Flow
