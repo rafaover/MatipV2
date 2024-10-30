@@ -46,7 +46,7 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun insertTip_getTip() = runTest {
-        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999)
+        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip)
         val getTip = tipDao.getAllTips().first()[0]
         assertEquals(getTip.tipAmount, "100")
@@ -55,7 +55,7 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun deleteTip() = runTest {
-        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999)
+        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip)
         tipDao.deleteTip(tip)
         val getTip = tipDao.getAllTips().first()
@@ -65,9 +65,9 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun updateTip() = runTest {
-        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999)
+        val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip)
-        val tip1 = Tip(id = 1, tipAmount = "200", tipPercent = "10", listId = 999)
+        val tip1 = Tip(id = 1, tipAmount = "200", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.updateTip(tip1)
         val updatedTip = tipDao.getAllTips().first()[0]
         assertEquals(updatedTip.tipAmount, "200")
@@ -76,8 +76,8 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun getAllTips() = runTest {
-        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999)
-        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999)
+        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
+        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
         val getTips = tipDao.getAllTips().first()
@@ -87,8 +87,8 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun getLastTipSaved() = runTest {
-        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999)
-        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999)
+        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
+        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
         val lastTip = tipDao.getLastTipSaved()
@@ -98,9 +98,9 @@ class TipDaoTests {
     @Test
     @Throws(Exception::class)
     fun getAllTipsFromEvents() = runTest {
-        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 1)
-        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 1)
-        val tip3 = Tip(id = 3, tipAmount = "300", tipPercent = "30", listId = 2)
+        val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 1, dateCreated = "12/07/2024")
+        val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 1, dateCreated = "12/07/2024")
+        val tip3 = Tip(id = 3, tipAmount = "300", tipPercent = "30", listId = 2, dateCreated = "12/07/2024")
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
         tipDao.insertTip(tip3)
