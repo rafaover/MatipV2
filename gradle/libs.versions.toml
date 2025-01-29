@@ -1,6 +1,6 @@
 [versions]
-composeBom = "2024.10.01"
-androidActivity = "1.9.3"
+composeBom = "2025.01.00"
+androidActivity = "1.10.0"
 coreSplashscreen = "1.0.1"
 koinCompose = "3.5.6"
 kotlin = "2.0.0"
