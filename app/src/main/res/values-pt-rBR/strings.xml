@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="matip_logo">Matip Logo</string>
     <string name="calculate_tip">Calcular Gorjeta</string>
     <string name="bill_amount">Total da Conta</string>
     <string name="tip_amount">Gorjeta</string>
     <string name="tip_percentage">Porcentagem</string>
     <string name="split">Divide?</string>
     <string name="round_up_tip">Arrendonda?</string>
-    <string name="event_tab">Listas</string>
+    <string name="list_tab">Listas</string>
     <string name="tipping_tab">Gorjetas</string>
-    <string name="add_tip_to_event">Adicionar Gorjeta em Lista</string>
+    <string name="add_tip_to_list">Adicionar Gorjeta em Lista</string>
     <string name="confirm">Confirmar</string>
     <string name="select_list">Selecione uma Lista</string>
     <string name="create_list">Criar Lista</string>
@@ -16,7 +17,15 @@
     <string name="list_name">Lista</string>
     <string name="cancel">Cancelar</string>
     <string name="dialog_title">Apagar Evento</string>
-    <string name="dialog_delete_event_text">Você tem certeza que deseja apagar %1$s e todas as gorjetas inclusas?</string>
+    <string name="dialog_delete_list_text">Você tem certeza que deseja apagar %1$s e todas as gorjetas inclusas?</string>
     <string name="delete">Apagar</string>
     <string name="back">Voltar</string>
+    <string name="fab_add_list">Adicione um Evento</string>
+    <string name="options_menu">Menu</string>
+    <string name="share_tip_list">Compartilhar Lista de Gorjetas</string>
+    <string name="add_a_list">Criar uma Lista</string>
+    <string name="main_screen">Tela Principal</string>
+    <string name="tip_list_title">Gorjetas</string>
+    <string name="tip_will_be_deleted">Gorjeta será apagada</string>
+    <string name="tip">Gorjeta</string>
 </resources>

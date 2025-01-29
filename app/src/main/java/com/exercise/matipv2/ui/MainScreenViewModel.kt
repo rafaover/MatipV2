@@ -6,37 +6,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
-import com.exercise.matipv2.data.local.model.Event
+import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.MatipRepository
+import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.exercise.matipv2.util.convertTipAmountToCurrency
+import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class MainScreenViewModel @Inject constructor (
+class MainScreenViewModel (
     private val matipRepository: MatipRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TipCalculatorScreenUiState())
     val uiState = _uiState.asStateFlow()
 
-    var showAddEventDialog by mutableStateOf(false)
-    var showDeleteEventDialog by mutableStateOf(false)
+    var showAddListDialog by mutableStateOf(false)
+    var showAddTipValueToListDialog by mutableStateOf(false)
+    var showDeleteListDialog by mutableStateOf(false)
     var showSnackBar by mutableStateOf(false)
-    var newEventName by mutableStateOf("")
-
-    var tipAmountInput by mutableStateOf("")
-    var tipPercentInput by mutableStateOf("")
+    var newListName by mutableStateOf("")
 
     init {
-        resetState()
+        resetCalculateTipScreen()
+        updateDateCreated()
     }
 
     /*
@@ -48,33 +46,45 @@ class MainScreenViewModel @Inject constructor (
     }
 
     fun updateTipAmount(amount: String) {
-        tipAmountInput = amount
+        updateState { it.copy(tipAmount = amount) }
     }
 
     fun updateTipPercent(tipPercent: String) {
-        tipPercentInput = tipPercent
+        updateState { it.copy(tipPercent = tipPercent)}
     }
 
     fun updateRoundUp(roundUp: Boolean) {
         updateState { it.copy(roundUp = roundUp) }
     }
 
-    fun updateEvent(event: Event) {
+    private fun updateDateCreated() {
+        updateState { it.copy(dateCreated = localDateTimeFormated()) }
+    }
+
+    fun updateList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
-            matipRepository.updateEvent(event)
+            matipRepository.updateList(list)
         }
     }
 
-    fun updateNewEventName(eventName: String) {
-        newEventName = eventName
+    fun updateListId(listId: Int) {
+        updateState { it.copy(listId = listId) }
     }
 
-    fun updateShowAddEventDialog(showDialog: Boolean) {
-        showAddEventDialog = showDialog
+    fun updateNewListName(listName: String) {
+        newListName = listName
     }
 
-    fun updateShowDeleteEventDialog(showDialog: Boolean) {
-        showDeleteEventDialog = showDialog
+    fun updateShowAddListDialog(showDialog: Boolean) {
+        showAddListDialog = showDialog
+    }
+
+    fun updateShowAddTipValueToListDialog(showDialog: Boolean) {
+        showAddTipValueToListDialog = showDialog
+    }
+
+    fun updateShowDeleteListDialog(showDialog: Boolean) {
+        showDeleteListDialog = showDialog
     }
 
     fun increaseCounter() {
@@ -90,16 +100,16 @@ class MainScreenViewModel @Inject constructor (
     @SuppressLint("VisibleForTests")
     fun updateFinalTip(): String {
         val calculatedTip = calculateTip(
-            amount = tipAmountInput,
-            tipPercent = tipPercentInput,
+            amount = uiState.value.tipAmount,
+            tipPercent = uiState.value.tipPercent,
             roundUp = uiState.value.roundUp,
             tipSplit = uiState.value.splitShare
         )
-        _uiState.value = uiState.value.copy(finalTip = calculatedTip)
+        updateState { it.copy(finalTip = calculatedTip)}
         return calculatedTip
     }
 
-    fun resetState() {
+    fun resetCalculateTipScreen() {
         _uiState.value = TipCalculatorScreenUiState()
     }
 
@@ -113,33 +123,61 @@ class MainScreenViewModel @Inject constructor (
 
     fun insertTip() {
         viewModelScope.launch(Dispatchers.IO) {
-            val tip = uiState.value.toTip()
+            val tip = Tip(
+                tipAmount = uiState.value.finalTip,
+                tipPercent = uiState.value.tipPercent,
+                listId = uiState.value.listId,
+                dateCreated = uiState.value.dateCreated
+            )
             matipRepository.insertTip(tip)
         }
     }
 
-    fun insertEvent(event: Event) {
+    fun insertTipValueToList(listId: Int) {
+        val tipAmountConverted = convertTipAmountToCurrency(uiState.value.tipAmount)
+
         viewModelScope.launch(Dispatchers.IO) {
-            matipRepository.insertEvent(event)
+            val tip = Tip(
+                tipAmount = tipAmountConverted,
+                tipPercent = "0",
+                listId = listId,
+                dateCreated = uiState.value.dateCreated
+            )
+            matipRepository.insertTip(tip)
         }
-        updateNewEventName("")
     }
 
-    fun addTipToEvent(tip: Tip, eventId: Int) {
+    fun insertList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
-            tip.eventId = eventId
-            matipRepository.updateTip(tip)
+            matipRepository.insertList(list)
         }
+        updateNewListName("")
     }
 
     /*
     * Delete Functions
     */
 
-    fun deleteEvent(event: Event?) {
+    fun deleteList(list: List?) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (event != null) {
-                matipRepository.deleteEvent(event)
+            if (list != null) {
+                matipRepository.deleteList(list)
+            }
+        }
+    }
+
+    fun deleteTip(tip: Tip) {
+        viewModelScope.launch(Dispatchers.IO) {
+            matipRepository.deleteTip(tip)
+        }
+    }
+
+    fun deleteTipsFromList(listId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getAllTipsFromList(listId).collect { tips ->
+                tips.forEach { tip ->
+                    deleteTip(tip)
+                }
             }
         }
     }
@@ -148,29 +186,16 @@ class MainScreenViewModel @Inject constructor (
     * Get Functions
     */
 
-    suspend fun getLastTipSaved(): Tip {
-        return matipRepository.getLastTipSaved()
+    fun getAllLists(): Flow<kotlin.collections.List<List>> {
+        return matipRepository.getAllLists()
     }
 
-    fun getAllEvents(): Flow<List<Event>> {
-        return matipRepository.getAllEvents()
+    fun getListById(listId: Int): Flow<List> {
+        return matipRepository.getListById(listId)
     }
 
-    fun getEventById(eventId: Int): Flow<Event> {
-        return matipRepository.getEventById(eventId)
+    fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
+        return matipRepository.getAllTipsFromList(eventId)
     }
-
-    fun getAllTipsFromEvent(eventId: Int): Flow<List<Tip>> {
-        return matipRepository.getAllTipsFromEvent(eventId)
-    }
-
-    /*
-    * Extension Functions
-    */
-
-    private fun TipCalculatorScreenUiState.toTip(): Tip = Tip(
-        tipAmount = finalTip,
-        tipPercent = tipPercentInput
-    )
 }
 

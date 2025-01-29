@@ -1,4 +1,4 @@
-package com.exercise.matipv2.components.events
+package com.exercise.matipv2.components.lists
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background

@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 import com.exercise.matipv2.R
 
@@ -23,6 +26,7 @@ fun RoundTheTipSwitch(
 {
     Row(
         modifier = modifier
+            .semantics { contentDescription = "Round The Tip Switch"}
             .fillMaxWidth()
             .size(50.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -32,7 +36,14 @@ fun RoundTheTipSwitch(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.End)
-                .testTag("RoundTheTipSwitch"),
+                .testTag("RoundTheTipSwitch")
+                .semantics {
+                    stateDescription = if (roundUp) {
+                        "Round Up On"
+                    } else {
+                        "Round Up Off"
+                    }
+                },
             checked = roundUp,
             onCheckedChange = onRoundUpChange
         )

@@ -1,4 +1,4 @@
-package com.exercise.matipv2.components.events
+package com.exercise.matipv2.components.lists
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,14 +24,14 @@ import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.ui.MainScreenViewModel
 
 @Composable
-fun AddAnEventDialog(
+fun AddAnListDialog(
     viewModel: MainScreenViewModel,
     onSaveRequest: () -> Unit
 ) {
     Dialog(
         onDismissRequest = {
-            viewModel.updateShowAddEventDialog(false)
-            viewModel.updateNewEventName("")
+            viewModel.updateShowAddListDialog(false)
+            viewModel.updateNewListName("")
         },
     ) {
         Card(
@@ -57,20 +57,23 @@ fun AddAnEventDialog(
                         fontWeight = FontWeight.Bold,
                     )
                     TextButton(
-                        enabled = viewModel.newEventName.isNotBlank(),
+                        enabled = viewModel.newListName.isNotBlank(),
                         onClick = { onSaveRequest() },
                     ) {
-                        Text(stringResource(R.string.save))
+                        Text(
+                            text = stringResource(R.string.save),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
                 }
                 EditTextForm(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 24.dp),
-                    value = viewModel.newEventName,
+                    value = viewModel.newListName,
                     label = R.string.list_name,
                     keyboardOptions = KeyboardOptions.Default,
-                    onValueChange = { viewModel.updateNewEventName(it) }
+                    onValueChange = { viewModel.updateNewListName(it) }
                 )
             }
         }

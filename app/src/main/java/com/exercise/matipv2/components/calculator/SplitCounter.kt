@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ fun SplitCounter(
 ) {
     Row(
         modifier = Modifier
+            .semantics { contentDescription = "Bill Split" }
             .padding(bottom = dimensionResource(R.dimen.padding_mid))
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

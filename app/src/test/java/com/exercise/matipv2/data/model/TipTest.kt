@@ -14,16 +14,23 @@ class TipTest {
         val expectedId = 1
         val expectedTipAmount = "10"
         val expectedTipPercent = "10"
-        val expectedEventId = 1
+        val expectedListId = 1
+        val expectedDateCreated = "10/10/2021"
 
         // When
-        val tip = Tip(id = expectedId, tipAmount = expectedTipAmount, tipPercent = expectedTipPercent, eventId = expectedEventId)
+        val tip = Tip(
+            id = expectedId,
+            tipAmount = expectedTipAmount,
+            tipPercent = expectedTipPercent,
+            listId = expectedListId,
+            dateCreated = expectedDateCreated)
 
         // Then
         assertEquals(expectedId, tip.id)
         assertEquals(expectedTipAmount, tip.tipAmount)
         assertEquals(expectedTipPercent, tip.tipPercent)
-        assertEquals(expectedEventId, tip.eventId)
+        assertEquals(expectedListId, tip.listId)
+        assertEquals(expectedDateCreated, tip.dateCreated)
     }
 
 }

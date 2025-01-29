@@ -18,20 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.R
-import com.exercise.matipv2.components.calculator.AddTipToEventDialogBox
+import com.exercise.matipv2.components.calculator.AddTipToListDialogBox
 import com.exercise.matipv2.components.calculator.SplitCounter
 import com.exercise.matipv2.components.calculator.TotalTipAmount
 import com.exercise.matipv2.components.common.ButtonToOpenDialog
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.components.common.RoundTheTipSwitch
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 @Composable
@@ -41,11 +41,12 @@ fun TipCalculatorScreen(
     snackbarHostState: SnackbarHostState
 ) {
     val focusManager = LocalFocusManager.current
-    val tipAmountInput = viewModel.tipAmountInput
-    val tipPercentInput = viewModel.tipPercentInput
+    val tipAmountInput = uiState.tipAmount
+    val tipPercentInput = uiState.tipPercent
 
     Column(
         modifier = Modifier
+            .semantics { contentDescription = "Tip Calculator Screen" }
             .fillMaxSize()
             .padding(40.dp)
             .verticalScroll(rememberScrollState()),
@@ -115,43 +116,42 @@ fun TipCalculatorScreen(
             onRoundUpChange = { viewModel.updateRoundUp(it) }
         )
 
+        /** Button to Open [AddTipToListDialogBox] to add tip to list
+         * after [EditTextForm] elements are filled.
+         */
+
         ButtonToOpenDialog(
             dataIsPresent = tipAmountInput.isNotEmpty() && tipPercentInput.isNotEmpty(),
-            updateShowDialog = { viewModel.updateShowAddEventDialog(true) },
-            buttonText = stringResource(R.string.add_tip_to_event)
+            updateShowDialog = { viewModel.updateShowAddListDialog(true) },
+            buttonText = stringResource(R.string.add_tip_to_list)
         )
 
         /** Conditional attached to [ButtonToOpenDialog] above, opening dialog */
 
-        if(viewModel.showAddEventDialog) {
-            AddTipToEventDialogBox(
+        if(viewModel.showAddListDialog) {
+            AddTipToListDialogBox(
                 viewModel = viewModel,
-                allEvents = viewModel.getAllEvents(),
-                onEventSelected = { event ->
+                allLists = viewModel.getAllLists(),
+                onListSelected = {
                     runBlocking {
                         viewModel.insertTip()
-                        viewModel.viewModelScope.launch {
-                            val lastTipSaved = viewModel.getLastTipSaved()
-                            viewModel.addTipToEvent(lastTipSaved, event.id)
-                        }
-                        viewModel.resetState()
-                        focusManager.clearFocus()
-                        viewModel.updateShowSnackBar(true)
                     }
+                    focusManager.clearFocus()
+                    viewModel.updateShowSnackBar(true)
+                    viewModel.resetCalculateTipScreen()
                 }
             )
         }
 
-        /** Snackbar to show confirmation from [AddTipToEventDialogBox],
-         * that tip was added to event */
+        /** Snackbar to show confirmation from [AddTipToListDialogBox],
+         * that tip was added to list */
 
         if (viewModel.showSnackBar) {
             LaunchedEffect(snackbarHostState) {
                 snackbarHostState.showSnackbar(
-                    message = "Tip added to event",
+                    message = "Tip added to list",
                     duration = SnackbarDuration.Short
                 )
-                viewModel.updateShowSnackBar(false)
             }
         }
     }

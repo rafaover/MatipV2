@@ -10,8 +10,8 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.ui.MainScreenViewModel
-import com.exercise.matipv2.ui.events.EventTipListScreen
-import com.exercise.matipv2.ui.events.EventsScreen
+import com.exercise.matipv2.ui.lists.ListTipListScreen
+import com.exercise.matipv2.ui.lists.ListsScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreen
 
 @Composable
@@ -32,25 +32,26 @@ fun NavigationGraph(
                 snackbarHostState = snackbarHostState
             )
         }
-        composable(NavBarItems.Events.route) {
-            EventsScreen(
-                allEvents = viewModel.getAllEvents(),
+        composable(NavBarItems.Lists.route) {
+            viewModel.updateShowSnackBar(false)
+            ListsScreen(
+                allLists = viewModel.getAllLists(),
                 viewModel = viewModel,
-                navigateTo = { event ->
-                    navController.navigate("EventTipList/${event.id}")
+                navigateTo = { list ->
+                    navController.navigate("ListTipList/${list.id}")
                 }
             )
         }
         dialog(
-            route = "EventTipList/{eventId}",
-            arguments = listOf(navArgument("eventId") { type = NavType.IntType })
+            route = "ListTipList/{listId}",
+            arguments = listOf(navArgument("listId") { type = NavType.IntType })
         ) { navBackStackEntry ->
-            val eventId = navBackStackEntry.arguments?.getInt("eventId")
-                ?: error("eventId parameter wasn't found.")
+            val listId = navBackStackEntry.arguments?.getInt("listId")
+                ?: error("listId parameter wasn't found.")
 
-            EventTipListScreen(
+            ListTipListScreen(
                 viewModel = viewModel,
-                eventId = eventId,
+                listId = listId,
                 onDismissRequest = { navController.navigateUp() },
                 onBackClick = { navController.navigateUp() }
             )

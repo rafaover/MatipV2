@@ -1,16 +1,15 @@
 package com.exercise.matipv2.data.repository
 
-import com.exercise.matipv2.data.local.dao.EventDao
+import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.Event
-import com.exercise.matipv2.data.local.model.EventWithTips
+import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.ListWithTips
 import com.exercise.matipv2.data.local.model.Tip
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class OfflineMatipRepository @Inject constructor (
+class OfflineMatipRepository (
     private val tipDao: TipDao,
-    private val eventDao: EventDao
+    private val listDao: ListDao
 ) : MatipRepository {
 
     // Tip Methods
@@ -21,22 +20,22 @@ class OfflineMatipRepository @Inject constructor (
     override suspend fun getLastTipSaved(): Tip {
         return tipDao.getLastTipSaved()
     }
-    override fun getAllTipsFromEvent(eventId: Int): Flow<List<Tip>> {
-        return tipDao.getAllTipsFromEvent(eventId)
+    override fun getAllTipsFromList(listId: Int): Flow<kotlin.collections.List<Tip>> {
+        return tipDao.getAllTipsFromList(listId)
     }
 
-    // Event Methods
-    override suspend fun insertEvent(event: Event) = eventDao.insertEvent(event)
-    override suspend fun deleteEvent(event: Event) = eventDao.deleteEvent(event)
-    override suspend fun updateEvent(event: Event) = eventDao.updateEvent(event)
-    override fun getAllEvents() = eventDao.getAllEvents()
-    override fun getAllEventsWithTips(): Flow<List<EventWithTips>> {
-        return eventDao.getAllEventsWithTips()
+    // List Methods
+    override suspend fun insertList(list: List) = listDao.insertList(list)
+    override suspend fun deleteList(list: List) = listDao.deleteList(list)
+    override suspend fun updateList(list: List) = listDao.updateList(list)
+    override fun getAllLists() = listDao.getAllLists()
+    override fun getAllListsWithTips(): Flow<kotlin.collections.List<ListWithTips>> {
+        return listDao.getAllListsWithTips()
     }
-    override fun getEventByName(eventName: String): Flow<Event> {
-        return eventDao.getEventByName(eventName)
+    override fun getListByName(listName: String): Flow<List> {
+        return listDao.getListByName(listName)
     }
-    override fun getEventById(eventId: Int): Flow<Event> {
-        return eventDao.getEventById(eventId)
+    override fun getListById(listId: Int): Flow<List> {
+        return listDao.getListById(listId)
     }
 }

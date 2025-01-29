@@ -26,6 +26,9 @@ interface TipDao {
     @Query("SELECT * FROM tips ORDER BY id DESC LIMIT 1")
     suspend fun getLastTipSaved(): Tip
 
-    @Query("SELECT * FROM tips WHERE event_id = :eventId")
-    fun getAllTipsFromEvent(eventId: Int): Flow<List<Tip>>
+    /**
+     * Get all the [Tip]s from a specific List.
+     */
+    @Query("SELECT * FROM tips WHERE list_id = :listId")
+    fun getAllTipsFromList(listId: Int): Flow<List<Tip>>
 }

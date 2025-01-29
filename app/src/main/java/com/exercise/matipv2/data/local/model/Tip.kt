@@ -8,10 +8,25 @@ import androidx.room.PrimaryKey
 data class Tip(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+
+    /**
+     * The amount of the [Tip] given after calculations. In code
+     * is known as FinalTip.
+     */
     @ColumnInfo(name = "tip_amount")
     val tipAmount: String,
     @ColumnInfo(name = "tip_percent")
     val tipPercent: String,
-    @ColumnInfo(name = "event_id")
-    var eventId: Int? = null
+
+    /**
+     * The [List] id that the [Tip] is associated with.
+     */
+    @ColumnInfo(name = "list_id")
+    var listId: Int,
+
+    /**
+     * The date of the [Tip] creation.
+     */
+    @ColumnInfo(name = "date_created")
+    val dateCreated: String
 )

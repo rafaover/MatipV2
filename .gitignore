@@ -24,6 +24,9 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+#kotlin 2.0 build dir
+.kotlin
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries

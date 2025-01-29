@@ -11,6 +11,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.navigation.compose.rememberNavController
 import com.exercise.matipv2.components.MainNavigationBar
 import com.exercise.matipv2.components.common.MainTopBar
@@ -24,6 +26,10 @@ fun MainScreen(viewModel: MainScreenViewModel) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
+        modifier = Modifier.semantics {
+            contentDescription = "Main Screen with a TopBar, Tip Calculator Screen and " +
+                    "bottom Navigation Bar"
+        },
         topBar = { MainTopBar() },
         bottomBar = { MainNavigationBar(navController = navController) },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }

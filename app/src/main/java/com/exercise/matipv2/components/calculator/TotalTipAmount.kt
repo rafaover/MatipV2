@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import com.exercise.matipv2.R
 
@@ -19,6 +21,7 @@ import com.exercise.matipv2.R
 fun TotalTipAmount(finalTip: String) {
     Row(
         modifier = Modifier
+            .semantics { contentDescription = "Total Tip Amount" }
             .padding(bottom = dimensionResource(R.dimen.padding_sml))
             .fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween,

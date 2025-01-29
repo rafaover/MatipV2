@@ -1,6 +1,7 @@
 <resources>
 <!--    Main Screen Strings-->
-    <string name="app_name" translatable="false">maTIP</string>
+    <string name="app_name" translatable="false">MaTip</string>
+    <string name="matip_logo">Matip Logo</string>
     <string name="calculate_tip">Calculate Tip</string>
     <string name="bill_amount">Bill Amount</string>
     <string name="tip_amount">Tip Amount</string>
@@ -8,7 +9,7 @@
     <string name="split">Split</string>
     <string name="round_up_tip">Round up tip?</string>
     <string name="tipping_tab">Tipping</string>
-    <string name="add_tip_to_event">Add Tip to Event</string>
+    <string name="add_tip_to_list">Add Tip to List</string>
     <string name="back">Back</string>
 
 <!--    Button Actions-->
@@ -16,14 +17,22 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="options_menu">Options Menu</string>
+    <string name="share_tip_list">Share Tip List</string>
 
 <!--    Lists Screen Strings-->
-    <string name="event_tab">Lists</string>
+    <string name="list_tab">Lists</string>
     <string name="select_list">Select a List</string>
     <string name="create_list">Create List</string>
     <string name="list_name">List</string>
+    <string name="tip_list_title">Tips</string>
 
 <!--    Dialogs Strings-->
     <string name="dialog_title">Delete Event</string>
-    <string name="dialog_delete_event_text">Are you sure you want to delete %1$s and all its tips?</string>
+    <string name="dialog_delete_list_text">Are you sure you want to delete %1$s and all its tips?</string>
+    <string name="add_a_list">Add a List</string>
+    <string name="main_screen">Main Screen</string>
+    <string name="fab_add_list">Add a List</string>
+    <string name="tip_will_be_deleted">Tip will be deleted</string>
+    <string name="tip">Tip</string>
 </resources>
