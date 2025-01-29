@@ -21,7 +21,7 @@ androidXTestRules = "1.6.1"
 coreKtxVersion = "1.6.1"
 testEspresso = "3.6.1"
 testExtJunit = "1.2.1"
-androidGradlePlugin = "8.4.2"
+androidGradlePlugin = "8.7.3"
 ## Needs to update version with Kotlin
 ksp = "2.0.21-1.0.25"
 
