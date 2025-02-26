@@ -29,6 +29,16 @@ import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.ui.MainScreenViewModel
 
+/**
+ * A composable function that displays a dialog for adding a tip value to a list.
+ *
+ * This dialog allows the user to input a numerical tip amount. It features:
+ * - A text field for entering the tip value.
+ * - A "Save" button to confirm and add the tip to the list.
+ * - A title indicating that this dialog is for adding a tip.
+ * - Dismissal functionality to close the dialog.
+ *
+ */
 @Composable
 fun AddTipValueToListDialog(
     viewModel: MainScreenViewModel,
