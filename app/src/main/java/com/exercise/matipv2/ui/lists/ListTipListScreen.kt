@@ -46,6 +46,15 @@ import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.util.tipListToString
 import kotlinx.coroutines.launch
 
+/**
+ * Displays the screen showing a list of tips associated with a specific list.
+ *
+ * This composable function fetches and displays the tips for a given list ID,
+ * allows sharing the list of tips, and provides an option to add a new tip to the list.
+ * It also handles the UI for deleting a tip from the list.
+ *
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListTipListScreen(
