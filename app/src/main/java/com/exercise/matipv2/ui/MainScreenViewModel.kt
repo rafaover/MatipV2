@@ -111,6 +111,7 @@ class MainScreenViewModel (
 
     fun resetCalculateTipScreen() {
         _uiState.value = TipCalculatorScreenUiState()
+        updateDateCreated()
     }
 
     fun updateShowSnackBar (snackBar: Boolean) {
@@ -144,6 +145,7 @@ class MainScreenViewModel (
                 dateCreated = uiState.value.dateCreated
             )
             matipRepository.insertTip(tip)
+            resetCalculateTipScreen()
         }
     }
 
