@@ -1,11 +1,11 @@
 package com.exercise.matipv2.ui.lists
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,7 +64,6 @@ fun ListTipListScreen(
     listId: Int,
     onBackClick: () -> Unit,
 ) {
-    /** Get List by ID from database */
     val list = viewModel
         .getListById(listId)
         .collectAsState(null)
@@ -78,7 +78,12 @@ fun ListTipListScreen(
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(
+            usePlatformDefaultWidth = Build.VERSION.SDK_INT > Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+            dismissOnBackPress = true,
+            decorFitsSystemWindows = false,
+            dismissOnClickOutside = false
+        )
     ) {
         Scaffold(
             topBar = {
@@ -100,14 +105,25 @@ fun ListTipListScreen(
                         }
                     }
                 )
-            }
-        ) {
+            },
+
+            /** FAB to add a final tip value without calculation, to the current List
+             * and visualized inside [ListTipListScreen] *
+             **/
+            floatingActionButton = {
+                FabAdd(
+                    onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
+                    contentDescription = stringResource(R.string.add_tip_to_list)
+                )
+            },
+            floatingActionButtonPosition = FabPosition.End
+        ) { innerPadding ->
             Box(
-                modifier = Modifier.padding(it)
+                modifier = Modifier
+                    .padding(innerPadding)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_mid))
                 ) {
                     Row(
@@ -121,9 +137,9 @@ fun ListTipListScreen(
                             modifier = Modifier.padding(dimensionResource(R.dimen.padding_sml))
                         )
 
-                        /** Button to [shareTextWithApps].
-                         * Sharing list of Tips from List
-                         * */
+                        /**
+                         * Button to [shareTextWithApps]. Sharing list of Tips from List
+                         */
                         Icon(
                             modifier = Modifier
                                 .size(24.dp)
@@ -144,9 +160,9 @@ fun ListTipListScreen(
                             .padding(bottom = dimensionResource(R.dimen.padding_mid))
                     )
                     LazyColumn(
-                        userScrollEnabled = true,
-                        modifier = Modifier.padding(bottom = 65.dp)
+                        userScrollEnabled = true
                     ) {
+
                         /**
                          * Display rows of tips from specific List(List).
                          */
@@ -166,18 +182,9 @@ fun ListTipListScreen(
                     }
                 }
 
-                /** FAB to add a final tip value without calculation, to the current List **/
-                FabAdd(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(dimensionResource(R.dimen.padding_mid)),
-                    onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
-                    contentDescription = stringResource(R.string.add_tip_to_list)
-                )
-
                 /** Conditional attached to [FabAdd] composable above to
-                 * show dialog when clicked */
-
+                 * show dialog when clicked
+                 */
                 if(viewModel.showAddTipValueToListDialog) {
                     AddTipValueToListDialog(
                         viewModel = viewModel,

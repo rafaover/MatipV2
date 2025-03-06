@@ -67,17 +67,16 @@ fun <T> ListItemComponent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     mainTrailItemInfo(item)
-                    Spacer(Modifier.width(16.dp))
                     Icon(
                         imageVector = listItemTrailingIcon,
                         contentDescription = trailingIconContentDescription,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
-                            .padding(end = 12.dp)
+                            .padding(end = 80.dp)
                             .clickable(onClickLabel = onClickLabel) {
                                 onClickTrailingIcon()
                             }
-                            .size(24.dp)
+                            .size(25.dp)
                     )
                 }
             }
