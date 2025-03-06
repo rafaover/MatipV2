@@ -1,19 +1,15 @@
 package com.exercise.matipv2.ui.lists
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -82,7 +78,12 @@ fun ListTipListScreen(
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(
+            usePlatformDefaultWidth = Build.VERSION.SDK_INT > Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
+            dismissOnBackPress = true,
+            decorFitsSystemWindows = false,
+            dismissOnClickOutside = false
+        )
     ) {
         Scaffold(
             topBar = {
@@ -108,12 +109,9 @@ fun ListTipListScreen(
 
             /** FAB to add a final tip value without calculation, to the current List
              * and visualized inside [ListTipListScreen] *
-             * **/
+             **/
             floatingActionButton = {
                 FabAdd(
-                    modifier = Modifier
-                        .windowInsetsPadding(WindowInsets.systemBars)
-                        .navigationBarsPadding(),
                     onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
                     contentDescription = stringResource(R.string.add_tip_to_list)
                 )
@@ -121,11 +119,11 @@ fun ListTipListScreen(
             floatingActionButtonPosition = FabPosition.End
         ) { innerPadding ->
             Box(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .padding(innerPadding)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_mid))
                 ) {
                     Row(
@@ -164,6 +162,7 @@ fun ListTipListScreen(
                     LazyColumn(
                         userScrollEnabled = true
                     ) {
+
                         /**
                          * Display rows of tips from specific List(List).
                          */
@@ -186,7 +185,6 @@ fun ListTipListScreen(
                 /** Conditional attached to [FabAdd] composable above to
                  * show dialog when clicked
                  */
-
                 if(viewModel.showAddTipValueToListDialog) {
                     AddTipValueToListDialog(
                         viewModel = viewModel,
