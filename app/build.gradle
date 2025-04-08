@@ -101,6 +101,8 @@ dependencies {
     androidTestImplementation libs.androidx.navigation.testing
 
     // Koin
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
     implementation(libs.koin.androidx.compose)
-    testImplementation libs.koin.test.junit4
+    testImplementation(libs.koin.test.junit4)
 }

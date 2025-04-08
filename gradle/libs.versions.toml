@@ -1,9 +1,9 @@
 [versions]
-composeBom = "2025.02.00"
+composeBom = "2025.03.01"
 androidActivity = "1.10.1"
 coreSplashscreen = "1.0.1"
-koinCompose = "4.0.4"
-kotlin = "2.0.21"
+koin-bom = "4.0.4"
+kotlin = "2.1.20"
 coreKtx = "1.15.0"
 coroutinesAndroid = "1.8.1"
 dateTime = "0.6.2"
@@ -21,9 +21,9 @@ androidXTestRules = "1.6.1"
 coreKtxVersion = "1.6.1"
 testEspresso = "3.6.1"
 testExtJunit = "1.2.1"
-androidGradlePlugin = "8.9.0"
+androidGradlePlugin = "8.9.1"
 ## Needs to update version with Kotlin
-ksp = "2.0.21-1.0.25"
+ksp = "2.1.20-1.0.32"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -58,8 +58,12 @@ androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "
 ksp-room = { module = "androidx.room:room-compiler", version.ref = "roomdb" }
 
 #Koin
-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinCompose" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation" }
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
 
 #Testing
 junit = { module = "junit:junit", version.ref = "junit" }
