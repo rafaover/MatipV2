@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val mainScreenViewModel: MainScreenViewModel = koinViewModel()
+            val mainScreenViewModel = koinViewModel<MainScreenViewModel>()
 
             MaTIPv2Theme {
                 Surface(

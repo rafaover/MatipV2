@@ -14,8 +14,8 @@ class MatipApplication : Application() {
         startKoin {
             androidContext(this@MatipApplication)
             modules(
-                appModule,
-                databaseModule
+                databaseModule,
+                appModule
             )
         }
 
