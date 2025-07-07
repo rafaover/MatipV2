@@ -2,8 +2,8 @@
 composeBom = "2025.06.01"
 androidActivity = "1.10.1"
 coreSplashscreen = "1.0.1"
-koin-bom = "4.0.4"
-kotlin = "2.1.20"
+koin-bom = "4.1.0"
+kotlin = "2.2.0"
 coreKtx = "1.16.0"
 coroutinesAndroid = "1.10.2"
 dateTime = "0.7.0"
@@ -23,7 +23,7 @@ testEspresso = "3.6.1"
 testExtJunit = "1.2.1"
 androidGradlePlugin = "8.11.0"
 ## Needs to update version with Kotlin
-ksp = "2.1.20-1.0.32"
+ksp = "2.2.0-2.0.2"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
