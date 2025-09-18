@@ -8,14 +8,14 @@ plugins {
 
 android {
     namespace 'com.exercise.matipv2'
-    compileSdk 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId "com.exercise.matipv2"
         minSdk 24
         targetSdk 35
-        versionCode 17
-        versionName "1.0.17"
+        versionCode 18
+        versionName "1.0.18"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

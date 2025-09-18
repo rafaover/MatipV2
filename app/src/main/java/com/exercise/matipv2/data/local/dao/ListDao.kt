@@ -34,7 +34,7 @@ interface ListDao {
     fun getListById(listId: Int): Flow<List>
 
     @Transaction
-    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @SuppressWarnings(RoomWarnings.Companion.QUERY_MISMATCH)
     @Query("""
         SELECT * FROM lists 
         INNER JOIN tips ON lists.id = tips.list_id

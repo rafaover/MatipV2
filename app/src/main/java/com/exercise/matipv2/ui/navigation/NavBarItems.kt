@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.exercise.matipv2.R
 
 sealed class NavBarItems(
-    @StringRes val title: Int,
+    @param:StringRes val title: Int,
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
