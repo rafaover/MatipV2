@@ -6,7 +6,7 @@ import com.exercise.matipv2.data.local.MatipDatabase
 
 fun provideDatabase(context: Context): MatipDatabase {
     return Room.databaseBuilder(context, MatipDatabase::class.java, "matip_database")
-        .fallbackToDestructiveMigration()
+        .fallbackToDestructiveMigration(false)
         .build()
 }
 
