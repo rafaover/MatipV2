@@ -28,8 +28,8 @@
     <string name="tip_list_title">Tips</string>
 
 <!--    Dialogs Strings-->
-    <string name="dialog_title">Delete Event</string>
-    <string name="dialog_delete_list_text">Are you sure you want to delete %1$s and all its tips?</string>
+    <string name="dialog_title">Delete List</string>
+    <string name="dialog_delete_list_text">Are you sure you want to delete <b>%1$S</b> and all its tips?</string>
     <string name="add_a_list">Add a List</string>
     <string name="main_screen">Main Screen</string>
     <string name="fab_add_list">Add a List</string>

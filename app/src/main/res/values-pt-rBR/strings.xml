@@ -16,8 +16,8 @@
     <string name="save">Salvar</string>
     <string name="list_name">Lista</string>
     <string name="cancel">Cancelar</string>
-    <string name="dialog_title">Apagar Evento</string>
-    <string name="dialog_delete_list_text">Você tem certeza que deseja apagar %1$s e todas as gorjetas inclusas?</string>
+    <string name="dialog_title">Apagar Lista</string>
+    <string name="dialog_delete_list_text">Você tem certeza que deseja apagar <b>%1$S</b> e todas as gorjetas inclusas?</string>
     <string name="delete">Apagar</string>
     <string name="back">Voltar</string>
     <string name="fab_add_list">Adicione um Evento</string>
