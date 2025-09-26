@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.exercise.matipv2.R
+import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.data.local.model.List
 
 @Composable
@@ -27,11 +27,10 @@ fun EditListDialog(
         title = { Text(text = stringResource(R.string.edit_list_dialog_title)) },
         text = {
             Column {
-                Text(text = stringResource(R.string.edit_list_name_prompt))
-                TextField(
+                EditTextForm(
                     value = newNameState,
-                    onValueChange = { newNameState = it },
-                    singleLine = true
+                    label = R.string.edit_list_name_prompt,
+                    onValueChange = { newNameState = it }
                 )
             }
         },
