@@ -24,10 +24,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 /* Swipe box to Delete or Edit */
-fun SwipeBox(
+fun <T> SwipeBox(
+    item: T,
     modifier: Modifier = Modifier,
-    onDelete: () -> Unit,
-    onEdit: () -> Unit,
+    onDelete: (T) -> Unit,
+    onEdit: (T) -> Unit,
     content: @Composable () -> Unit
 ) {
     val swipeState = rememberSwipeToDismissBoxState()
@@ -50,15 +51,14 @@ fun SwipeBox(
         }
 
         SwipeToDismissBoxValue.Settled -> {
-            icon = Icons.Outlined.Delete
-            alignment = Alignment.CenterEnd
-            color = MaterialTheme.colorScheme.errorContainer
+            icon = Icons.Outlined.Delete // Default or fallback icon
+            alignment = Alignment.CenterEnd // Default or fallback alignment
+            color = MaterialTheme.colorScheme.errorContainer // Default or fallback color
         }
     }
 
     SwipeToDismissBox(
         modifier = modifier.animateContentSize(),
-        enableDismissFromStartToEnd = false,
         state = swipeState,
         backgroundContent = {
             Box(
@@ -81,14 +81,14 @@ fun SwipeBox(
     when (swipeState.currentValue) {
         SwipeToDismissBoxValue.EndToStart -> {
             LaunchedEffect(swipeState) {
-                onDelete()
+                onDelete(item)
                 swipeState.snapTo(SwipeToDismissBoxValue.Settled)
             }
         }
 
         SwipeToDismissBoxValue.StartToEnd -> {
             LaunchedEffect(swipeState) {
-                onEdit()
+                onEdit(item)
                 swipeState.snapTo(SwipeToDismissBoxValue.Settled)
             }
         }
