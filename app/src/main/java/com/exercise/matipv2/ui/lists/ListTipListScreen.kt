@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -113,7 +114,8 @@ fun ListTipListScreen(
             floatingActionButton = {
                 FabAdd(
                     onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
-                    contentDescription = stringResource(R.string.add_tip_to_list)
+                    contentDescription = stringResource(R.string.add_tip_to_list),
+                    icon = Icons.Filled.Add
                 )
             },
             floatingActionButtonPosition = FabPosition.End

@@ -90,6 +90,7 @@ fun ListsScreen(
                 .align(Alignment.BottomEnd)
                 .padding(dimensionResource(R.dimen.padding_mid)),
             onClick = { viewModel.updateShowAddListDialog(true) },
+            text = "New List",
             contentDescription = stringResource(R.string.add_a_list)
         )
 
