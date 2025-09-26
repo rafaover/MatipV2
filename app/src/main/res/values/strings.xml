@@ -35,4 +35,7 @@
     <string name="fab_add_list">Add a List</string>
     <string name="tip_will_be_deleted">Tip will be deleted</string>
     <string name="tip">Tip</string>
+    <string name="edit_list_dialog_title">Edit List Name</string>
+    <string name="edit_list_name_prompt">Enter the new name for the list:</string>
+
 </resources>

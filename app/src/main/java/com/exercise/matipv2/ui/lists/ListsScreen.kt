@@ -30,6 +30,7 @@ import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
 import com.exercise.matipv2.components.lists.AddAnListDialog
 import com.exercise.matipv2.components.lists.AllTipsFromListCounter
+import com.exercise.matipv2.components.lists.EditListDialog
 import com.exercise.matipv2.components.lists.SwipeBox
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.ui.MainScreenViewModel
@@ -44,6 +45,7 @@ fun ListsScreen(
 ) {
     val allListsFlow by allLists.collectAsState(initial = emptyList())
     var selectedList by remember { mutableStateOf<List?>(null) }
+    var showEditListDialog by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -57,13 +59,15 @@ fun ListsScreen(
             ) {
                 itemsIndexed(allListsFlow) { _, list ->
                     SwipeBox(
-                        onDelete = {
-                            selectedList = list
-
-                            /** Opens [ConfirmationAlertDialog] to confirm Delete an List. */
+                        item = list,
+                        onDelete = { listToDelete ->
+                            selectedList = listToDelete
                             viewModel.updateShowDeleteListDialog(true)
                         },
-                        onEdit = { viewModel.updateList(list) }
+                        onEdit = { listToEdit ->
+                            selectedList = listToEdit
+                            showEditListDialog = true
+                        }
                     ) {
                         ListItemComponent(
                             modifier = Modifier
@@ -83,8 +87,6 @@ fun ListsScreen(
             }
         }
 
-        /** FAB to Add an List via [AddAnListDialog] */
-
         FabAdd(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -93,9 +95,6 @@ fun ListsScreen(
             text = "New List",
             contentDescription = stringResource(R.string.add_a_list)
         )
-
-        /** Conditional attached to [FabAdd] composable above to
-         * show dialog when clicked */
 
         if(viewModel.showAddListDialog) {
             AddAnListDialog(
@@ -109,27 +108,46 @@ fun ListsScreen(
             )
         }
 
-        /** Conditional attached to [SwipeBox] call on [ListsScreen] to show on delete action.
-         * Opens [ConfirmationAlertDialog] to confirm Delete an List.
-         **/
-
-        if (viewModel.showDeleteListDialog) {
-            val listName = selectedList?.name
+        if (viewModel.showDeleteListDialog && selectedList != null) {
+            val listName = selectedList?.name ?: "List"
             ConfirmationAlertDialog(
                 title = stringResource(R.string.dialog_title),
                 message = stringResource(
                     id = R.string.dialog_delete_list_text,
-                    listName ?: "List"
+                    listName
                 ),
                 icon = Icons.Filled.Info,
                 confirmButtonText = stringResource(R.string.delete),
                 onConfirm = {
-                    viewModel.deleteList(selectedList)
-                    viewModel.deleteTipsFromList(selectedList!!.id)
+                    selectedList?.let { listToDelete ->
+                        viewModel.deleteList(listToDelete)
+                        viewModel.deleteTipsFromList(listToDelete.id)
+                    }
                     viewModel.updateShowDeleteListDialog(false)
+                    selectedList = null
                 },
                 onDismiss = {
                     viewModel.updateShowDeleteListDialog(false)
+                    selectedList = null
+                }
+            )
+        }
+
+        // Dialog for editing the list name
+        if (showEditListDialog && selectedList != null) {
+            EditListDialog(
+                listToEdit = selectedList!!,
+                onSave = { newName ->
+                    viewModel.viewModelScope.launch {
+                        val listToUpdate = selectedList!!.copy(name = newName)
+                        viewModel.updateList(listToUpdate)
+                        showEditListDialog = false
+                        selectedList = null
+                    }
+                },
+                onDismiss = {
+                    showEditListDialog = false
+                    selectedList = null
                 }
             )
         }
