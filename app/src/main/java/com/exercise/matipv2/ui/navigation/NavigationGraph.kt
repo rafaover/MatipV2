@@ -35,7 +35,6 @@ fun NavigationGraph(
         composable(NavBarItems.Lists.route) {
             viewModel.updateShowSnackBar(false)
             ListsScreen(
-                allLists = viewModel.getAllLists(),
                 viewModel = viewModel,
                 navigateTo = { list ->
                     navController.navigate("ListTipList/${list.id}")
