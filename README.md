@@ -11,7 +11,7 @@ Crowdfunding life goals with a little tip
 - [x] Split Tips among friends.
 - [x] Create lists and access the total spent on a specific list or trip.
 - [x] Share the total split with the group.
-- [x] Search tips across all lists.
+- [x] Search for specific lists.
 - [x] Search within a specific list to filter tips.
 - [ ] Authentication
 - [ ] List personal projects to be crowdfunded
