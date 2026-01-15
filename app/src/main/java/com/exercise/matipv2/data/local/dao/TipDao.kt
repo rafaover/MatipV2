@@ -31,4 +31,17 @@ interface TipDao {
      */
     @Query("SELECT * FROM tips WHERE list_id = :listId")
     fun getAllTipsFromList(listId: Int): Flow<List<Tip>>
+
+
+    /**
+     * Search tips within a specific list.
+     */
+    @Query("""
+        SELECT * FROM tips 
+        WHERE list_id = :listId
+        AND tip_amount LIKE '%' || :query || '%' """)
+    fun searchTipsInList(listId: Int, query: String): Flow<List<Tip>>
+
+
+
 }
