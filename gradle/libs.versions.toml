@@ -23,7 +23,7 @@ testEspresso = "3.7.0"
 testExtJunit = "1.3.0"
 androidGradlePlugin = "8.11.1"
 ## Needs to update version with Kotlin
-ksp = "2.2.20-2.0.3"
+ksp = "2.3.4"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
