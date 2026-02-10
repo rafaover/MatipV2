@@ -56,6 +56,7 @@ fun ListsScreen(
             .fillMaxSize()
     ) {
         SearchBarComponent(
+            modifier = Modifier.padding(top = 16.dp),
             searchQuery = searchState.searchQuery,
             onSearchQueryChange = {
                 viewModel.updateSearchQuery(it)},
