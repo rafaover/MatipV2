@@ -24,6 +24,9 @@ class OfflineMatipRepository (
         return tipDao.getAllTipsFromList(listId)
     }
 
+    override fun searchTipsInList(listId: Int, query:  String) = tipDao.searchTipsInList(listId, query)
+
+
     // List Methods
     override suspend fun insertList(list: List) = listDao.insertList(list)
     override suspend fun deleteList(list: List) = listDao.deleteList(list)
@@ -38,4 +41,5 @@ class OfflineMatipRepository (
     override fun getListById(listId: Int): Flow<List> {
         return listDao.getListById(listId)
     }
+    override fun searchLists(query: String) = listDao.searchLists(query)
 }

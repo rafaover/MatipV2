@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +43,7 @@ import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
+import com.exercise.matipv2.components.common.SearchBarComponent
 import com.exercise.matipv2.components.common.shareTextWithApps
 import com.exercise.matipv2.components.lists.AddTipValueToListDialog
 import com.exercise.matipv2.ui.MainScreenViewModel
@@ -69,10 +71,10 @@ fun ListTipListScreen(
         .getListById(listId)
         .collectAsState(null)
 
-    /** Get the list of tips for the List collected on variable "list" above */
-    val listTipList by viewModel
-        .getAllTipsFromList(listId)
-        .collectAsState(emptyList())
+    val searchState by viewModel.searchFilterState.collectAsState()
+    val listTipListState = remember(searchState.searchQuery) {
+        viewModel.updateFilteredTipsList(listId)
+    }.collectAsState(initial = emptyList())
 
     /** Share the list of tips using [shareTextWithApps] */
     val context = LocalContext.current
@@ -92,8 +94,10 @@ fun ListTipListScreen(
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
                     ),
-                    title = { list.value?.let {
-                        Text(text = it.name) }
+                    title = {
+                        list.value?.let {
+                            Text(text = it.name)
+                        }
                     },
                     navigationIcon = {
                         IconButton(
@@ -128,6 +132,15 @@ fun ListTipListScreen(
                     modifier = Modifier
                         .padding(dimensionResource(R.dimen.padding_mid))
                 ) {
+                    SearchBarComponent(
+                        searchQuery = searchState.searchQuery,
+                        onSearchQueryChange = {
+                            viewModel.updateSearchQuery(it)
+                        },
+                        onClearSearch = { viewModel.clearSearch() },
+                        placeholder = "Search tips.. .",
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -148,7 +161,7 @@ fun ListTipListScreen(
                                 .clickable {
                                     shareTextWithApps(
                                         title = list.value?.name!!,
-                                        content = tipListToString(listTipList),
+                                        content = tipListToString(listTipListState.value),
                                         context = context
                                     )
                                 },
@@ -161,33 +174,41 @@ fun ListTipListScreen(
                         modifier = Modifier
                             .padding(bottom = dimensionResource(R.dimen.padding_mid))
                     )
-                    LazyColumn(
-                        userScrollEnabled = true
-                    ) {
+                    if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
+                        Text(
+                            text = "No tips found for '${searchState.searchQuery}'",
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    } else {
+                        LazyColumn(
+                            userScrollEnabled = true
+                        ) {
 
-                        /**
-                         * Display rows of tips from specific List(List).
-                         */
-                        itemsIndexed(listTipList) { _, tip ->
-                            ListItemComponent(
-                                overLineContent = { Text(text = tip.dateCreated) },
-                                item = tip,
-                                getName = { tip.tipAmount },
-                                mainTrailItemInfo = { },
-                                listItemTrailingIcon = Icons.Default.DeleteForever,
-                                trailingIconContentDescription = stringResource(R.string.delete),
-                                onClickTrailingIcon = { viewModel.deleteTip(tip) },
-                                onClickLabel = context.getString(R.string.tip_will_be_deleted),
-                                modifier = Modifier.height(70.dp)
-                            )
+                            /**
+                             * Display rows of tips from specific List(List).
+                             */
+                            itemsIndexed(listTipListState.value) { _, tip ->
+                                ListItemComponent(
+                                    overLineContent = { Text(text = tip.dateCreated) },
+                                    item = tip,
+                                    getName = { tip.tipAmount },
+                                    mainTrailItemInfo = { },
+                                    listItemTrailingIcon = Icons.Default.DeleteForever,
+                                    trailingIconContentDescription = stringResource(R.string.delete),
+                                    onClickTrailingIcon = { viewModel.deleteTip(tip) },
+                                    onClickLabel = context.getString(R.string.tip_will_be_deleted),
+                                    modifier = Modifier.height(70.dp)
+                                )
+                            }
                         }
                     }
-                }
 
+                }
                 /** Conditional attached to [FabAdd] composable above to
                  * show dialog when clicked
                  */
-                if(viewModel.showAddTipValueToListDialog) {
+                if (viewModel.showAddTipValueToListDialog) {
                     AddTipValueToListDialog(
                         viewModel = viewModel,
                         onSaveRequest = {

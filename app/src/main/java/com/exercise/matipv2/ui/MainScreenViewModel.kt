@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.MatipRepository
+import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
 import com.exercise.matipv2.util.convertTipAmountToCurrency
@@ -25,6 +26,9 @@ class MainScreenViewModel (
 
     private val _uiState = MutableStateFlow(TipCalculatorScreenUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _searchFilterState = MutableStateFlow(SearchFilterState())
+    val searchFilterState = _searchFilterState.asStateFlow()
 
     var showAddListDialog by mutableStateOf(false)
     var showAddTipValueToListDialog by mutableStateOf(false)
@@ -199,5 +203,53 @@ class MainScreenViewModel (
     fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
         return matipRepository.getAllTipsFromList(eventId)
     }
+
+
+    /**
+     * Update search query and active state
+     */
+    fun updateSearchQuery(query: String) {
+        _searchFilterState.value = _searchFilterState.value.copy(
+            searchQuery = query,
+            isSearchActive = query.isNotEmpty()
+        )
+
+    }
+
+    fun clearSearch() {
+        _searchFilterState.value = SearchFilterState()
+    }
+
+
+    /**
+     * Get filtered tips from a specific list based on search query
+     */
+    fun updateFilteredTipsList(listId: Int): Flow<kotlin.collections.List<Tip>> {
+        val state = _searchFilterState.value
+
+       return if (state.searchQuery.isNotEmpty()) {
+           matipRepository.searchTipsInList(listId, state.searchQuery)
+        } else {
+           matipRepository.getAllTipsFromList(listId)
+        }
+    }
+
+    /**
+     * Get filtered lists based on search query
+     */
+    fun updateFilteredLists(): Flow<kotlin.collections.List<List>> {
+        val state = _searchFilterState.value
+
+        return if (state.searchQuery.isNotEmpty()) {
+           matipRepository.searchLists(state.searchQuery)
+        } else {
+           matipRepository.getAllLists()
+        }
+    }
+
+
+
+
+
 }
 

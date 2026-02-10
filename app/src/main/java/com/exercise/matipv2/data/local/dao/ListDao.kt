@@ -41,4 +41,10 @@ interface ListDao {
         GROUP BY lists.id
         """)
     fun getAllListsWithTips(): Flow<kotlin.collections.List<ListWithTips>>
+
+    /**
+     * Search for lists where the list name contains the given query string.
+     */
+    @Query("SELECT * FROM lists WHERE list_name LIKE '%' || :query || '%'")
+    fun searchLists(query: String): Flow<kotlin.collections.List<List>>
 }
