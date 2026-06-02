@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.roomDb)
     alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -82,6 +83,7 @@ dependencies {
 
     // Coroutines
     implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.play.services
 
     // Testing
     implementation libs.androidx.runner
@@ -110,4 +112,13 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.androidx.compose)
     testImplementation(libs.koin.test.junit4)
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth.ktx
+
+    // Credentials Manager
+    implementation libs.androidx.credentials
+    implementation libs.androidx.credentials.play.services.auth
+    implementation libs.googleid
 }

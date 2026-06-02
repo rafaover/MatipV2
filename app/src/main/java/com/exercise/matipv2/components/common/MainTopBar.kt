@@ -24,7 +24,9 @@ import com.exercise.matipv2.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTopBar() {
+fun MainTopBar(
+    onNavigationClick: () -> Unit
+) {
     CenterAlignedTopAppBar(
         modifier = Modifier.semantics { contentDescription = "Top Bar" },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -47,9 +49,8 @@ fun MainTopBar() {
         },
         navigationIcon = {
             IconButton(
-                // TODO("Menu to be implemented")
-                onClick = { },
-                enabled = false
+                onClick = onNavigationClick,
+                enabled = true
             ) {
                 Icon(
                     modifier = Modifier

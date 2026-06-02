@@ -30,4 +30,9 @@
     <string name="tip">Gorjeta</string>
     <string name="edit_list_dialog_title">Edite o nome da Lista</string>
     <string name="edit_list_name_prompt">Entre aqui o novo nome da Lista</string>
+    <string name="sign_in">Entrar</string>
+    <string name="sign_out">Sair</string>
+    <string name="feedback">Feedback</string>
+    <string name="terms_and_conditions">Termos e Condições</string>
+    <string name="settings">Configurações</string>
 </resources>

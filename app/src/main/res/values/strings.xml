@@ -38,4 +38,11 @@
     <string name="edit_list_dialog_title">Edit List Name</string>
     <string name="edit_list_name_prompt">Enter the new name for the list:</string>
 
+<!--    Navigation Drawer Strings-->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="feedback">Feedback</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="settings">Settings</string>
+
 </resources>

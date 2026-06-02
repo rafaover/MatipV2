@@ -1,6 +1,7 @@
 package com.exercise.matipv2.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
+import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.MatipRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
@@ -17,12 +19,18 @@ import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel (
-    private val matipRepository: MatipRepository
+    private val matipRepository: MatipRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    val currentUser = authRepository.currentUser
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     private val _uiState = MutableStateFlow(TipCalculatorScreenUiState())
     val uiState = _uiState.asStateFlow()
@@ -241,15 +249,25 @@ class MainScreenViewModel (
         val state = _searchFilterState.value
 
         return if (state.searchQuery.isNotEmpty()) {
-           matipRepository.searchLists(state.searchQuery)
+            matipRepository.searchLists(state.searchQuery)
         } else {
-           matipRepository.getAllLists()
+            matipRepository.getAllLists()
         }
     }
 
+    /**
+     * Auth Functions
+     */
+    fun signIn(context: Context) {
+        viewModelScope.launch {
+            authRepository.signIn(context)
+        }
+    }
 
-
-
-
+    fun signOut() {
+        viewModelScope.launch {
+            authRepository.signOut()
+        }
+    }
 }
 
