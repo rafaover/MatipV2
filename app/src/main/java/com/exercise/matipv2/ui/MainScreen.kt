@@ -17,9 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.navigation.compose.rememberNavController
+import com.exercise.matipv2.R
 import com.exercise.matipv2.components.MainNavigationBar
 import com.exercise.matipv2.components.MainNavigationDrawerContent
 import com.exercise.matipv2.components.auth.AuthDialog
@@ -42,6 +44,14 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val passwordResetSentMessage = stringResource(R.string.password_reset_sent)
+
+    // Close auth dialog when user signs in
+    LaunchedEffect(currentUser) {
+        if (currentUser != null) {
+            authViewModel.updateShowAuthDialog(false)
+        }
+    }
 
     if (viewModel.showSnackBar) {
         LaunchedEffect(viewModel.snackBarMessage) {
@@ -101,18 +111,28 @@ fun MainScreen(
         ) { paddingValues ->
             if (authViewModel.showAuthDialog) {
                 AuthDialog(
+                    isLoading = authViewModel.isLoading,
                     onDismissRequest = { authViewModel.updateShowAuthDialog(false) },
                     onSignIn = { email, password ->
                         authViewModel.signInWithEmail(email, password) { error ->
                             viewModel.updateShowSnackBar(true, error)
                         }
-                        authViewModel.updateShowAuthDialog(false)
                     },
                     onSignUp = { email, password ->
                         authViewModel.signUpWithEmail(email, password) { error ->
                             viewModel.updateShowSnackBar(true, error)
                         }
-                        authViewModel.updateShowAuthDialog(false)
+                    },
+                    onForgotPassword = { email ->
+                        authViewModel.sendPasswordResetEmail(
+                            email = email,
+                            onSuccess = {
+                                viewModel.updateShowSnackBar(true, passwordResetSentMessage)
+                            },
+                            onError = { error ->
+                                viewModel.updateShowSnackBar(true, error)
+                            }
+                        )
                     }
                 )
             }

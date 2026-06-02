@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,9 +27,11 @@ import com.exercise.matipv2.R
 
 @Composable
 fun AuthDialog(
+    isLoading: Boolean,
     onDismissRequest: () -> Unit,
     onSignIn: (String, String) -> Unit,
-    onSignUp: (String, String) -> Unit
+    onSignUp: (String, String) -> Unit,
+    onForgotPassword: (String) -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -61,13 +65,26 @@ fun AuthDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 TextButton(
                     onClick = { isRegistering = !isRegistering },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 ) {
                     Text(
                         text = if (isRegistering) stringResource(R.string.already_have_account)
                         else stringResource(R.string.dont_have_account),
                         style = MaterialTheme.typography.bodySmall
                     )
+                }
+                if (!isRegistering) {
+                    TextButton(
+                        onClick = { onForgotPassword(email) },
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !isLoading && email.isNotBlank()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.forgot_password),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
             }
         },
@@ -77,13 +94,21 @@ fun AuthDialog(
                     if (isRegistering) onSignUp(email, password)
                     else onSignIn(email, password)
                 },
-                enabled = email.isNotBlank() && password.isNotBlank()
+                enabled = email.isNotBlank() && password.isNotBlank() && !isLoading
             ) {
-                Text(text = if (isRegistering) stringResource(R.string.register) else stringResource(R.string.confirm))
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Text(text = if (isRegistering) stringResource(R.string.register) else stringResource(R.string.confirm))
+                }
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
+            TextButton(onClick = onDismissRequest, enabled = !isLoading) {
                 Text(text = stringResource(R.string.cancel))
             }
         }

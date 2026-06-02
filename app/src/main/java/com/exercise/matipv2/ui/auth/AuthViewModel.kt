@@ -23,31 +23,50 @@ class AuthViewModel(
     var showAuthDialog by mutableStateOf(value = false)
         private set
 
+    var isLoading by mutableStateOf(value = false)
+        private set
+
     fun updateShowAuthDialog(show: Boolean) {
         showAuthDialog = show
     }
 
     fun signIn(context: Context, onError: (String) -> Unit) {
         viewModelScope.launch {
+            isLoading = true
             authRepository.signIn(context).onFailure { 
                 onError(it.message ?: "Auth Error") 
             }
+            isLoading = false
         }
     }
 
     fun signInWithEmail(email: String, password: String, onError: (String) -> Unit) {
         viewModelScope.launch {
+            isLoading = true
             authRepository.signInWithEmail(email, password).onFailure { 
                 onError(it.message ?: "Auth Error") 
             }
+            isLoading = false
         }
     }
 
     fun signUpWithEmail(email: String, password: String, onError: (String) -> Unit) {
         viewModelScope.launch {
+            isLoading = true
             authRepository.signUpWithEmail(email, password).onFailure { 
                 onError(it.message ?: "Auth Error") 
             }
+            isLoading = false
+        }
+    }
+
+    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            isLoading = true
+            authRepository.sendPasswordResetEmail(email)
+                .onSuccess { onSuccess() }
+                .onFailure { onError(it.message ?: "Error") }
+            isLoading = false
         }
     }
 

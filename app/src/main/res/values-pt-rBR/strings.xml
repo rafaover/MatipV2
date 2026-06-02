@@ -37,10 +37,12 @@
     <string name="feedback">Feedback</string>
     <string name="terms_and_conditions">Termos e Condições</string>
     <string name="settings">Configurações</string>
-    <string name="firebasewebclientid">379065209364-67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
+    <string name="firebasewebclientid">379065209364–67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
     <string name="email">Email</string>
     <string name="password">Senha</string>
     <string name="register">Cadastrar</string>
     <string name="already_have_account">Já tem uma conta? Entrar</string>
     <string name="dont_have_account">Não tem uma conta? Cadastrar</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="password_reset_sent">Email de redefinição de senha enviado!</string>
 </resources>

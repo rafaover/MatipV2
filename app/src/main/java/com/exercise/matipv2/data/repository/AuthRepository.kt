@@ -20,11 +20,12 @@ interface AuthRepository {
     suspend fun signIn(context: Context): Result<Unit>
     suspend fun signInWithEmail(email: String, password: String): Result<Unit>
     suspend fun signUpWithEmail(email: String, password: String): Result<Unit>
+    suspend fun sendPasswordResetEmail(email: String): Result<Unit>
     suspend fun signOut()
 }
 
 class FirebaseAuthRepository(
-    context: Context
+    context: Context,
 ) : AuthRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -51,7 +52,7 @@ class FirebaseAuthRepository(
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts = false)
                 .setServerClientId(context.getString(R.string.firebasewebclientid))
-                .setAutoSelectEnabled(true)
+                .setAutoSelectEnabled(autoSelectEnabled = true)
                 .build()
 
             val request = GetCredentialRequest.Builder()
@@ -86,6 +87,15 @@ class FirebaseAuthRepository(
     override suspend fun signUpWithEmail(email: String, password: String): Result<Unit> {
         return try {
             auth.createUserWithEmailAndPassword(email, password).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun sendPasswordResetEmail(email: String): Result<Unit> {
+        return try {
+            auth.sendPasswordResetEmail(email).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

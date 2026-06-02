@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
@@ -18,8 +20,11 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.exercise.matipv2.R
 import com.exercise.matipv2.data.model.AuthUser
 
@@ -50,7 +55,20 @@ fun MainNavigationDrawerContent(
             )
         } else {
             NavigationDrawerItem(
-                icon = { Icon(Icons.Default.AccountCircle, contentDescription = null) },
+                icon = {
+                    if (currentUser.photoUrl != null) {
+                        AsyncImage(
+                            model = currentUser.photoUrl,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Icon(Icons.Default.AccountCircle, contentDescription = null)
+                    }
+                },
                 label = {
                     Column {
                         Text(text = currentUser.name ?: currentUser.email ?: stringResource(R.string.sign_in))
