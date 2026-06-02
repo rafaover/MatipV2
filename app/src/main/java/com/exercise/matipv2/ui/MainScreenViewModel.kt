@@ -1,7 +1,6 @@
 package com.exercise.matipv2.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
-import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.MatipRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
@@ -20,19 +18,13 @@ import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel (
     private val matipRepository: MatipRepository,
-    private val authRepository: AuthRepository,
-    private val analyticsHelper: AnalyticsHelper
+    private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
-
-    val currentUser = authRepository.currentUser
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     private val _uiState = MutableStateFlow(TipCalculatorScreenUiState())
     val uiState = _uiState.asStateFlow()
@@ -40,10 +32,11 @@ class MainScreenViewModel (
     private val _searchFilterState = MutableStateFlow(SearchFilterState())
     val searchFilterState = _searchFilterState.asStateFlow()
 
-    var showAddListDialog by mutableStateOf(false)
-    var showAddTipValueToListDialog by mutableStateOf(false)
-    var showDeleteListDialog by mutableStateOf(false)
-    var showSnackBar by mutableStateOf(false)
+    var showAddListDialog by mutableStateOf(value = false)
+    var showAddTipValueToListDialog by mutableStateOf(value = false)
+    var showDeleteListDialog by mutableStateOf(value = false)
+    var showSnackBar by mutableStateOf(value = false)
+    var snackBarMessage by mutableStateOf("")
     var newListName by mutableStateOf("")
 
     init {
@@ -128,8 +121,9 @@ class MainScreenViewModel (
         updateDateCreated()
     }
 
-    fun updateShowSnackBar (snackBar: Boolean) {
+    fun updateShowSnackBar (snackBar: Boolean, message: String = "") {
         showSnackBar = snackBar
+        snackBarMessage = message
     }
 
     /*
@@ -259,20 +253,4 @@ class MainScreenViewModel (
             matipRepository.getAllLists()
         }
     }
-
-    /**
-     * Auth Functions
-     */
-    fun signIn(context: Context) {
-        viewModelScope.launch {
-            authRepository.signIn(context)
-        }
-    }
-
-    fun signOut() {
-        viewModelScope.launch {
-            authRepository.signOut()
-        }
-    }
 }
-

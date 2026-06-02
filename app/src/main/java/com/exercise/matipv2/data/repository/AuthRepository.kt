@@ -5,6 +5,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import com.exercise.matipv2.R
+import com.exercise.matipv2.data.model.AuthUser
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -17,15 +18,10 @@ import kotlinx.coroutines.tasks.await
 interface AuthRepository {
     val currentUser: StateFlow<AuthUser?>
     suspend fun signIn(context: Context): Result<Unit>
+    suspend fun signInWithEmail(email: String, password: String): Result<Unit>
+    suspend fun signUpWithEmail(email: String, password: String): Result<Unit>
     suspend fun signOut()
 }
-
-data class AuthUser(
-    val id: String,
-    val name: String?,
-    val email: String?,
-    val photoUrl: String?,
-)
 
 class FirebaseAuthRepository(
     context: Context
@@ -72,6 +68,24 @@ class FirebaseAuthRepository(
             val authCredential = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
             
             auth.signInWithCredential(authCredential).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun signInWithEmail(email: String, password: String): Result<Unit> {
+        return try {
+            auth.signInWithEmailAndPassword(email, password).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun signUpWithEmail(email: String, password: String): Result<Unit> {
+        return try {
+            auth.createUserWithEmailAndPassword(email, password).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

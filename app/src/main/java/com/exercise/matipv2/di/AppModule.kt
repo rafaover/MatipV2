@@ -7,6 +7,7 @@ import com.exercise.matipv2.data.repository.FirebaseAuthRepository
 import com.exercise.matipv2.data.repository.MatipRepository
 import com.exercise.matipv2.data.repository.OfflineMatipRepository
 import com.exercise.matipv2.ui.MainScreenViewModel
+import com.exercise.matipv2.ui.auth.AuthViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -18,4 +19,5 @@ val appModule = module {
     single<AuthRepository> { FirebaseAuthRepository(androidContext()) }
     single<AnalyticsHelper> { FirebaseAnalyticsHelper(androidContext()) }
     viewModelOf(::MainScreenViewModel)
+    viewModelOf(::AuthViewModel)
 }
