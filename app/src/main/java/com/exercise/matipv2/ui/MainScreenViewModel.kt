@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.AuthRepository
@@ -26,7 +27,8 @@ import kotlinx.coroutines.launch
 
 class MainScreenViewModel (
     private val matipRepository: MatipRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
     val currentUser = authRepository.currentUser
@@ -143,6 +145,7 @@ class MainScreenViewModel (
                 dateCreated = uiState.value.dateCreated
             )
             matipRepository.insertTip(tip)
+            analyticsHelper.logEvent("tip_inserted")
         }
     }
 
@@ -157,6 +160,7 @@ class MainScreenViewModel (
                 dateCreated = uiState.value.dateCreated
             )
             matipRepository.insertTip(tip)
+            analyticsHelper.logEvent("tip_added_to_list")
             resetCalculateTipScreen()
         }
     }
@@ -164,6 +168,7 @@ class MainScreenViewModel (
     fun insertList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
             matipRepository.insertList(list)
+            analyticsHelper.logEvent("list_created")
         }
         updateNewListName("")
     }

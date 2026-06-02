@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import com.exercise.matipv2.R
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +24,7 @@ data class AuthUser(
     val id: String,
     val name: String?,
     val email: String?,
-    val photoUrl: String?
+    val photoUrl: String?,
 )
 
 class FirebaseAuthRepository(
@@ -52,8 +53,8 @@ class FirebaseAuthRepository(
     override suspend fun signIn(context: Context): Result<Unit> {
         return try {
             val googleIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("YOUR_WEB_CLIENT_ID_HERE") // TODO: Move to string resources
+                .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts = false)
+                .setServerClientId(context.getString(R.string.firebasewebclientid))
                 .setAutoSelectEnabled(true)
                 .build()
 
