@@ -28,5 +28,11 @@ data class Tip(
      * The date of the [Tip] creation.
      */
     @ColumnInfo(name = "date_created")
-    val dateCreated: String
+    val dateCreated: String,
+
+    /**
+     * The user id that the [Tip] belongs to.
+     */
+    @ColumnInfo(name = "user_id")
+    val userId: String? = null
 )

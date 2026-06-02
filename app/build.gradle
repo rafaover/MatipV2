@@ -1,21 +1,29 @@
 plugins {
     alias(libs.plugins.android.gradle.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.roomDb)
     alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.google.services)
+}
+
+kotlin {
+    compilerOptions {
+        languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
+        // Optional: Set jvmTarget
+        // jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+    }
 }
 
 android {
     namespace 'com.exercise.matipv2'
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId "com.exercise.matipv2"
         minSdk 24
-        targetSdk 35
-        versionCode 20
-        versionName "1.1.0"
+        targetSdk 36
+        versionCode 22
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -35,9 +43,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
     buildFeatures {
         compose true
     }
@@ -77,6 +83,7 @@ dependencies {
 
     // Coroutines
     implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.play.services
 
     // Testing
     implementation libs.androidx.runner
@@ -105,4 +112,17 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.androidx.compose)
     testImplementation(libs.koin.test.junit4)
+
+    // Firebase
+    implementation platform(libs.firebase.bom)
+    implementation libs.firebase.auth
+    implementation libs.firebase.analytics
+
+    // Credentials Manager
+    implementation libs.androidx.credentials
+    implementation libs.androidx.credentials.play.services.auth
+    implementation libs.googleid
+
+    // Image Loading
+    implementation libs.coil.compose
 }

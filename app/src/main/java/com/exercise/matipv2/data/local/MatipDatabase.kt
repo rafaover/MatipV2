@@ -7,7 +7,7 @@ import com.exercise.matipv2.data.local.dao.TipDao
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
 
-@Database(entities = [List::class, Tip::class], version = 5)
+@Database(entities = [List::class, Tip::class], version = 6)
 abstract class MatipDatabase : RoomDatabase() {
     abstract fun listDao(): ListDao
     abstract fun tipDao(): TipDao

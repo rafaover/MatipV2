@@ -20,17 +20,17 @@ interface TipDao {
     @Update
     suspend fun updateTip(tip: Tip)
 
-    @Query("SELECT * FROM tips")
-    fun getAllTips(): Flow<List<Tip>>
+    @Query("SELECT * FROM tips WHERE user_id IS :userId")
+    fun getAllTips(userId: String?): Flow<List<Tip>>
 
-    @Query("SELECT * FROM tips ORDER BY id DESC LIMIT 1")
-    suspend fun getLastTipSaved(): Tip
+    @Query("SELECT * FROM tips WHERE user_id IS :userId ORDER BY id DESC LIMIT 1")
+    suspend fun getLastTipSaved(userId: String?): Tip
 
     /**
      * Get all the [Tip]s from a specific List.
      */
-    @Query("SELECT * FROM tips WHERE list_id = :listId")
-    fun getAllTipsFromList(listId: Int): Flow<List<Tip>>
+    @Query("SELECT * FROM tips WHERE list_id = :listId AND user_id IS :userId")
+    fun getAllTipsFromList(listId: Int, userId: String?): Flow<List<Tip>>
 
 
     /**
@@ -39,9 +39,11 @@ interface TipDao {
     @Query("""
         SELECT * FROM tips 
         WHERE list_id = :listId
+        AND user_id IS :userId
         AND tip_amount LIKE '%' || :query || '%' """)
-    fun searchTipsInList(listId: Int, query: String): Flow<List<Tip>>
+    fun searchTipsInList(listId: Int, query: String, userId: String?): Flow<List<Tip>>
 
 
-
+    @Query("UPDATE tips SET user_id = :userId WHERE user_id IS NULL")
+    suspend fun migrateGuestTips(userId: String)
 }

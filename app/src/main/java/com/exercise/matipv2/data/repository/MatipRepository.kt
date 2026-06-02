@@ -10,18 +10,20 @@ interface MatipRepository {
     suspend fun insertTip(tip: Tip)
     suspend fun deleteTip(tip: Tip)
     suspend fun updateTip(tip: Tip)
-    fun getAllTips(): Flow<kotlin.collections.List<Tip>>
-    suspend fun getLastTipSaved(): Tip
-    fun getAllTipsFromList(listId: Int): Flow<kotlin.collections.List<Tip>>
-    fun searchTipsInList(listId:  Int, query: String): Flow<kotlin.collections.List<Tip>>
+    fun getAllTips(userId: String?): Flow<kotlin.collections.List<Tip>>
+    suspend fun getLastTipSaved(userId: String?): Tip
+    fun getAllTipsFromList(listId: Int, userId: String?): Flow<kotlin.collections.List<Tip>>
+    fun searchTipsInList(listId:  Int, query: String, userId: String?): Flow<kotlin.collections.List<Tip>>
 
     /* List Methods */
     suspend fun insertList(list: List)
     suspend fun deleteList(list: List)
     suspend fun updateList(list: List)
-    fun getAllLists(): Flow<kotlin.collections.List<List>>
-    fun getListByName(listName: String): Flow<List>
-    fun getListById(listId: Int): Flow<List>
-    fun getAllListsWithTips(): Flow<kotlin.collections.List<ListWithTips>>
-    fun searchLists(query:  String): Flow<kotlin.collections. List<List>>
+    fun getAllLists(userId: String?): Flow<kotlin.collections.List<List>>
+    fun getListByName(listName: String, userId: String?): Flow<List>
+    fun getListById(listId: Int, userId: String?): Flow<List>
+    fun getAllListsWithTips(userId: String?): Flow<kotlin.collections.List<ListWithTips>>
+    fun searchLists(query:  String, userId: String?): Flow<kotlin.collections. List<List>>
+
+    suspend fun migrateGuestData(userId: String)
 }

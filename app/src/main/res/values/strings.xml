@@ -38,4 +38,21 @@
     <string name="edit_list_dialog_title">Edit List Name</string>
     <string name="edit_list_name_prompt">Enter the new name for the list:</string>
 
+<!--    Navigation Drawer Strings-->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_google">Sign In with Google</string>
+    <string name="sign_in_email">Sign In with Email</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="feedback">Feedback</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="settings">Settings</string>
+    <string name="firebasewebclientid">379065209364-67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="already_have_account">Already have an account? Sign In</string>
+    <string name="dont_have_account">Don\'t have an account? Register</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="password_reset_sent">Password reset email sent!</string>
+
 </resources>

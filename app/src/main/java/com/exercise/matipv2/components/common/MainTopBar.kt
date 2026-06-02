@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,11 +24,17 @@ import com.exercise.matipv2.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTopBar() {
+fun MainTopBar(
+    onNavigationClick: () -> Unit
+) {
     CenterAlignedTopAppBar(
         modifier = Modifier.semantics { contentDescription = "Top Bar" },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
+            scrolledContainerColor = Color.Unspecified,
+            navigationIconContentColor = Color.Unspecified,
+            titleContentColor = Color.Unspecified,
+            actionIconContentColor = Color.Unspecified
         ),
         title = {
             Image(
@@ -42,9 +49,8 @@ fun MainTopBar() {
         },
         navigationIcon = {
             IconButton(
-                // TODO("Menu to be implemented")
-                onClick = { },
-                enabled = false
+                onClick = onNavigationClick,
+                enabled = true
             ) {
                 Icon(
                     modifier = Modifier

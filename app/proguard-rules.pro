@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Credential Manager
+-keep class androidx.credentials.playservices.** { *; }
+-keep class com.google.android.libraries.identity.googleid.** { *; }

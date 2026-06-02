@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.RoomWarnings
 import androidx.room.Transaction
 import androidx.room.Update
 import com.exercise.matipv2.data.local.model.List
@@ -24,27 +23,30 @@ interface ListDao {
     @Update
     suspend fun updateList(list: List)
 
-    @Query("SELECT * FROM lists")
-    fun getAllLists(): Flow<kotlin.collections.List<List>>
+    @Query("SELECT * FROM lists WHERE user_id IS :userId")
+    fun getAllLists(userId: String?): Flow<kotlin.collections.List<List>>
 
-    @Query("SELECT * FROM lists WHERE list_name = :listName")
-    fun getListByName(listName: String): Flow<List>
+    @Query("SELECT * FROM lists WHERE list_name = :listName AND user_id IS :userId")
+    fun getListByName(listName: String, userId: String?): Flow<List>
 
-    @Query("SELECT * FROM lists WHERE id = :listId")
-    fun getListById(listId: Int): Flow<List>
+    @Query("SELECT * FROM lists WHERE id = :listId AND user_id IS :userId")
+    fun getListById(listId: Int, userId: String?): Flow<List>
 
     @Transaction
-    @SuppressWarnings(RoomWarnings.Companion.QUERY_MISMATCH)
     @Query("""
         SELECT * FROM lists 
         INNER JOIN tips ON lists.id = tips.list_id
+        WHERE lists.user_id IS :userId
         GROUP BY lists.id
         """)
-    fun getAllListsWithTips(): Flow<kotlin.collections.List<ListWithTips>>
+    fun getAllListsWithTips(userId: String?): Flow<kotlin.collections.List<ListWithTips>>
 
     /**
      * Search for lists where the list name contains the given query string.
      */
-    @Query("SELECT * FROM lists WHERE list_name LIKE '%' || :query || '%'")
-    fun searchLists(query: String): Flow<kotlin.collections.List<List>>
+    @Query("SELECT * FROM lists WHERE list_name LIKE '%' || :query || '%' AND user_id IS :userId")
+    fun searchLists(query: String, userId: String?): Flow<kotlin.collections.List<List>>
+
+    @Query("UPDATE lists SET user_id = :userId WHERE user_id IS NULL")
+    suspend fun migrateGuestLists(userId: String)
 }
