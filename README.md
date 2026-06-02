@@ -13,7 +13,7 @@ Crowdfunding life goals with a little tip
 - [x] Share the total split with the group.
 - [x] Search for specific lists.
 - [x] Search within a specific list to filter tips.
-- [ ] Authentication
+- [x] Authentication
 - [ ] List personal projects to be crowdfunded
 - [ ] Link your project to a wallet and receive funds. (Currency/Crypto)
 
@@ -26,6 +26,7 @@ Crowdfunding life goals with a little tip
 - Navigation Compose
 - Koin for Dependency Injection
 - Room for local storage
+- Coil for Image Loading
 - Coroutines
 - JUnit/Mockito for tests
 
