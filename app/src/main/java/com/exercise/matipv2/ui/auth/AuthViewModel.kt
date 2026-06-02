@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.repository.AuthRepository
+import com.exercise.matipv2.data.repository.MatipRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val authRepository: AuthRepository,
+    private val matipRepository: MatipRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
@@ -33,7 +35,12 @@ class AuthViewModel(
     fun signIn(context: Context, onError: (String) -> Unit) {
         viewModelScope.launch {
             isLoading = true
-            authRepository.signIn(context).onFailure { 
+            authRepository.signIn(context).onSuccess {
+                currentUser.value?.id?.let { userId ->
+                    matipRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("guest_data_migrated")
+                }
+            }.onFailure { 
                 onError(it.message ?: "Auth Error") 
             }
             isLoading = false
@@ -43,7 +50,12 @@ class AuthViewModel(
     fun signInWithEmail(email: String, password: String, onError: (String) -> Unit) {
         viewModelScope.launch {
             isLoading = true
-            authRepository.signInWithEmail(email, password).onFailure { 
+            authRepository.signInWithEmail(email, password).onSuccess {
+                currentUser.value?.id?.let { userId ->
+                    matipRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("guest_data_migrated")
+                }
+            }.onFailure { 
                 onError(it.message ?: "Auth Error") 
             }
             isLoading = false
@@ -53,7 +65,12 @@ class AuthViewModel(
     fun signUpWithEmail(email: String, password: String, onError: (String) -> Unit) {
         viewModelScope.launch {
             isLoading = true
-            authRepository.signUpWithEmail(email, password).onFailure { 
+            authRepository.signUpWithEmail(email, password).onSuccess {
+                currentUser.value?.id?.let { userId ->
+                    matipRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("guest_data_migrated")
+                }
+            }.onFailure {
                 onError(it.message ?: "Auth Error") 
             }
             isLoading = false

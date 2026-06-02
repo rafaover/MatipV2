@@ -10,4 +10,6 @@ data class List(
     val id: Int = 0,
     @ColumnInfo(name = "list_name")
     val name: String,
+    @ColumnInfo(name = "user_id")
+    val userId: String? = null
 )

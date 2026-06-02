@@ -39,6 +39,7 @@ fun MainScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by authViewModel.currentUser.collectAsState()
+    val userLists by viewModel.getAllLists().collectAsState(initial = emptyList())
     val context = LocalContext.current
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -65,6 +66,7 @@ fun MainScreen(
         drawerContent = {
             MainNavigationDrawerContent(
                 currentUser = currentUser,
+                userLists = userLists,
                 onSignInGoogle = {
                     authViewModel.signIn(context) { error ->
                         viewModel.updateShowSnackBar(true, error)
@@ -79,18 +81,15 @@ fun MainScreen(
                     authViewModel.signOut()
                     scope.launch { drawerState.close() }
                 },
-                onFeedbackClick = {
-                    // TODO: Implement feedback logic
+                onListClick = { list ->
+                    // Navigate to the list
+                    navController.navigate("ListTipList/${list.id}")
                     scope.launch { drawerState.close() }
                 },
-                onTermsClick = {
-                    // TODO: Implement T&C logic
-                    scope.launch { drawerState.close() }
-                },
-                onSettingsClick = {
-                    // TODO: Implement settings logic
-                    scope.launch { drawerState.close() }
-                }
+//              onSettingsClick = {
+//                    // TODO: Implement settings logic
+//                    scope.launch { drawerState.close() }
+//              }
             )
         }
     ) {

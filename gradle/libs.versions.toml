@@ -1,16 +1,16 @@
 [versions]
-composeBom = "2026.05.00"
+composeBom = "2026.05.01"
 androidActivity = "1.13.0"
 coreSplashscreen = "1.2.0"
 koin-bom = "4.2.1"
 kotlin = "2.3.21"
 coreKtx = "1.18.0"
-coroutinesAndroid = "1.10.2"
-dateTime = "0.7.1"
+coroutinesAndroid = "1.11.0"
+dateTime = "0.8.0"
 lifecycle = "2.10.0"
 navigationCompose = "2.9.8"
 roomdb = "2.8.4"
-composeui = "1.11.1"
+composeui = "1.11.2"
 material = "1.7.8"
 material3 = "1.4.0"
 junit = "4.13.2"
@@ -38,6 +38,7 @@ jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", vers
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutinesAndroid" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 #Compose
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "composeui" }
@@ -89,7 +90,6 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android-gradle-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

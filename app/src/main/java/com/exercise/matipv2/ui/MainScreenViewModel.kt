@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
+import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.MatipRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
@@ -23,8 +24,12 @@ import kotlinx.coroutines.launch
 
 class MainScreenViewModel (
     private val matipRepository: MatipRepository,
+    private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
+
+    private val currentUserId: String?
+        get() = authRepository.currentUser.value?.id
 
     private val _uiState = MutableStateFlow(TipCalculatorScreenUiState())
     val uiState = _uiState.asStateFlow()
@@ -136,7 +141,8 @@ class MainScreenViewModel (
                 tipAmount = uiState.value.finalTip,
                 tipPercent = uiState.value.tipPercent,
                 listId = uiState.value.listId,
-                dateCreated = uiState.value.dateCreated
+                dateCreated = uiState.value.dateCreated,
+                userId = currentUserId
             )
             matipRepository.insertTip(tip)
             analyticsHelper.logEvent("tip_inserted")
@@ -151,7 +157,8 @@ class MainScreenViewModel (
                 tipAmount = tipAmountConverted,
                 tipPercent = "0",
                 listId = listId,
-                dateCreated = uiState.value.dateCreated
+                dateCreated = uiState.value.dateCreated,
+                userId = currentUserId
             )
             matipRepository.insertTip(tip)
             analyticsHelper.logEvent("tip_added_to_list")
@@ -161,7 +168,8 @@ class MainScreenViewModel (
 
     fun insertList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
-            matipRepository.insertList(list)
+            val listWithUser = list.copy(userId = currentUserId)
+            matipRepository.insertList(listWithUser)
             analyticsHelper.logEvent("list_created")
         }
         updateNewListName("")
@@ -200,15 +208,15 @@ class MainScreenViewModel (
     */
 
     fun getAllLists(): Flow<kotlin.collections.List<List>> {
-        return matipRepository.getAllLists()
+        return matipRepository.getAllLists(currentUserId)
     }
 
     fun getListById(listId: Int): Flow<List> {
-        return matipRepository.getListById(listId)
+        return matipRepository.getListById(listId, currentUserId)
     }
 
     fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
-        return matipRepository.getAllTipsFromList(eventId)
+        return matipRepository.getAllTipsFromList(eventId, currentUserId)
     }
 
 
@@ -235,9 +243,9 @@ class MainScreenViewModel (
         val state = _searchFilterState.value
 
        return if (state.searchQuery.isNotEmpty()) {
-           matipRepository.searchTipsInList(listId, state.searchQuery)
+           matipRepository.searchTipsInList(listId, state.searchQuery, currentUserId)
         } else {
-           matipRepository.getAllTipsFromList(listId)
+           matipRepository.getAllTipsFromList(listId, currentUserId)
         }
     }
 
@@ -248,9 +256,9 @@ class MainScreenViewModel (
         val state = _searchFilterState.value
 
         return if (state.searchQuery.isNotEmpty()) {
-            matipRepository.searchLists(state.searchQuery)
+            matipRepository.searchLists(state.searchQuery, currentUserId)
         } else {
-            matipRepository.getAllLists()
+            matipRepository.getAllLists(currentUserId)
         }
     }
 }
