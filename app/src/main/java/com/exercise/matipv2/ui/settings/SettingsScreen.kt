@@ -9,8 +9,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Feedback
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -102,24 +100,24 @@ fun SettingsScreen(
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             }
 
-            Text(
-                text = "Support & Legal",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(16.dp)
-            )
-
-            ListItem(
-                headlineContent = { Text(stringResource(R.string.feedback)) },
-                leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
-                modifier = Modifier.clickable { /* TODO */ }
-            )
-
-            ListItem(
-                headlineContent = { Text(stringResource(R.string.terms_and_conditions)) },
-                leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
-                modifier = Modifier.clickable { /* TODO */ }
-            )
+//            Text(
+//                text = "Support & Legal",
+//                style = MaterialTheme.typography.labelLarge,
+//                color = MaterialTheme.colorScheme.primary,
+//                modifier = Modifier.padding(16.dp)
+//            )
+//
+//            ListItem(
+//                headlineContent = { Text(stringResource(R.string.feedback)) },
+//                leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
+//                modifier = Modifier.clickable { /* TODO */ }
+//            )
+//
+//            ListItem(
+//                headlineContent = { Text(stringResource(R.string.terms_and_conditions)) },
+//                leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
+//                modifier = Modifier.clickable { /* TODO */ }
+//            )
         }
     }
 }
