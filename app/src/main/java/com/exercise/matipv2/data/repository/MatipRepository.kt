@@ -26,4 +26,7 @@ interface MatipRepository {
     fun searchLists(query:  String, userId: String?): Flow<kotlin.collections. List<List>>
 
     suspend fun migrateGuestData(userId: String)
+    suspend fun backupDataToCloud(userId: String): Result<Unit>
+    suspend fun restoreDataFromCloud(userId: String): Result<Unit>
+    fun getLastBackupDate(userId: String): Flow<String?>
 }
