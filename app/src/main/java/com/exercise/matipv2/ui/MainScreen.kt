@@ -138,8 +138,7 @@ fun MainScreen(
                 NavigationGraph(
                     viewModel = viewModel,
                     navController = navController,
-                    uiState = uiState,
-                    snackbarHostState = snackbarHostState
+                    uiState = uiState
                 )
             }
         }

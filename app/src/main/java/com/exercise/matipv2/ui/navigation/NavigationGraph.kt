@@ -1,6 +1,5 @@
 package com.exercise.matipv2.ui.navigation
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
@@ -24,7 +23,6 @@ fun NavigationGraph(
     viewModel: MainScreenViewModel,
     navController: NavHostController,
     uiState: TipCalculatorScreenUiState,
-    snackbarHostState: SnackbarHostState,
     analyticsHelper: AnalyticsHelper = koinInject()
 ) {
     val navBackStackEntry = navController.currentBackStackEntryAsState()
@@ -42,8 +40,7 @@ fun NavigationGraph(
         composable(NavBarItems.TipCalculator.route) {
             TipCalculatorScreen(
                 viewModel = viewModel,
-                uiState = uiState,
-                snackbarHostState = snackbarHostState
+                uiState = uiState
             )
         }
         composable(NavBarItems.Lists.route) {
