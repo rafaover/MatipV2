@@ -13,6 +13,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +41,7 @@ fun MainNavigationDrawerContent(
     onSignOut: () -> Unit,
     onListClick: (List) -> Unit,
     onSettingsClick: () -> Unit,
+    onReviewClick: () -> Unit,
 ) {
     ModalDrawerSheet {
         Column(
@@ -131,6 +133,13 @@ fun MainNavigationDrawerContent(
                 label = { Text(text = stringResource(R.string.settings)) },
                 selected = false,
                 onClick = onSettingsClick
+            )
+
+            NavigationDrawerItem(
+                icon = { Icon(Icons.Default.Star, contentDescription = null) },
+                label = { Text(text = stringResource(R.string.review_app)) },
+                selected = false,
+                onClick = onReviewClick
             )
         }
     }

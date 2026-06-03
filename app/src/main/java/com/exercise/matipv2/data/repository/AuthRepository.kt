@@ -42,7 +42,7 @@ class FirebaseAuthRepository(
                     id = it.uid,
                     name = it.displayName,
                     email = it.email,
-                    photoUrl = it.photoUrl?.toString()
+                    photoUrl = it.photoUrl?.toString(),
                 )
             }
         }

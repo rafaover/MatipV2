@@ -1,10 +1,10 @@
 package com.exercise.matipv2.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
@@ -12,7 +12,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.adaptive.navigationsuite.ExperimentalMaterial3AdaptiveNavigationSuiteApi
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -26,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.core.net.toUri
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -39,7 +39,6 @@ import com.exercise.matipv2.ui.navigation.NavigationGraph
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3AdaptiveNavigationSuiteApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("VisibleForTests")
 @Composable
 fun MainScreen(
@@ -99,6 +98,24 @@ fun MainScreen(
                 },
                 onSettingsClick = {
                     navController.navigate("settings")
+                    scope.launch { drawerState.close() }
+                },
+                onReviewClick = {
+                    val packageName = context.packageName
+                    val marketUri = "market://details?id=$packageName".toUri()
+                    val intent = Intent(Intent.ACTION_VIEW, marketUri).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    try {
+                        context.startActivity(intent)
+                    } catch (_: Exception) {
+                        val webUri =
+                            "https://play.google.com/store/apps/details?id=$packageName".toUri()
+                        val webIntent = Intent(Intent.ACTION_VIEW, webUri).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(webIntent)
+                    }
                     scope.launch { drawerState.close() }
                 }
             )

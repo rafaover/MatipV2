@@ -35,7 +35,7 @@
     <string name="sign_in_email">Entrar com Email</string>
     <string name="sign_out">Sair</string>
     <string name="feedback">Feedback</string>
-    <string name="terms_and_conditions">Termos e Condições</string>
+    <string name="privacy_policy">Política de Privacidade</string>
     <string name="settings">Configurações</string>
     <string name="cloud_backup">Backup na Nuvem</string>
     <string name="restore_backup">Restaurar Backup</string>
@@ -54,4 +54,6 @@
     <string name="delete_account_confirm_title">Excluir sua conta?</string>
     <string name="delete_account_confirm_message">Isso excluirá permanentemente sua conta, seu backup na nuvem e todos os dados neste dispositivo. Esta ação não pode ser desfeita.</string>
     <string name="account_deleted">Conta excluída com sucesso.</string>
+    <string name="support_legal">Suporte</string>
+    <string name="review_app">Avaliar Aplicativo</string>
 </resources>
