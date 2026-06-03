@@ -8,19 +8,36 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.repository.AuthRepository
-import com.exercise.matipv2.data.repository.MatipRepository
+import com.exercise.matipv2.data.repository.BackupRepository
+import com.exercise.matipv2.data.repository.LocalRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val matipRepository: MatipRepository,
+    private val localRepository: LocalRepository,
+    private val backupRepository: BackupRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
     val currentUser = authRepository.currentUser
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val lastBackupDate: StateFlow<String?> = currentUser.flatMapLatest { user ->
+        if (user != null) {
+            backupRepository.getLastBackupDate(user.id)
+                .catch { emit(null) }
+        } else {
+            flowOf(null)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     var showAuthDialog by mutableStateOf(value = false)
         private set
@@ -37,8 +54,8 @@ class AuthViewModel(
             isLoading = true
             authRepository.signIn(context).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("guest_data_migrated")
+                    localRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
                 onError(it.message ?: "Auth Error") 
@@ -52,8 +69,8 @@ class AuthViewModel(
             isLoading = true
             authRepository.signInWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("guest_data_migrated")
+                    localRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
                 onError(it.message ?: "Auth Error") 
@@ -67,8 +84,8 @@ class AuthViewModel(
             isLoading = true
             authRepository.signUpWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("guest_data_migrated")
+                    localRepository.migrateGuestData(userId)
+                    analyticsHelper.logEvent("user_signed_up_and_migrated")
                 }
             }.onFailure {
                 onError(it.message ?: "Auth Error") 
@@ -84,6 +101,36 @@ class AuthViewModel(
                 .onSuccess { onSuccess() }
                 .onFailure { onError(it.message ?: "Error") }
             isLoading = false
+        }
+    }
+
+    fun backupData(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            currentUser.value?.id?.let { userId ->
+                isLoading = true
+                backupRepository.backupDataToCloud(userId)
+                    .onSuccess { 
+                        analyticsHelper.logEvent("cloud_backup_success")
+                        onSuccess()
+                    }
+                    .onFailure { onError(it.message ?: "Backup failed") }
+                isLoading = false
+            }
+        }
+    }
+
+    fun restoreData(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            currentUser.value?.id?.let { userId ->
+                isLoading = true
+                backupRepository.restoreDataFromCloud(userId)
+                    .onSuccess { 
+                        analyticsHelper.logEvent("cloud_restore_success")
+                        onSuccess()
+                    }
+                    .onFailure { onError(it.message ?: "Restore failed") }
+                isLoading = false
+            }
         }
     }
 

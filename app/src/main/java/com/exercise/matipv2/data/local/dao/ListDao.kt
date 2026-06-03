@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 interface ListDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertList(list: List)
+    suspend fun insertList(list: List): Long
 
     @Delete
     suspend fun deleteList(list: List)
@@ -49,4 +49,7 @@ interface ListDao {
 
     @Query("UPDATE lists SET user_id = :userId WHERE user_id IS NULL")
     suspend fun migrateGuestLists(userId: String)
+
+    @Query("DELETE FROM lists WHERE user_id IS :userId")
+    suspend fun deleteAllListsForUser(userId: String)
 }

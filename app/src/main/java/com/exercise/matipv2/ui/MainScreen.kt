@@ -82,14 +82,13 @@ fun MainScreen(
                     scope.launch { drawerState.close() }
                 },
                 onListClick = { list ->
-                    // Navigate to the list
                     navController.navigate("ListTipList/${list.id}")
                     scope.launch { drawerState.close() }
                 },
-//              onSettingsClick = {
-//                    // TODO: Implement settings logic
-//                    scope.launch { drawerState.close() }
-//              }
+                onSettingsClick = {
+                    navController.navigate("settings")
+                    scope.launch { drawerState.close() }
+                }
             )
         }
     ) {
@@ -139,8 +138,7 @@ fun MainScreen(
                 NavigationGraph(
                     viewModel = viewModel,
                     navController = navController,
-                    uiState = uiState,
-                    snackbarHostState = snackbarHostState
+                    uiState = uiState
                 )
             }
         }

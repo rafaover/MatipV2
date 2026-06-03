@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,9 +39,9 @@ fun MainNavigationDrawerContent(
     onSignInEmail: () -> Unit,
     onSignOut: () -> Unit,
     onListClick: (List) -> Unit,
-//    onSettingsClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
-    ModalDrawerSheet() {
+    ModalDrawerSheet {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -115,7 +116,7 @@ fun MainNavigationDrawerContent(
                 }
                 if (userLists.size > 5) {
                     TextButton(
-                        onClick = { /* Navigate to All Lists logic */ },
+                        onClick = { /* Navigate to All Lists logic handled by caller */ },
                         modifier = Modifier.padding(horizontal = 28.dp)
                     ) {
                         Text(text = "... more")
@@ -124,12 +125,13 @@ fun MainNavigationDrawerContent(
             }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-//            NavigationDrawerItem(
-//                icon = { Icon(Icons.Default.Settings, contentDescription = null) },
-//                label = { Text(text = stringResource(R.string.settings)) },
-//                selected = false,
-//                onClick = onSettingsClick
-//            )
+
+            NavigationDrawerItem(
+                icon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                label = { Text(text = stringResource(R.string.settings)) },
+                selected = false,
+                onClick = onSettingsClick
+            )
         }
     }
 }

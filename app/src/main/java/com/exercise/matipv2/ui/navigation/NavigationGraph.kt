@@ -1,6 +1,5 @@
 package com.exercise.matipv2.ui.navigation
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
@@ -14,6 +13,7 @@ import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.ui.lists.ListTipListScreen
 import com.exercise.matipv2.ui.lists.ListsScreen
+import com.exercise.matipv2.ui.settings.SettingsScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import org.koin.compose.koinInject
@@ -23,7 +23,6 @@ fun NavigationGraph(
     viewModel: MainScreenViewModel,
     navController: NavHostController,
     uiState: TipCalculatorScreenUiState,
-    snackbarHostState: SnackbarHostState,
     analyticsHelper: AnalyticsHelper = koinInject()
 ) {
     val navBackStackEntry = navController.currentBackStackEntryAsState()
@@ -41,8 +40,7 @@ fun NavigationGraph(
         composable(NavBarItems.TipCalculator.route) {
             TipCalculatorScreen(
                 viewModel = viewModel,
-                uiState = uiState,
-                snackbarHostState = snackbarHostState
+                uiState = uiState
             )
         }
         composable(NavBarItems.Lists.route) {
@@ -51,6 +49,14 @@ fun NavigationGraph(
                 viewModel = viewModel,
                 navigateTo = { list ->
                     navController.navigate("ListTipList/${list.id}")
+                }
+            )
+        }
+        composable("settings") {
+            SettingsScreen(
+                onBackClick = { navController.popBackStack() },
+                onShowMessage = { message ->
+                    viewModel.updateShowSnackBar(true, message)
                 }
             )
         }

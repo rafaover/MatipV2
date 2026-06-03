@@ -37,6 +37,10 @@
     <string name="feedback">Feedback</string>
     <string name="terms_and_conditions">Termos e Condições</string>
     <string name="settings">Configurações</string>
+    <string name="cloud_backup">Backup na Nuvem</string>
+    <string name="restore_backup">Restaurar Backup</string>
+    <string name="last_backup">Último backup: %1$s</string>
+    <string name="no_backup_found">Nenhum backup encontrado</string>
     <string name="firebasewebclientid">379065209364–67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
     <string name="email">Email</string>
     <string name="password">Senha</string>
@@ -45,4 +49,6 @@
     <string name="dont_have_account">Não tem uma conta? Cadastrar</string>
     <string name="forgot_password">Esqueceu a senha?</string>
     <string name="password_reset_sent">Email de redefinição de senha enviado!</string>
+    <string name="backup_success">Backup concluído com sucesso!</string>
+    <string name="restore_success">Dados restaurados com sucesso!</string>
 </resources>
