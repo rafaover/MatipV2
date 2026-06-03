@@ -49,4 +49,6 @@
     <string name="dont_have_account">Não tem uma conta? Cadastrar</string>
     <string name="forgot_password">Esqueceu a senha?</string>
     <string name="password_reset_sent">Email de redefinição de senha enviado!</string>
+    <string name="backup_success">Backup concluído com sucesso!</string>
+    <string name="restore_success">Dados restaurados com sucesso!</string>
 </resources>

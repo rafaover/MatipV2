@@ -9,7 +9,7 @@ data class List(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @ColumnInfo(name = "list_name")
-    val name: String,
+    val name: String = "",
     @ColumnInfo(name = "user_id")
     val userId: String? = null,
     @ColumnInfo(name = "cloud_id")

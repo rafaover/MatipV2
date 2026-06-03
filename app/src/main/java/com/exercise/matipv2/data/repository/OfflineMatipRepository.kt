@@ -144,7 +144,9 @@ class OfflineMatipRepository(
     override fun getLastBackupDate(userId: String): Flow<String?> = callbackFlow {
         val listener = userRef(userId).addSnapshotListener { snapshot, error ->
             if (error != null) {
-                close(error)
+                // Don't close with error to avoid crashing the collector
+                // Just log it or send null
+                trySend(null)
                 return@addSnapshotListener
             }
             val date = snapshot?.getString("last_backup")

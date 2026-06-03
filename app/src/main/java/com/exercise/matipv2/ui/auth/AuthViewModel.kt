@@ -12,6 +12,7 @@ import com.exercise.matipv2.data.repository.MatipRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
@@ -30,6 +31,7 @@ class AuthViewModel(
     val lastBackupDate: StateFlow<String?> = currentUser.flatMapLatest { user ->
         if (user != null) {
             matipRepository.getLastBackupDate(user.id)
+                .catch { emit(null) } // Catch Firestore permission errors and return null
         } else {
             flowOf(null)
         }
@@ -100,24 +102,30 @@ class AuthViewModel(
         }
     }
 
-    fun backupData(onError: (String) -> Unit) {
+    fun backupData(onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             currentUser.value?.id?.let { userId ->
                 isLoading = true
                 matipRepository.backupDataToCloud(userId)
-                    .onSuccess { analyticsHelper.logEvent("cloud_backup_success") }
+                    .onSuccess { 
+                        analyticsHelper.logEvent("cloud_backup_success")
+                        onSuccess()
+                    }
                     .onFailure { onError(it.message ?: "Backup failed") }
                 isLoading = false
             }
         }
     }
 
-    fun restoreData(onError: (String) -> Unit) {
+    fun restoreData(onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             currentUser.value?.id?.let { userId ->
                 isLoading = true
                 matipRepository.restoreDataFromCloud(userId)
-                    .onSuccess { analyticsHelper.logEvent("cloud_restore_success") }
+                    .onSuccess { 
+                        analyticsHelper.logEvent("cloud_restore_success")
+                        onSuccess()
+                    }
                     .onFailure { onError(it.message ?: "Restore failed") }
                 isLoading = false
             }

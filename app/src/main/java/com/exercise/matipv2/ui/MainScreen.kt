@@ -47,6 +47,8 @@ fun MainScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val passwordResetSentMessage = stringResource(R.string.password_reset_sent)
+    val backupSuccessMessage = stringResource(R.string.backup_success)
+    val restoreSuccessMessage = stringResource(R.string.restore_success)
 
     // Close auth dialog when user signs in
     LaunchedEffect(currentUser) {
@@ -88,15 +90,25 @@ fun MainScreen(
                     scope.launch { drawerState.close() }
                 },
                 onBackupClick = {
-                    authViewModel.backupData { error ->
-                        viewModel.updateShowSnackBar(true, error)
-                    }
+                    authViewModel.backupData(
+                        onSuccess = {
+                            viewModel.updateShowSnackBar(true, backupSuccessMessage)
+                        },
+                        onError = { error ->
+                            viewModel.updateShowSnackBar(true, error)
+                        }
+                    )
                     scope.launch { drawerState.close() }
                 },
                 onRestoreClick = {
-                    authViewModel.restoreData { error ->
-                        viewModel.updateShowSnackBar(true, error)
-                    }
+                    authViewModel.restoreData(
+                        onSuccess = {
+                            viewModel.updateShowSnackBar(true, restoreSuccessMessage)
+                        },
+                        onError = { error ->
+                            viewModel.updateShowSnackBar(true, error)
+                        }
+                    )
                     scope.launch { drawerState.close() }
                 },
                 onFeedbackClick = {

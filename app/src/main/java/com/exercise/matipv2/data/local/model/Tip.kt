@@ -14,21 +14,21 @@ data class Tip(
      * is known as FinalTip.
      */
     @ColumnInfo(name = "tip_amount")
-    val tipAmount: String,
+    val tipAmount: String = "",
     @ColumnInfo(name = "tip_percent")
-    val tipPercent: String,
+    val tipPercent: String = "",
 
     /**
      * The [List] id that the [Tip] is associated with.
      */
     @ColumnInfo(name = "list_id")
-    var listId: Int,
+    var listId: Int = 0,
 
     /**
      * The date of the [Tip] creation.
      */
     @ColumnInfo(name = "date_created")
-    val dateCreated: String,
+    val dateCreated: String = "",
 
     /**
      * The user id that the [Tip] belongs to.

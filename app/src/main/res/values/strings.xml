@@ -58,5 +58,7 @@
     <string name="dont_have_account">Don\'t have an account? Register</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="password_reset_sent">Password reset email sent!</string>
+    <string name="backup_success">Backup completed successfully!</string>
+    <string name="restore_success">Data restored successfully!</string>
 
 </resources>

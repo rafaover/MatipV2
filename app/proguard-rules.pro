@@ -26,3 +26,4 @@
 
 # Firebase & Firestore Models
 -keepclassmembers class com.exercise.matipv2.data.local.model.** { *; }
+-keep class com.exercise.matipv2.data.local.model.** { *; }
