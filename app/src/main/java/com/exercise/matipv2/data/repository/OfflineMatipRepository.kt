@@ -89,22 +89,39 @@ class OfflineMatipRepository(
         return try {
             val batch = firestore.batch()
             
-            // Backup Lists
-            val lists = listDao.getAllLists(userId).first()
-            for (list in lists) {
-                // Use a stable string ID for Firestore document
+            // 1. Get current local data state
+            val localLists = listDao.getAllLists(userId).first()
+            val localTips = tipDao.getAllTips(userId).first()
+            
+            val localListIds = localLists.map { it.id.toString() }.toSet()
+            val localTipIds = localTips.map { it.id.toString() }.toSet()
+
+            // 2. Clear removed items from Cloud
+            val cloudLists = userListsRef(userId).get().await()
+            for (doc in cloudLists.documents) {
+                if (doc.id !in localListIds) {
+                    batch.delete(doc.reference)
+                }
+            }
+            
+            val cloudTips = userTipsRef(userId).get().await()
+            for (doc in cloudTips.documents) {
+                if (doc.id !in localTipIds) {
+                    batch.delete(doc.reference)
+                }
+            }
+
+            // 3. Upload/Update current items
+            for (list in localLists) {
                 val docRef = userListsRef(userId).document(list.id.toString())
                 batch.set(docRef, list)
             }
-            
-            // Backup Tips
-            val tips = tipDao.getAllTips(userId).first()
-            for (tip in tips) {
+            for (tip in localTips) {
                 val docRef = userTipsRef(userId).document(tip.id.toString())
                 batch.set(docRef, tip)
             }
             
-            // Update last backup metadata
+            // 4. Update last backup timestamp
             val timestamp = localDateTimeFormated()
             batch.set(userRef(userId), mapOf("last_backup" to timestamp), SetOptions.merge())
             
@@ -117,24 +134,33 @@ class OfflineMatipRepository(
 
     override suspend fun restoreDataFromCloud(userId: String): Result<Unit> {
         return try {
-            // Restore Lists
-            val listsSnapshot = userListsRef(userId).get().await()
-            for (doc in listsSnapshot.documents) {
-                val cloudList = doc.toObject(List::class.java)
-                if (cloudList != null) {
-                    // Insert as new local (ID 0 lets Room autogenerate)
-                    listDao.insertList(cloudList.copy(id = 0)) 
-                }
+            val cloudLists = userListsRef(userId).get().await()
+            val cloudTips = userTipsRef(userId).get().await()
+
+            if (cloudLists.isEmpty && cloudTips.isEmpty) {
+                return Result.failure(Exception("No backup found"))
             }
 
-            // Restore Tips
-            val tipsSnapshot = userTipsRef(userId).get().await()
-            for (doc in tipsSnapshot.documents) {
-                val cloudTip = doc.toObject(Tip::class.java)
-                if (cloudTip != null) {
-                    tipDao.insertTip(cloudTip.copy(id = 0))
+            // 1. Clean current local user state to prevent duplicates/summing
+            tipDao.deleteAllTipsForUser(userId)
+            listDao.deleteAllListsForUser(userId)
+
+            // 2. Insert cloud snapshot
+            for (doc in cloudLists.documents) {
+                val list = doc.toObject(List::class.java)
+                if (list != null) {
+                    // Important: Keep original ID if possible, or reset to 0 for autogen.
+                    // To maintain List-Tip relationship, we should keep original IDs.
+                    listDao.insertList(list) 
                 }
             }
+            for (doc in cloudTips.documents) {
+                val tip = doc.toObject(Tip::class.java)
+                if (tip != null) {
+                    tipDao.insertTip(tip)
+                }
+            }
+            
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -144,8 +170,6 @@ class OfflineMatipRepository(
     override fun getLastBackupDate(userId: String): Flow<String?> = callbackFlow {
         val listener = userRef(userId).addSnapshotListener { snapshot, error ->
             if (error != null) {
-                // Don't close with error to avoid crashing the collector
-                // Just log it or send null
                 trySend(null)
                 return@addSnapshotListener
             }

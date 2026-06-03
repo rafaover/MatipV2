@@ -46,4 +46,7 @@ interface TipDao {
 
     @Query("UPDATE tips SET user_id = :userId WHERE user_id IS NULL")
     suspend fun migrateGuestTips(userId: String)
+
+    @Query("DELETE FROM tips WHERE user_id IS :userId")
+    suspend fun deleteAllTipsForUser(userId: String)
 }

@@ -49,4 +49,7 @@ interface ListDao {
 
     @Query("UPDATE lists SET user_id = :userId WHERE user_id IS NULL")
     suspend fun migrateGuestLists(userId: String)
+
+    @Query("DELETE FROM lists WHERE user_id IS :userId")
+    suspend fun deleteAllListsForUser(userId: String)
 }
