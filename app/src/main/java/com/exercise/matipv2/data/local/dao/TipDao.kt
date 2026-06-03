@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TipDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTip(tip: Tip)
+    suspend fun insertTip(tip: Tip): Long
 
     @Delete
     suspend fun deleteTip(tip: Tip)

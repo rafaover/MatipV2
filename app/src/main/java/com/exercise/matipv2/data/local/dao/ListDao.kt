@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 interface ListDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertList(list: List)
+    suspend fun insertList(list: List): Long
 
     @Delete
     suspend fun deleteList(list: List)
