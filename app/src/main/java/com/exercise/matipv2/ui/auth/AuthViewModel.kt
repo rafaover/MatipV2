@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.repository.AuthRepository
-import com.exercise.matipv2.data.repository.MatipRepository
+import com.exercise.matipv2.data.repository.BackupRepository
+import com.exercise.matipv2.data.repository.LocalRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +22,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val matipRepository: MatipRepository,
+    private val localRepository: LocalRepository,
+    private val backupRepository: BackupRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
@@ -30,8 +32,8 @@ class AuthViewModel(
 
     val lastBackupDate: StateFlow<String?> = currentUser.flatMapLatest { user ->
         if (user != null) {
-            matipRepository.getLastBackupDate(user.id)
-                .catch { emit(null) } // Catch Firestore permission errors and return null
+            backupRepository.getLastBackupDate(user.id)
+                .catch { emit(null) }
         } else {
             flowOf(null)
         }
@@ -52,7 +54,7 @@ class AuthViewModel(
             isLoading = true
             authRepository.signIn(context).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
+                    localRepository.migrateGuestData(userId)
                     analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
@@ -67,7 +69,7 @@ class AuthViewModel(
             isLoading = true
             authRepository.signInWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
+                    localRepository.migrateGuestData(userId)
                     analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
@@ -82,7 +84,7 @@ class AuthViewModel(
             isLoading = true
             authRepository.signUpWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
-                    matipRepository.migrateGuestData(userId)
+                    localRepository.migrateGuestData(userId)
                     analyticsHelper.logEvent("user_signed_up_and_migrated")
                 }
             }.onFailure {
@@ -106,7 +108,7 @@ class AuthViewModel(
         viewModelScope.launch {
             currentUser.value?.id?.let { userId ->
                 isLoading = true
-                matipRepository.backupDataToCloud(userId)
+                backupRepository.backupDataToCloud(userId)
                     .onSuccess { 
                         analyticsHelper.logEvent("cloud_backup_success")
                         onSuccess()
@@ -121,7 +123,7 @@ class AuthViewModel(
         viewModelScope.launch {
             currentUser.value?.id?.let { userId ->
                 isLoading = true
-                matipRepository.restoreDataFromCloud(userId)
+                backupRepository.restoreDataFromCloud(userId)
                     .onSuccess { 
                         analyticsHelper.logEvent("cloud_restore_success")
                         onSuccess()

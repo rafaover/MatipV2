@@ -10,7 +10,7 @@ import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.local.model.List
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.AuthRepository
-import com.exercise.matipv2.data.repository.MatipRepository
+import com.exercise.matipv2.data.repository.LocalRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel (
-    private val matipRepository: MatipRepository,
+    private val localRepository: LocalRepository,
     private val authRepository: AuthRepository,
     private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
@@ -75,7 +75,7 @@ class MainScreenViewModel (
 
     fun updateList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
-            matipRepository.updateList(list)
+            localRepository.updateList(list)
         }
     }
 
@@ -144,7 +144,7 @@ class MainScreenViewModel (
                 dateCreated = uiState.value.dateCreated,
                 userId = currentUserId
             )
-            matipRepository.insertTip(tip)
+            localRepository.insertTip(tip)
             analyticsHelper.logEvent("tip_inserted")
         }
     }
@@ -160,7 +160,7 @@ class MainScreenViewModel (
                 dateCreated = uiState.value.dateCreated,
                 userId = currentUserId
             )
-            matipRepository.insertTip(tip)
+            localRepository.insertTip(tip)
             analyticsHelper.logEvent("tip_added_to_list")
             resetCalculateTipScreen()
         }
@@ -169,7 +169,7 @@ class MainScreenViewModel (
     fun insertList(list: List) {
         viewModelScope.launch(Dispatchers.IO) {
             val listWithUser = list.copy(userId = currentUserId)
-            matipRepository.insertList(listWithUser)
+            localRepository.insertList(listWithUser)
             analyticsHelper.logEvent("list_created")
         }
         updateNewListName("")
@@ -182,14 +182,14 @@ class MainScreenViewModel (
     fun deleteList(list: List?) {
         viewModelScope.launch(Dispatchers.IO) {
             if (list != null) {
-                matipRepository.deleteList(list)
+                localRepository.deleteList(list)
             }
         }
     }
 
     fun deleteTip(tip: Tip) {
         viewModelScope.launch(Dispatchers.IO) {
-            matipRepository.deleteTip(tip)
+            localRepository.deleteTip(tip)
         }
     }
 
@@ -208,15 +208,15 @@ class MainScreenViewModel (
     */
 
     fun getAllLists(): Flow<kotlin.collections.List<List>> {
-        return matipRepository.getAllLists(currentUserId)
+        return localRepository.getAllLists(currentUserId)
     }
 
     fun getListById(listId: Int): Flow<List> {
-        return matipRepository.getListById(listId, currentUserId)
+        return localRepository.getListById(listId, currentUserId)
     }
 
     fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
-        return matipRepository.getAllTipsFromList(eventId, currentUserId)
+        return localRepository.getAllTipsFromList(eventId, currentUserId)
     }
 
 
@@ -243,9 +243,9 @@ class MainScreenViewModel (
         val state = _searchFilterState.value
 
        return if (state.searchQuery.isNotEmpty()) {
-           matipRepository.searchTipsInList(listId, state.searchQuery, currentUserId)
+           localRepository.searchTipsInList(listId, state.searchQuery, currentUserId)
         } else {
-           matipRepository.getAllTipsFromList(listId, currentUserId)
+           localRepository.getAllTipsFromList(listId, currentUserId)
         }
     }
 
@@ -256,9 +256,9 @@ class MainScreenViewModel (
         val state = _searchFilterState.value
 
         return if (state.searchQuery.isNotEmpty()) {
-            matipRepository.searchLists(state.searchQuery, currentUserId)
+            localRepository.searchLists(state.searchQuery, currentUserId)
         } else {
-            matipRepository.getAllLists(currentUserId)
+            localRepository.getAllLists(currentUserId)
         }
     }
 }
