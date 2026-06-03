@@ -11,5 +11,7 @@ data class List(
     @ColumnInfo(name = "list_name")
     val name: String,
     @ColumnInfo(name = "user_id")
-    val userId: String? = null
+    val userId: String? = null,
+    @ColumnInfo(name = "cloud_id")
+    val cloudId: String? = null
 )

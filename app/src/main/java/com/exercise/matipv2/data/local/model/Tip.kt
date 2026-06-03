@@ -34,5 +34,11 @@ data class Tip(
      * The user id that the [Tip] belongs to.
      */
     @ColumnInfo(name = "user_id")
-    val userId: String? = null
+    val userId: String? = null,
+
+    /**
+     * The cloud id that the [Tip] is associated with.
+     */
+    @ColumnInfo(name = "cloud_id")
+    val cloudId: String? = null
 )
