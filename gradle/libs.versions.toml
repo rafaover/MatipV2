@@ -27,6 +27,8 @@ googleid = "1.2.0"
 googleservices = "4.4.4"
 coil = "2.7.0"
 androidGradlePlugin = "9.2.1"
+material3AdaptiveNavigationSuite = "1.4.0"
+secrets = "2.0.1"
 ## Needs to update version with Kotlin
 ksp = "2.3.7"
 
@@ -91,6 +93,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
 
 [plugins]
 android-gradle-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -99,3 +102,4 @@ ksp = { id = 'com.google.devtools.ksp', version.ref = "ksp" }
 roomDb = { id = 'androidx.room', version.ref = "roomdb" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleservices" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }

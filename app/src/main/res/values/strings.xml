@@ -50,7 +50,6 @@
     <string name="restore_backup">Restore Backup</string>
     <string name="last_backup">Last backup: %1$s</string>
     <string name="no_backup_found">No backup found</string>
-    <string name="firebasewebclientid">379065209364-67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="register">Register</string>

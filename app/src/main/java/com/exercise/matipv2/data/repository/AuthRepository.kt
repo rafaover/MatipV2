@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import com.exercise.matipv2.R
+import com.exercise.matipv2.BuildConfig
 import com.exercise.matipv2.data.model.AuthUser
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -51,7 +51,7 @@ class FirebaseAuthRepository(
         return try {
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts = false)
-                .setServerClientId(context.getString(R.string.firebasewebclientid))
+                .setServerClientId(BuildConfig.FIREBASE_WEB_CLIENT_ID)
                 .setAutoSelectEnabled(autoSelectEnabled = true)
                 .build()
 
