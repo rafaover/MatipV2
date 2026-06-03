@@ -14,6 +14,7 @@ Crowdfunding life goals with a little tip
 - [x] Search for specific lists.
 - [x] Search within a specific list to filter tips.
 - [x] Authentication
+- [x] Cloud Backup
 - [ ] List personal projects to be crowdfunded
 - [ ] Link your project to a wallet and receive funds. (Currency/Crypto)
 
@@ -28,6 +29,8 @@ Crowdfunding life goals with a little tip
 - Room for local storage
 - Coil for Image Loading
 - Coroutines
+- Authentication :: Credential Manager + Firebase
+- Cloud Backup :: Firestore
 - JUnit/Mockito for tests
 
 Future Plans:

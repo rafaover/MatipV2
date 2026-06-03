@@ -23,3 +23,6 @@
 # Credential Manager
 -keep class androidx.credentials.playservices.** { *; }
 -keep class com.google.android.libraries.identity.googleid.** { *; }
+
+# Firebase & Firestore Models
+-keepclassmembers class com.exercise.matipv2.data.local.model.** { *; }
