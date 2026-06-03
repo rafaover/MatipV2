@@ -39,6 +39,7 @@ fun MainScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by authViewModel.currentUser.collectAsState()
+    val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
     val userLists by viewModel.getAllLists().collectAsState(initial = emptyList())
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -67,6 +68,7 @@ fun MainScreen(
             MainNavigationDrawerContent(
                 currentUser = currentUser,
                 userLists = userLists,
+                lastBackupDate = lastBackupDate,
                 onSignInGoogle = {
                     authViewModel.signIn(context) { error ->
                         viewModel.updateShowSnackBar(true, error)
@@ -82,14 +84,33 @@ fun MainScreen(
                     scope.launch { drawerState.close() }
                 },
                 onListClick = { list ->
-                    // Navigate to the list
                     navController.navigate("ListTipList/${list.id}")
                     scope.launch { drawerState.close() }
                 },
-//              onSettingsClick = {
-//                    // TODO: Implement settings logic
-//                    scope.launch { drawerState.close() }
-//              }
+                onBackupClick = {
+                    authViewModel.backupData { error ->
+                        viewModel.updateShowSnackBar(true, error)
+                    }
+                    scope.launch { drawerState.close() }
+                },
+                onRestoreClick = {
+                    authViewModel.restoreData { error ->
+                        viewModel.updateShowSnackBar(true, error)
+                    }
+                    scope.launch { drawerState.close() }
+                },
+                onFeedbackClick = {
+                    // TODO: Implement feedback logic
+                    scope.launch { drawerState.close() }
+                },
+                onTermsClick = {
+                    // TODO: Implement T&C logic
+                    scope.launch { drawerState.close() }
+                },
+                onSettingsClick = {
+                    // TODO: Implement settings logic
+                    scope.launch { drawerState.close() }
+                }
             )
         }
     ) {
