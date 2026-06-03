@@ -12,10 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -39,15 +35,10 @@ import com.exercise.matipv2.data.model.AuthUser
 fun MainNavigationDrawerContent(
     currentUser: AuthUser?,
     userLists: kotlin.collections.List<List> = emptyList(),
-    lastBackupDate: String?,
     onSignInGoogle: () -> Unit,
     onSignInEmail: () -> Unit,
     onSignOut: () -> Unit,
     onListClick: (List) -> Unit,
-    onBackupClick: () -> Unit,
-    onRestoreClick: () -> Unit,
-    onFeedbackClick: () -> Unit,
-    onTermsClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
     ModalDrawerSheet {
@@ -100,35 +91,6 @@ fun MainNavigationDrawerContent(
                     onClick = { /* User Profile logic could go here */ }
                 )
 
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
-                // Cloud Backup & Restore
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
-                    label = { Text(text = stringResource(R.string.cloud_backup)) },
-                    selected = false,
-                    onClick = onBackupClick
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.Restore, contentDescription = null) },
-                    label = {
-                        Column {
-                            Text(text = stringResource(R.string.restore_backup))
-                            Text(
-                                text = if (lastBackupDate != null) 
-                                    stringResource(R.string.last_backup, lastBackupDate)
-                                else 
-                                    stringResource(R.string.no_backup_found),
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                    },
-                    selected = false,
-                    onClick = onRestoreClick
-                )
-
-                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-
                 NavigationDrawerItem(
                     icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
                     label = { Text(text = stringResource(R.string.sign_out)) },
@@ -163,19 +125,7 @@ fun MainNavigationDrawerContent(
             }
 
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            
-            NavigationDrawerItem(
-                icon = { Icon(Icons.Default.Feedback, contentDescription = null) },
-                label = { Text(text = stringResource(R.string.feedback)) },
-                selected = false,
-                onClick = onFeedbackClick
-            )
-            NavigationDrawerItem(
-                icon = { Icon(Icons.Default.Description, contentDescription = null) },
-                label = { Text(text = stringResource(R.string.terms_and_conditions)) },
-                selected = false,
-                onClick = onTermsClick
-            )
+
             NavigationDrawerItem(
                 icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                 label = { Text(text = stringResource(R.string.settings)) },

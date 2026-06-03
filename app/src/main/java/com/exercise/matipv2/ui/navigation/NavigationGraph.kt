@@ -14,6 +14,7 @@ import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.ui.lists.ListTipListScreen
 import com.exercise.matipv2.ui.lists.ListsScreen
+import com.exercise.matipv2.ui.settings.SettingsScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import org.koin.compose.koinInject
@@ -51,6 +52,14 @@ fun NavigationGraph(
                 viewModel = viewModel,
                 navigateTo = { list ->
                     navController.navigate("ListTipList/${list.id}")
+                }
+            )
+        }
+        composable("settings") {
+            SettingsScreen(
+                onBackClick = { navController.popBackStack() },
+                onShowMessage = { message ->
+                    viewModel.updateShowSnackBar(true, message)
                 }
             )
         }

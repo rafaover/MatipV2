@@ -39,7 +39,6 @@ fun MainScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by authViewModel.currentUser.collectAsState()
-    val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
     val userLists by viewModel.getAllLists().collectAsState(initial = emptyList())
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -47,8 +46,6 @@ fun MainScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val passwordResetSentMessage = stringResource(R.string.password_reset_sent)
-    val backupSuccessMessage = stringResource(R.string.backup_success)
-    val restoreSuccessMessage = stringResource(R.string.restore_success)
 
     // Close auth dialog when user signs in
     LaunchedEffect(currentUser) {
@@ -70,7 +67,6 @@ fun MainScreen(
             MainNavigationDrawerContent(
                 currentUser = currentUser,
                 userLists = userLists,
-                lastBackupDate = lastBackupDate,
                 onSignInGoogle = {
                     authViewModel.signIn(context) { error ->
                         viewModel.updateShowSnackBar(true, error)
@@ -89,38 +85,8 @@ fun MainScreen(
                     navController.navigate("ListTipList/${list.id}")
                     scope.launch { drawerState.close() }
                 },
-                onBackupClick = {
-                    authViewModel.backupData(
-                        onSuccess = {
-                            viewModel.updateShowSnackBar(true, backupSuccessMessage)
-                        },
-                        onError = { error ->
-                            viewModel.updateShowSnackBar(true, error)
-                        }
-                    )
-                    scope.launch { drawerState.close() }
-                },
-                onRestoreClick = {
-                    authViewModel.restoreData(
-                        onSuccess = {
-                            viewModel.updateShowSnackBar(true, restoreSuccessMessage)
-                        },
-                        onError = { error ->
-                            viewModel.updateShowSnackBar(true, error)
-                        }
-                    )
-                    scope.launch { drawerState.close() }
-                },
-                onFeedbackClick = {
-                    // TODO: Implement feedback logic
-                    scope.launch { drawerState.close() }
-                },
-                onTermsClick = {
-                    // TODO: Implement T&C logic
-                    scope.launch { drawerState.close() }
-                },
                 onSettingsClick = {
-                    // TODO: Implement settings logic
+                    navController.navigate("settings")
                     scope.launch { drawerState.close() }
                 }
             )
