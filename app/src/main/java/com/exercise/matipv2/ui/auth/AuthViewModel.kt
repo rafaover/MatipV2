@@ -42,11 +42,18 @@ class AuthViewModel(
     var showAuthDialog by mutableStateOf(value = false)
         private set
 
+    var showDeleteAccountDialog by mutableStateOf(value = false)
+        private set
+
     var isLoading by mutableStateOf(value = false)
         private set
 
     fun updateShowAuthDialog(show: Boolean) {
         showAuthDialog = show
+    }
+
+    fun updateShowDeleteAccountDialog(show: Boolean) {
+        showDeleteAccountDialog = show
     }
 
     fun signIn(context: Context, onError: (String) -> Unit) {
@@ -129,6 +136,25 @@ class AuthViewModel(
                         onSuccess()
                     }
                     .onFailure { onError(it.message ?: "Restore failed") }
+                isLoading = false
+            }
+        }
+    }
+
+    fun deleteAccount(onSuccess: () -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            currentUser.value?.id?.let { userId ->
+                isLoading = true
+                // 1. Delete Cloud Data
+                backupRepository.deleteCloudData(userId).onSuccess {
+                    // 2. Delete Local Data
+                    localRepository.deleteAllUserData(userId)
+                    // 3. Delete Firebase Account
+                    authRepository.deleteAccount().onSuccess {
+                        analyticsHelper.logEvent("account_deleted")
+                        onSuccess()
+                    }.onFailure { onError(it.message ?: "Failed to delete account") }
+                }.onFailure { onError(it.message ?: "Failed to delete cloud data") }
                 isLoading = false
             }
         }

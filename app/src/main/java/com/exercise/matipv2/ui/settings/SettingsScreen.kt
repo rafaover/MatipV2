@@ -9,7 +9,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CloudUpload
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -26,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.exercise.matipv2.R
+import com.exercise.matipv2.components.common.ConfirmationAlertDialog
 import com.exercise.matipv2.ui.auth.AuthViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -40,6 +43,27 @@ fun SettingsScreen(
     val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
     val backupSuccessMessage = stringResource(R.string.backup_success)
     val restoreSuccessMessage = stringResource(R.string.restore_success)
+    val accountDeletedMessage = stringResource(R.string.account_deleted)
+
+    if (authViewModel.showDeleteAccountDialog) {
+        ConfirmationAlertDialog(
+            title = stringResource(R.string.delete_account_confirm_title),
+            message = stringResource(R.string.delete_account_confirm_message),
+            icon = Icons.Default.Warning,
+            confirmButtonText = stringResource(R.string.delete),
+            onConfirm = {
+                authViewModel.deleteAccount(
+                    onSuccess = {
+                        onShowMessage(accountDeletedMessage)
+                        authViewModel.updateShowDeleteAccountDialog(false)
+                        onBackClick()
+                    },
+                    onError = { onShowMessage(it) }
+                )
+            },
+            onDismiss = { authViewModel.updateShowDeleteAccountDialog(false) }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -98,26 +122,26 @@ fun SettingsScreen(
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            }
 
-//            Text(
-//                text = "Support & Legal",
-//                style = MaterialTheme.typography.labelLarge,
-//                color = MaterialTheme.colorScheme.primary,
-//                modifier = Modifier.padding(16.dp)
-//            )
-//
-//            ListItem(
-//                headlineContent = { Text(stringResource(R.string.feedback)) },
-//                leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
-//                modifier = Modifier.clickable { /* TODO */ }
-//            )
-//
-//            ListItem(
-//                headlineContent = { Text(stringResource(R.string.terms_and_conditions)) },
-//                leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
-//                modifier = Modifier.clickable { /* TODO */ }
-//            )
+                ListItem(
+                    headlineContent = { 
+                        Text(
+                            text = stringResource(R.string.delete_account),
+                            color = MaterialTheme.colorScheme.error
+                        ) 
+                    },
+                    leadingContent = { 
+                        Icon(
+                            imageVector = Icons.Default.DeleteForever, 
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error
+                        ) 
+                    },
+                    modifier = Modifier.clickable {
+                        authViewModel.updateShowDeleteAccountDialog(true)
+                    }
+                )
+            }
         }
     }
 }

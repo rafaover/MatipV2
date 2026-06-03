@@ -21,6 +21,7 @@ interface AuthRepository {
     suspend fun signInWithEmail(email: String, password: String): Result<Unit>
     suspend fun signUpWithEmail(email: String, password: String): Result<Unit>
     suspend fun sendPasswordResetEmail(email: String): Result<Unit>
+    suspend fun deleteAccount(): Result<Unit>
     suspend fun signOut()
 }
 
@@ -96,6 +97,15 @@ class FirebaseAuthRepository(
     override suspend fun sendPasswordResetEmail(email: String): Result<Unit> {
         return try {
             auth.sendPasswordResetEmail(email).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteAccount(): Result<Unit> {
+        return try {
+            auth.currentUser?.delete()?.await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

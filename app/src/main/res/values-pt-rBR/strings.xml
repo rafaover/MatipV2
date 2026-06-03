@@ -50,4 +50,8 @@
     <string name="password_reset_sent">Email de redefinição de senha enviado!</string>
     <string name="backup_success">Backup concluído com sucesso!</string>
     <string name="restore_success">Dados restaurados com sucesso!</string>
+    <string name="delete_account">Excluir Conta</string>
+    <string name="delete_account_confirm_title">Excluir sua conta?</string>
+    <string name="delete_account_confirm_message">Isso excluirá permanentemente sua conta, seu backup na nuvem e todos os dados neste dispositivo. Esta ação não pode ser desfeita.</string>
+    <string name="account_deleted">Conta excluída com sucesso.</string>
 </resources>
