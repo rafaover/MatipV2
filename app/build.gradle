@@ -7,6 +7,13 @@ plugins {
     alias(libs.plugins.secrets)
 }
 
+// Load local.properties for signing config
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
 kotlin {
     compilerOptions {
         languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
@@ -32,12 +39,21 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file(localProperties.getProperty("RELEASE_STORE_FILE") ?: "debug.keystore")
+            storePassword localProperties.getProperty("RELEASE_STORE_PASSWORD") ?: ""
+            keyAlias localProperties.getProperty("RELEASE_KEY_ALIAS") ?: ""
+            keyPassword localProperties.getProperty("RELEASE_KEY_PASSWORD") ?: ""
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
