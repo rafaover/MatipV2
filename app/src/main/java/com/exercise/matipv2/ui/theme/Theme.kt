@@ -100,7 +100,7 @@ fun MaTIPv2Theme(
             val window = (view.context as Activity).window
             WindowCompat.setDecorFitsSystemWindows(window, false)
             val windowsInsetsController = WindowCompat.getInsetsController(window, view)
-            windowsInsetsController?.isAppearanceLightStatusBars = darkTheme
+            windowsInsetsController?.isAppearanceLightStatusBars = !darkTheme
         }
     }
 

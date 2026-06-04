@@ -26,6 +26,7 @@ interface LocalRepository {
     fun searchLists(query: String, userId: String?): Flow<kotlin.collections.List<List>>
 
     suspend fun migrateGuestData(userId: String)
+    suspend fun deleteAllUserData(userId: String)
 }
 
 class OfflineLocalRepository(
@@ -52,5 +53,10 @@ class OfflineLocalRepository(
     override suspend fun migrateGuestData(userId: String) {
         listDao.migrateGuestLists(userId)
         tipDao.migrateGuestTips(userId)
+    }
+
+    override suspend fun deleteAllUserData(userId: String) {
+        tipDao.deleteAllTipsForUser(userId)
+        listDao.deleteAllListsForUser(userId)
     }
 }

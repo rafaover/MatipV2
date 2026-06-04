@@ -35,13 +35,12 @@
     <string name="sign_in_email">Entrar com Email</string>
     <string name="sign_out">Sair</string>
     <string name="feedback">Feedback</string>
-    <string name="terms_and_conditions">Termos e Condições</string>
+    <string name="privacy_policy">Política de Privacidade</string>
     <string name="settings">Configurações</string>
     <string name="cloud_backup">Backup na Nuvem</string>
     <string name="restore_backup">Restaurar Backup</string>
     <string name="last_backup">Último backup: %1$s</string>
     <string name="no_backup_found">Nenhum backup encontrado</string>
-    <string name="firebasewebclientid">379065209364–67sv4697kd51mmtq3kousp4b3ru23fsl.apps.googleusercontent.com</string>
     <string name="email">Email</string>
     <string name="password">Senha</string>
     <string name="register">Cadastrar</string>
@@ -51,4 +50,10 @@
     <string name="password_reset_sent">Email de redefinição de senha enviado!</string>
     <string name="backup_success">Backup concluído com sucesso!</string>
     <string name="restore_success">Dados restaurados com sucesso!</string>
+    <string name="delete_account">Excluir Conta</string>
+    <string name="delete_account_confirm_title">Excluir sua conta?</string>
+    <string name="delete_account_confirm_message">Isso excluirá permanentemente sua conta, seu backup na nuvem e todos os dados neste dispositivo. Esta ação não pode ser desfeita.</string>
+    <string name="account_deleted">Conta excluída com sucesso.</string>
+    <string name="support_legal">Suporte</string>
+    <string name="review_app">Avaliar Aplicativo</string>
 </resources>

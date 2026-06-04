@@ -16,6 +16,7 @@ import kotlinx.coroutines.tasks.await
 interface BackupRepository {
     suspend fun backupDataToCloud(userId: String): Result<Unit>
     suspend fun restoreDataFromCloud(userId: String): Result<Unit>
+    suspend fun deleteCloudData(userId: String): Result<Unit>
     fun getLastBackupDate(userId: String): Flow<String?>
 }
 
@@ -103,6 +104,27 @@ class FirestoreBackupRepository(
                 }
             }
             
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteCloudData(userId: String): Result<Unit> {
+        return try {
+            val batch = firestore.batch()
+            
+            // Delete sub-collections
+            val lists = userListsRef(userId).get().await()
+            for (doc in lists.documents) batch.delete(doc.reference)
+            
+            val tips = userTipsRef(userId).get().await()
+            for (doc in tips.documents) batch.delete(doc.reference)
+            
+            // Delete user document
+            batch.delete(userRef(userId))
+            
+            batch.commit().await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

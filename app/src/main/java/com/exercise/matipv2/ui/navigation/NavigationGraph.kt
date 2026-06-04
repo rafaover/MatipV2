@@ -1,5 +1,14 @@
 package com.exercise.matipv2.ui.navigation
 
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
@@ -35,7 +44,21 @@ fun NavigationGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavBarItems.TipCalculator.route
+        startDestination = NavBarItems.TipCalculator.route,
+        enterTransition = {
+            fadeIn(animationSpec = tween(300, easing = LinearEasing)) + 
+                    scaleIn(initialScale = 0.92f, animationSpec = tween(300, easing = EaseOut))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(150, easing = LinearEasing))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(300, easing = LinearEasing)) + 
+                    scaleIn(initialScale = 0.92f, animationSpec = tween(300, easing = EaseOut))
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(150, easing = LinearEasing))
+        }
     ) {
         composable(NavBarItems.TipCalculator.route) {
             TipCalculatorScreen(
@@ -52,7 +75,21 @@ fun NavigationGraph(
                 }
             )
         }
-        composable("settings") {
+        composable(
+            route = "settings",
+            enterTransition = {
+                slideInHorizontally(
+                    initialOffsetX = { it }, 
+                    animationSpec = tween(300, easing = EaseOut)
+                ) + fadeIn(animationSpec = tween(300))
+            },
+            popExitTransition = {
+                slideOutHorizontally(
+                    targetOffsetX = { it }, 
+                    animationSpec = tween(300, easing = EaseIn)
+                ) + fadeOut(animationSpec = tween(300))
+            }
+        ) {
             SettingsScreen(
                 onBackClick = { navController.popBackStack() },
                 onShowMessage = { message ->

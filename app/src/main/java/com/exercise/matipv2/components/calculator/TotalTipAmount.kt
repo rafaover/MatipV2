@@ -1,5 +1,11 @@
 package com.exercise.matipv2.components.calculator
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,11 +38,29 @@ fun TotalTipAmount(finalTip: String) {
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
         )
-        Text(
-            modifier = Modifier.testTag("TipAmount"),
-            text = finalTip,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.titleLarge,
-        )
+        
+        AnimatedContent(
+            targetState = finalTip,
+            transitionSpec = {
+                if (targetState > initialState) {
+                    (slideInVertically { height -> height } + fadeIn()) togetherWith
+                            (slideOutVertically { height -> -height } + fadeOut())
+                } else {
+                    (slideInVertically { height -> -height } + fadeIn()) togetherWith
+                            (slideOutVertically { height -> height } + fadeOut())
+                }.using(
+                    // Disable clipping since the letters may bounce outside the bounds of the container
+                    androidx.compose.animation.SizeTransform(clip = false)
+                )
+            },
+            label = "TipAmountAnimation"
+        ) { targetTip ->
+            Text(
+                modifier = Modifier.testTag("TipAmount"),
+                text = targetTip,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
     }
 }
