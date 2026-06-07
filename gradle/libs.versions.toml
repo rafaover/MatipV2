@@ -28,7 +28,7 @@ googleservices = "4.4.4"
 coil = "2.7.0"
 androidGradlePlugin = "9.2.1"
 ## Needs to update version with Kotlin
-ksp = "2.3.7"
+ksp = "2.3.9"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
