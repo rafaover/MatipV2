@@ -26,7 +26,7 @@ credentials = "1.6.0"
 googleid = "1.2.0"
 googleservices = "4.5.0"
 coil = "2.7.0"
-androidGradlePlugin = "9.2.1"
+androidGradlePlugin = "9.4.1"
 ## Needs to update version with Kotlin
 ksp = "2.3.7"
 
