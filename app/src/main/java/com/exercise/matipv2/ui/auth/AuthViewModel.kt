@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.BackupRepository
 import com.exercise.matipv2.data.repository.LocalRepository
@@ -24,7 +23,6 @@ class AuthViewModel(
     private val authRepository: AuthRepository,
     private val localRepository: LocalRepository,
     private val backupRepository: BackupRepository,
-    private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
     val currentUser = authRepository.currentUser
@@ -62,7 +60,6 @@ class AuthViewModel(
             authRepository.signIn(context).onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
                 onError(it.message ?: "Auth Error") 
@@ -77,7 +74,6 @@ class AuthViewModel(
             authRepository.signInWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("user_signed_in_and_migrated")
                 }
             }.onFailure { 
                 onError(it.message ?: "Auth Error") 
@@ -92,7 +88,6 @@ class AuthViewModel(
             authRepository.signUpWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
-                    analyticsHelper.logEvent("user_signed_up_and_migrated")
                 }
             }.onFailure {
                 onError(it.message ?: "Auth Error") 
@@ -116,10 +111,7 @@ class AuthViewModel(
             currentUser.value?.id?.let { userId ->
                 isLoading = true
                 backupRepository.backupDataToCloud(userId)
-                    .onSuccess { 
-                        analyticsHelper.logEvent("cloud_backup_success")
-                        onSuccess()
-                    }
+                    .onSuccess { onSuccess() }
                     .onFailure { onError(it.message ?: "Backup failed") }
                 isLoading = false
             }
@@ -131,10 +123,7 @@ class AuthViewModel(
             currentUser.value?.id?.let { userId ->
                 isLoading = true
                 backupRepository.restoreDataFromCloud(userId)
-                    .onSuccess { 
-                        analyticsHelper.logEvent("cloud_restore_success")
-                        onSuccess()
-                    }
+                    .onSuccess { onSuccess() }
                     .onFailure { onError(it.message ?: "Restore failed") }
                 isLoading = false
             }
@@ -151,7 +140,6 @@ class AuthViewModel(
                     localRepository.deleteAllUserData(userId)
                     // 3. Delete Firebase Account
                     authRepository.deleteAccount().onSuccess {
-                        analyticsHelper.logEvent("account_deleted")
                         onSuccess()
                     }.onFailure { onError(it.message ?: "Failed to delete account") }
                 }.onFailure { onError(it.message ?: "Failed to delete cloud data") }
@@ -163,7 +151,6 @@ class AuthViewModel(
     fun signOut() {
         viewModelScope.launch {
             authRepository.signOut()
-            analyticsHelper.logEvent("user_signed_out")
         }
     }
 }

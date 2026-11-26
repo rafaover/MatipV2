@@ -10,38 +10,25 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
-import com.exercise.matipv2.data.analytics.AnalyticsHelper
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.ui.lists.ListTipListScreen
 import com.exercise.matipv2.ui.lists.ListsScreen
 import com.exercise.matipv2.ui.settings.SettingsScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
-import org.koin.compose.koinInject
 
 @Composable
 fun NavigationGraph(
     viewModel: MainScreenViewModel,
     navController: NavHostController,
-    uiState: TipCalculatorScreenUiState,
-    analyticsHelper: AnalyticsHelper = koinInject()
+    uiState: TipCalculatorScreenUiState
 ) {
-    val navBackStackEntry = navController.currentBackStackEntryAsState()
-
-    LaunchedEffect(navBackStackEntry.value) {
-        navBackStackEntry.value?.destination?.route?.let { route ->
-            analyticsHelper.logScreenView(screenName = route)
-        }
-    }
-
     NavHost(
         navController = navController,
         startDestination = NavBarItems.TipCalculator.route,

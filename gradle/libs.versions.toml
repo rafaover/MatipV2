@@ -87,7 +87,6 @@ core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxV
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
 
 #Credentials
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }

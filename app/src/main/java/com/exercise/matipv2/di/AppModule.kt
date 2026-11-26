@@ -1,7 +1,5 @@
 package com.exercise.matipv2.di
 
-import com.exercise.matipv2.data.analytics.AnalyticsHelper
-import com.exercise.matipv2.data.analytics.FirebaseAnalyticsHelper
 import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.BackupRepository
 import com.exercise.matipv2.data.repository.FirebaseAuthRepository
@@ -21,7 +19,6 @@ val appModule = module {
     singleOf(::OfflineLocalRepository) { bind<LocalRepository>() }
     singleOf(::FirestoreBackupRepository) { bind<BackupRepository>() }
     single<AuthRepository> { FirebaseAuthRepository(androidContext()) }
-    single<AnalyticsHelper> { FirebaseAnalyticsHelper(androidContext()) }
     single { FirebaseFirestore.getInstance() }
     viewModelOf(::MainScreenViewModel)
     viewModelOf(::AuthViewModel)
