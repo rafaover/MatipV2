@@ -1,15 +1,13 @@
 package com.exercise.matipv2.ui.navigation
 
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,28 +21,36 @@ import com.exercise.matipv2.ui.settings.SettingsScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreen
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 
+/** Tabs start slightly smaller than their final size, so they grow into place. */
+private const val TAB_ENTER_INITIAL_SCALE = 0.92f
+
 @Composable
 fun NavigationGraph(
     viewModel: MainScreenViewModel,
     navController: NavHostController,
     uiState: TipCalculatorScreenUiState
 ) {
+    val motionScheme = MaterialTheme.motionScheme
+    val fadeSpec = motionScheme.defaultEffectsSpec<Float>()
+    val scaleSpec = motionScheme.defaultSpatialSpec<Float>()
+    val slideSpec = motionScheme.defaultSpatialSpec<IntOffset>()
+
     NavHost(
         navController = navController,
         startDestination = NavBarItems.TipCalculator.route,
         enterTransition = {
-            fadeIn(animationSpec = tween(300, easing = LinearEasing)) + 
-                    scaleIn(initialScale = 0.92f, animationSpec = tween(300, easing = EaseOut))
+            fadeIn(animationSpec = fadeSpec) +
+                    scaleIn(initialScale = TAB_ENTER_INITIAL_SCALE, animationSpec = scaleSpec)
         },
         exitTransition = {
-            fadeOut(animationSpec = tween(150, easing = LinearEasing))
+            fadeOut(animationSpec = fadeSpec)
         },
         popEnterTransition = {
-            fadeIn(animationSpec = tween(300, easing = LinearEasing)) + 
-                    scaleIn(initialScale = 0.92f, animationSpec = tween(300, easing = EaseOut))
+            fadeIn(animationSpec = fadeSpec) +
+                    scaleIn(initialScale = TAB_ENTER_INITIAL_SCALE, animationSpec = scaleSpec)
         },
         popExitTransition = {
-            fadeOut(animationSpec = tween(150, easing = LinearEasing))
+            fadeOut(animationSpec = fadeSpec)
         }
     ) {
         composable(NavBarItems.TipCalculator.route) {
@@ -66,15 +72,15 @@ fun NavigationGraph(
             route = "settings",
             enterTransition = {
                 slideInHorizontally(
-                    initialOffsetX = { it }, 
-                    animationSpec = tween(300, easing = EaseOut)
-                ) + fadeIn(animationSpec = tween(300))
+                    initialOffsetX = { it },
+                    animationSpec = slideSpec
+                ) + fadeIn(animationSpec = fadeSpec)
             },
             popExitTransition = {
                 slideOutHorizontally(
-                    targetOffsetX = { it }, 
-                    animationSpec = tween(300, easing = EaseIn)
-                ) + fadeOut(animationSpec = tween(300))
+                    targetOffsetX = { it },
+                    animationSpec = slideSpec
+                ) + fadeOut(animationSpec = fadeSpec)
             }
         ) {
             SettingsScreen(

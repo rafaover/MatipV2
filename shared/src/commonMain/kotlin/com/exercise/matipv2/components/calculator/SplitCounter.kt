@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,8 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.exercise.matipv2.generated.resources.Res
 import com.exercise.matipv2.generated.resources.bill_split_description
+import com.exercise.matipv2.generated.resources.decrease_split_description
+import com.exercise.matipv2.generated.resources.increase_split_description
 import com.exercise.matipv2.generated.resources.split
+import androidx.compose.ui.unit.IntOffset
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SplitCounter(
     splitUiState: Int,
@@ -36,6 +40,9 @@ fun SplitCounter(
     onclickNegative: () -> Unit
 ) {
     val billSplitDescription = stringResource(Res.string.bill_split_description)
+    val decreaseDescription = stringResource(Res.string.decrease_split_description)
+    val increaseDescription = stringResource(Res.string.increase_split_description)
+    val motionScheme = MaterialTheme.motionScheme
     Row(
         modifier = Modifier
             .semantics { contentDescription = billSplitDescription }
@@ -52,16 +59,17 @@ fun SplitCounter(
         Spacer(modifier = Modifier.padding(20.dp))
         Button(
             onClick = onclickNegative,
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors()
+            modifier = Modifier.semantics { contentDescription = decreaseDescription },
+            shapes = ButtonDefaults.shapes()
         ) { Text(text = "-") }
         AnimatedContent(
             targetState = splitUiState,
             transitionSpec = {
+                val slideSpec = motionScheme.defaultSpatialSpec<IntOffset>()
                 if (targetState > initialState) {
-                    slideInVertically { -it } togetherWith slideOutVertically { it }
+                    slideInVertically(slideSpec) { -it } togetherWith slideOutVertically(slideSpec) { it }
                 } else {
-                    slideInVertically { it } togetherWith slideOutVertically { -it }
+                    slideInVertically(slideSpec) { it } togetherWith slideOutVertically(slideSpec) { -it }
                 }
             }, label = "Animated Counter"
         ) { count ->
@@ -74,8 +82,8 @@ fun SplitCounter(
         }
         Button(
             onClick = onclickPositive,
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors()
+            modifier = Modifier.semantics { contentDescription = increaseDescription },
+            shapes = ButtonDefaults.shapes()
         ) { Text(text = "+") }
     }
 }

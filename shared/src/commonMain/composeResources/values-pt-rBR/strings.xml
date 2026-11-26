@@ -74,6 +74,8 @@
     <string name="round_tip_switch_description">Chave para Arredondar a Gorjeta</string>
     <string name="search_icon_description">Ícone de Busca</string>
     <string name="clear_search_description">Limpar Busca</string>
+    <string name="increase_split_description">Aumentar divisão</string>
+    <string name="decrease_split_description">Diminuir divisão</string>
     <plurals name="lists_screen_description">
         <item quantity="one">Tela de Listas. %1$d lista</item>
         <item quantity="other">Tela de Listas. %1$d listas</item>
