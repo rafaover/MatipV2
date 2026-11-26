@@ -12,8 +12,3 @@ val iosPlatformModule = module {
     single<PlatformActions> { IosPlatformActions() }
     single<GoogleIdTokenProvider> { IosGoogleIdTokenProvider() }
 }
-
-/** Called from Swift when the app starts. */
-fun startKoinForIos() {
-    initKoin(iosPlatformModule)
-}
