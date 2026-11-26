@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
 import org.jetbrains.compose.resources.pluralStringResource
@@ -15,8 +16,8 @@ fun AllTipsFromListCounter(
     viewModel: MainScreenViewModel,
     list: TipList
 ) {
-    val tipsFromList by viewModel
-        .getAllTipsFromList(list.id).collectAsStateWithLifecycle(initialValue = emptyList())
+    val tipsFlow = remember(list.id) { viewModel.getAllTipsFromList(list.id) }
+    val tipsFromList by tipsFlow.collectAsStateWithLifecycle(initialValue = emptyList())
 
     Text(pluralStringResource(Res.plurals.tips_count, tipsFromList.size, tipsFromList.size))
 }

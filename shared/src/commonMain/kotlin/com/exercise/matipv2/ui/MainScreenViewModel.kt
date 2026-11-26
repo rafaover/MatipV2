@@ -221,10 +221,6 @@ class MainScreenViewModel (
     */
 
 
-    fun getListById(listId: Int): Flow<TipList> {
-        return localRepository.getListById(listId, currentUserId)
-    }
-
     fun getAllTipsFromList(eventId: Int): Flow<List<Tip>> {
         return localRepository.getAllTipsFromList(eventId, currentUserId)
     }

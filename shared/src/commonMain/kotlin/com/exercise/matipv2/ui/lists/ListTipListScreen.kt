@@ -71,9 +71,8 @@ fun ListTipListScreen(
     listId: Int,
     onBackClick: () -> Unit,
 ) {
-    val list = viewModel
-        .getListById(listId)
-        .collectAsStateWithLifecycle(null)
+    val userLists by viewModel.userLists.collectAsStateWithLifecycle()
+    val list = userLists.firstOrNull { it.id == listId }
 
     val searchState by viewModel.searchFilterState.collectAsStateWithLifecycle()
     val listTipListState = remember(searchState.searchQuery) {
@@ -90,7 +89,7 @@ fun ListTipListScreen(
                     containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
                 ),
                 title = {
-                    list.value?.let {
+                    list?.let {
                         Text(text = it.name)
                     }
                 },
@@ -154,8 +153,10 @@ fun ListTipListScreen(
                         modifier = Modifier
                             .size(24.dp)
                             .clickable {
+                                // The list is always loaded by now, but never crash on a missing one.
+                                val listToShare = list ?: return@clickable
                                 platformActions.shareText(
-                                    title = list.value?.name!!,
+                                    title = listToShare.name,
                                     content = tipListToString(listTipListState.value)
                                 )
                             },
