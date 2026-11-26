@@ -1,0 +1,9 @@
+// Your Apple developer team, needed to run on a real device or to archive. The simulator does not need it.
+TEAM_ID=
+
+PRODUCT_NAME=MaTip
+PRODUCT_BUNDLE_IDENTIFIER=com.exercise.matipv2
+
+// Keep both in step with versionCode and versionName in androidApp/build.gradle.kts.
+CURRENT_PROJECT_VERSION=25
+MARKETING_VERSION=1.4.1
