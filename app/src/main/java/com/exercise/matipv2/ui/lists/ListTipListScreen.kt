@@ -44,10 +44,11 @@ import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
 import com.exercise.matipv2.components.common.SearchBarComponent
-import com.exercise.matipv2.components.common.shareTextWithApps
+import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.components.lists.AddTipValueToListDialog
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.util.tipListToString
+import org.koin.compose.koinInject
 import kotlinx.coroutines.launch
 
 /**
@@ -76,7 +77,7 @@ fun ListTipListScreen(
         viewModel.updateFilteredTipsList(listId)
     }.collectAsState(initial = emptyList())
 
-    /** Share the list of tips using [shareTextWithApps] */
+    val platformActions: PlatformActions = koinInject()
     val context = LocalContext.current
 
     Dialog(
@@ -153,16 +154,15 @@ fun ListTipListScreen(
                         )
 
                         /**
-                         * Button to [shareTextWithApps]. Sharing list of Tips from List
+                         * Button to [PlatformActions.shareText]. Sharing list of Tips from List
                          */
                         Icon(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-                                    shareTextWithApps(
+                                    platformActions.shareText(
                                         title = list.value?.name!!,
-                                        content = tipListToString(listTipListState.value),
-                                        context = context
+                                        content = tipListToString(listTipListState.value)
                                     )
                                 },
                             imageVector = Icons.Default.Share,
