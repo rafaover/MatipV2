@@ -1,7 +1,5 @@
 package com.exercise.matipv2.util
 
-import java.text.NumberFormat
-
 fun calculateTip(
     amount: String,
     tipPercent: String,
@@ -14,5 +12,5 @@ fun calculateTip(
 
     if(roundUp)
         tip = kotlin.math.ceil(tip)
-    return NumberFormat.getCurrencyInstance().format(tip)
+    return formatCurrency(tip)
 }

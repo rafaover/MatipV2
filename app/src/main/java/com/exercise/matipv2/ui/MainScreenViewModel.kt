@@ -12,7 +12,8 @@ import com.exercise.matipv2.data.repository.LocalRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
-import com.exercise.matipv2.util.convertTipAmountToCurrency
+import com.exercise.matipv2.util.formatCurrency
+import com.exercise.matipv2.util.stringAmountToDouble
 import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -146,7 +147,7 @@ class MainScreenViewModel (
     }
 
     fun insertTipValueToList(listId: Int) {
-        val tipAmountConverted = convertTipAmountToCurrency(uiState.value.tipAmount)
+        val tipAmountConverted = formatCurrency(stringAmountToDouble(uiState.value.tipAmount))
 
         viewModelScope.launch(Dispatchers.IO) {
             val tip = Tip(
