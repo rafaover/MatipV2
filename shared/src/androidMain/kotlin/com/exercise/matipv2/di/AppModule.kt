@@ -8,7 +8,8 @@ import com.exercise.matipv2.data.repository.LocalRepository
 import com.exercise.matipv2.data.repository.OfflineLocalRepository
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.ui.auth.AuthViewModel
-import com.google.firebase.firestore.FirebaseFirestore
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.firestore.firestore
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -18,7 +19,7 @@ val appModule = module {
     singleOf(::OfflineLocalRepository) { bind<LocalRepository>() }
     singleOf(::FirestoreBackupRepository) { bind<BackupRepository>() }
     single<AuthRepository> { FirebaseAuthRepository(get()) }
-    single { FirebaseFirestore.getInstance() }
+    single { Firebase.firestore }
     viewModelOf(::MainScreenViewModel)
     viewModelOf(::AuthViewModel)
 }
