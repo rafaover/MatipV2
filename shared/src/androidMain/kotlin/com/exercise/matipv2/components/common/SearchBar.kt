@@ -1,10 +1,9 @@
 package com.exercise.matipv2.components.common
 
+import com.exercise.matipv2.generated.resources.ic_clear
+import com.exercise.matipv2.generated.resources.ic_search
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -33,7 +32,7 @@ fun SearchBarComponent(
         placeholder = { Text(placeholder) },
         leadingIcon = {
             Icon(
-                imageVector = Icons.Default.Search,
+                painter = painterResource(Res.drawable.ic_search),
                 contentDescription = stringResource(Res.string.search_icon_description)
             )
         },
@@ -42,7 +41,7 @@ fun SearchBarComponent(
                 if (searchQuery.isNotEmpty()) {
                     IconButton(onClick = onClearSearch) {
                         Icon(
-                            imageVector = Icons.Default.Clear,
+                            painter = painterResource(Res.drawable.ic_clear),
                             contentDescription = stringResource(Res.string.clear_search_description)
                         )
                     }

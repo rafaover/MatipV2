@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -123,9 +124,11 @@ fun MainScreen(
                         },
                         icon = {
                             Icon(
-                                imageVector = if (currentDestination?.hierarchy?.any { it.route == item.route } == true) {
-                                    item.selectedIcon
-                                } else item.unselectedIcon,
+                                painter = painterResource(
+                                    if (currentDestination?.hierarchy?.any { it.route == item.route } == true) {
+                                        item.selectedIcon
+                                    } else item.unselectedIcon
+                                ),
                                 contentDescription = null
                             )
                         },

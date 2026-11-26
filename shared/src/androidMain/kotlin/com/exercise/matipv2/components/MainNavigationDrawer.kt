@@ -1,5 +1,11 @@
 package com.exercise.matipv2.components
 
+import com.exercise.matipv2.generated.resources.ic_account_circle
+import com.exercise.matipv2.generated.resources.ic_list
+import com.exercise.matipv2.generated.resources.ic_logout
+import com.exercise.matipv2.generated.resources.ic_settings
+import com.exercise.matipv2.generated.resources.ic_star
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,12 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -59,13 +59,13 @@ fun MainNavigationDrawerContent(
             Spacer(Modifier.height(12.dp))
             if (currentUser == null) {
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.AccountCircle, contentDescription = null) },
+                    icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
                     label = { Text(text = stringResource(Res.string.sign_in_google)) },
                     selected = false,
                     onClick = onSignInGoogle
                 )
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.Default.AccountCircle, contentDescription = null) },
+                    icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
                     label = { Text(text = stringResource(Res.string.sign_in_email)) },
                     selected = false,
                     onClick = onSignInEmail
@@ -83,7 +83,7 @@ fun MainNavigationDrawerContent(
                                 contentScale = ContentScale.Crop
                             )
                         } else {
-                            Icon(Icons.Default.AccountCircle, contentDescription = null)
+                            Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null)
                         }
                     },
                     label = {
@@ -102,7 +102,7 @@ fun MainNavigationDrawerContent(
                 )
 
                 NavigationDrawerItem(
-                    icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
+                    icon = { Icon(painterResource(Res.drawable.ic_logout), contentDescription = null) },
                     label = { Text(text = stringResource(Res.string.sign_out)) },
                     selected = false,
                     onClick = onSignOut
@@ -118,7 +118,7 @@ fun MainNavigationDrawerContent(
                 )
                 userLists.take(5).forEach { list ->
                     NavigationDrawerItem(
-                        icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                        icon = { Icon(painterResource(Res.drawable.ic_list), contentDescription = null) },
                         label = { Text(text = list.name) },
                         selected = false,
                         onClick = { onListClick(list) }
@@ -137,14 +137,14 @@ fun MainNavigationDrawerContent(
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
             NavigationDrawerItem(
-                icon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                icon = { Icon(painterResource(Res.drawable.ic_settings), contentDescription = null) },
                 label = { Text(text = stringResource(Res.string.settings)) },
                 selected = false,
                 onClick = onSettingsClick
             )
 
             NavigationDrawerItem(
-                icon = { Icon(Icons.Default.Star, contentDescription = null) },
+                icon = { Icon(painterResource(Res.drawable.ic_star), contentDescription = null) },
                 label = { Text(text = stringResource(Res.string.review_app)) },
                 selected = false,
                 onClick = onReviewClick

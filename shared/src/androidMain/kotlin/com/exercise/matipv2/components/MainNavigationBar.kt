@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -42,9 +43,11 @@ fun MainNavigationBar(
                 },
                 icon = {
                     Icon(
-                        imageVector = if (currentRoute == navBarItem.route) {
-                            navBarItem.selectedIcon
-                        } else navBarItem.unselectedIcon,
+                        painter = painterResource(
+                            if (currentRoute == navBarItem.route) {
+                                navBarItem.selectedIcon
+                            } else navBarItem.unselectedIcon
+                        ),
                         contentDescription = null
                     )
                 },

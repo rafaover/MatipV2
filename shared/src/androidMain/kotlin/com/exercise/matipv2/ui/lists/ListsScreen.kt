@@ -1,5 +1,8 @@
 package com.exercise.matipv2.ui.lists
 
+import com.exercise.matipv2.generated.resources.ic_chevron_right
+import com.exercise.matipv2.generated.resources.ic_info
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -107,7 +107,7 @@ fun ListsScreen(
                                 mainTrailItemInfo = {
                                     AllTipsFromListCounter(viewModel, list)
                                 },
-                                listItemTrailingIcon = Icons.Filled.ChevronRight
+                                listItemTrailingIcon = Res.drawable.ic_chevron_right
                             )
                         }
                     }
@@ -150,7 +150,7 @@ fun ListsScreen(
                         id = Res.string.dialog_delete_list_text,
                         argument = listName
                     ),
-                    icon = Icons.Filled.Info,
+                    icon = Res.drawable.ic_info,
                     confirmButtonText = stringResource(Res.string.delete),
                     onConfirm = {
                         selectedList?.let { listToDelete ->

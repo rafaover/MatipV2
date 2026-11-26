@@ -1,11 +1,10 @@
 package com.exercise.matipv2.components.common
 
+import com.exercise.matipv2.generated.resources.ic_menu
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -61,7 +60,7 @@ fun MainTopBar(
                 Icon(
                     modifier = Modifier
                         .padding(start = MatipDimens.paddingMedium),
-                    imageVector = Icons.Filled.Menu,
+                    painter = painterResource(Res.drawable.ic_menu),
                     contentDescription = stringResource(Res.string.options_menu)
                 )
             }

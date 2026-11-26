@@ -15,7 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.unit.dp
 
 /**
@@ -32,7 +33,7 @@ fun <T> ListItemComponent(
     getName: (T) -> String,
     overLineContent: @Composable () -> Unit = {},
     mainTrailItemInfo: @Composable (T) -> Unit,
-    listItemTrailingIcon: ImageVector,
+    listItemTrailingIcon: DrawableResource,
     trailingIconContentDescription: String = "",
     onClickTrailingIcon: () -> Unit = {},
     onClickLabel: String = "",
@@ -68,7 +69,7 @@ fun <T> ListItemComponent(
                 ) {
                     mainTrailItemInfo(item)
                     Icon(
-                        imageVector = listItemTrailingIcon,
+                        painter = painterResource(listItemTrailingIcon),
                         contentDescription = trailingIconContentDescription,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier

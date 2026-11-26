@@ -1,20 +1,20 @@
 package com.exercise.matipv2.ui.settings
 
+import com.exercise.matipv2.generated.resources.ic_arrow_back
+import com.exercise.matipv2.generated.resources.ic_cloud_upload
+import com.exercise.matipv2.generated.resources.ic_delete_forever
+import com.exercise.matipv2.generated.resources.ic_description
+import com.exercise.matipv2.generated.resources.ic_feedback
+import com.exercise.matipv2.generated.resources.ic_restore
+import com.exercise.matipv2.generated.resources.ic_star
+import com.exercise.matipv2.generated.resources.ic_warning
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CloudUpload
-import androidx.compose.material.icons.filled.DeleteForever
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Feedback
-import androidx.compose.material.icons.filled.Restore
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -80,7 +80,7 @@ fun SettingsScreen(
         ConfirmationAlertDialog(
             title = stringResource(Res.string.delete_account_confirm_title),
             message = AnnotatedString(stringResource(Res.string.delete_account_confirm_message)),
-            icon = Icons.Default.Warning,
+            icon = Res.drawable.ic_warning,
             confirmButtonText = stringResource(Res.string.delete),
             onConfirm = {
                 authViewModel.deleteAccount(
@@ -102,7 +102,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(Res.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.back))
+                        Icon(painterResource(Res.drawable.ic_arrow_back), contentDescription = stringResource(Res.string.back))
                     }
                 }
             )
@@ -124,7 +124,7 @@ fun SettingsScreen(
 
                 ListItem(
                     headlineContent = { Text(stringResource(Res.string.cloud_backup)) },
-                    leadingContent = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
+                    leadingContent = { Icon(painterResource(Res.drawable.ic_cloud_upload), contentDescription = null) },
                     modifier = Modifier.clickable {
                         authViewModel.backupData(
                             onSuccess = { onShowMessage(backupSuccessMessage) },
@@ -143,7 +143,7 @@ fun SettingsScreen(
                                 stringResource(Res.string.no_backup_found)
                         )
                     },
-                    leadingContent = { Icon(Icons.Default.Restore, contentDescription = null) },
+                    leadingContent = { Icon(painterResource(Res.drawable.ic_restore), contentDescription = null) },
                     modifier = Modifier.clickable {
                         authViewModel.restoreData(
                             onSuccess = { onShowMessage(restoreSuccessMessage) },
@@ -164,7 +164,7 @@ fun SettingsScreen(
 
             ListItem(
                 headlineContent = { Text(stringResource(Res.string.review_app)) },
-                leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
+                leadingContent = { Icon(painterResource(Res.drawable.ic_star), contentDescription = null) },
                 modifier = Modifier.clickable {
                     platformActions.openStoreListing()
                 }
@@ -172,7 +172,7 @@ fun SettingsScreen(
 
             ListItem(
                 headlineContent = { Text(stringResource(Res.string.feedback)) },
-                leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
+                leadingContent = { Icon(painterResource(Res.drawable.ic_feedback), contentDescription = null) },
                 modifier = Modifier.clickable {
                     if (!platformActions.sendEmail(FEEDBACK_EMAIL, feedbackSubject)) {
                         onShowMessage(noEmailAppMessage)
@@ -182,7 +182,7 @@ fun SettingsScreen(
 
             ListItem(
                 headlineContent = { Text(stringResource(Res.string.privacy_policy)) },
-                leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
+                leadingContent = { Icon(painterResource(Res.drawable.ic_description), contentDescription = null) },
                 modifier = Modifier.clickable {
                     platformActions.openUrl(PRIVACY_POLICY_URL)
                 }
@@ -200,7 +200,7 @@ fun SettingsScreen(
                     },
                     leadingContent = { 
                         Icon(
-                            imageVector = Icons.Default.DeleteForever, 
+                            painter = painterResource(Res.drawable.ic_delete_forever), 
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.error
                         ) 

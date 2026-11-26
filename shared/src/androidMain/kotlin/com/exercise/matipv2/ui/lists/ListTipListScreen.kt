@@ -1,5 +1,10 @@
 package com.exercise.matipv2.ui.lists
 
+import com.exercise.matipv2.generated.resources.ic_add
+import com.exercise.matipv2.generated.resources.ic_arrow_back
+import com.exercise.matipv2.generated.resources.ic_delete_forever
+import com.exercise.matipv2.generated.resources.ic_share
+import org.jetbrains.compose.resources.painterResource
 import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,11 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DeleteForever
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -112,7 +112,7 @@ fun ListTipListScreen(
                             onClick = onBackClick
                         ) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                painter = painterResource(Res.drawable.ic_arrow_back),
                                 contentDescription = stringResource(Res.string.back)
                             )
                         }
@@ -127,7 +127,7 @@ fun ListTipListScreen(
                 FabAdd(
                     onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
                     contentDescription = stringResource(Res.string.add_tip_to_list),
-                    icon = Icons.Filled.Add
+                    icon = Res.drawable.ic_add
                 )
             },
             floatingActionButtonPosition = FabPosition.End
@@ -172,7 +172,7 @@ fun ListTipListScreen(
                                         content = tipListToString(listTipListState.value)
                                     )
                                 },
-                            imageVector = Icons.Default.Share,
+                            painter = painterResource(Res.drawable.ic_share),
                             tint = MaterialTheme.colorScheme.primary,
                             contentDescription = stringResource(Res.string.share_tip_list)
                         )
@@ -201,7 +201,7 @@ fun ListTipListScreen(
                                     item = tip,
                                     getName = { tip.tipAmount },
                                     mainTrailItemInfo = { },
-                                    listItemTrailingIcon = Icons.Default.DeleteForever,
+                                    listItemTrailingIcon = Res.drawable.ic_delete_forever,
                                     trailingIconContentDescription = stringResource(Res.string.delete),
                                     onClickTrailingIcon = { viewModel.deleteTip(tip) },
                                     onClickLabel = deleteTipLabel,
