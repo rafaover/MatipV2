@@ -29,7 +29,6 @@ import com.exercise.matipv2.components.common.ButtonToOpenDialog
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.components.common.RoundTheTipSwitch
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun TipCalculatorScreen(
@@ -129,9 +128,7 @@ fun TipCalculatorScreen(
                 viewModel = viewModel,
                 allLists = viewModel.getAllLists(),
                 onListSelected = {
-                    runBlocking {
-                        viewModel.insertTip()
-                    }
+                    viewModel.insertTip()
                     focusManager.clearFocus()
                     viewModel.updateShowSnackBar(true, "Tip added to list")
                     viewModel.resetCalculateTipScreen()

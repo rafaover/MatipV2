@@ -134,14 +134,15 @@ class MainScreenViewModel (
     */
 
     fun insertTip() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val tip = Tip(
-                tipAmount = uiState.value.finalTip,
-                tipPercent = uiState.value.tipPercent,
-                listId = uiState.value.listId,
-                dateCreated = uiState.value.dateCreated,
-                userId = currentUserId
-            )
+        // Built before launching: the screen resets the state right after this call.
+        val tip = Tip(
+            tipAmount = uiState.value.finalTip,
+            tipPercent = uiState.value.tipPercent,
+            listId = uiState.value.listId,
+            dateCreated = uiState.value.dateCreated,
+            userId = currentUserId
+        )
+        viewModelScope.launch {
             localRepository.insertTip(tip)
         }
     }
