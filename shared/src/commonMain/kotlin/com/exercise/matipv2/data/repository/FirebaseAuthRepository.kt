@@ -86,6 +86,5 @@ class FirebaseAuthRepository(
         id = uid,
         name = displayName,
         email = email,
-        photoUrl = photoURL,
     )
 }

@@ -10,4 +10,7 @@ object MatipDimens {
     val paddingDialog: Dp = 24.dp
     val paddingButton: Dp = 8.dp
     val topBarLogoSize: Dp = 64.dp
+
+    /** Windows at least this wide show the tabs in a side rail instead of a bottom bar. */
+    val railMinWidth: Dp = 600.dp
 }

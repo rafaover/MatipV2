@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -23,11 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.exercise.matipv2.generated.resources.Res
 import com.exercise.matipv2.generated.resources.list_tab
 import com.exercise.matipv2.generated.resources.more_lists
@@ -72,20 +67,7 @@ fun MainNavigationDrawerContent(
                 )
             } else {
                 NavigationDrawerItem(
-                    icon = {
-                        if (currentUser.photoUrl != null) {
-                            AsyncImage(
-                                model = currentUser.photoUrl,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
-                        } else {
-                            Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null)
-                        }
-                    },
+                    icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
                     label = {
                         Column {
                             Text(text = currentUser.name ?: currentUser.email ?: stringResource(Res.string.sign_in))
