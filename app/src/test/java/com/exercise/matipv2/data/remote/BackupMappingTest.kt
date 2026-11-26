@@ -10,7 +10,7 @@ import org.junit.Test
  * which uses the Kotlin property names as field names. These tests pin that
  * shape so new builds can restore old backups and the other way around.
  */
-class BackupDtoTest {
+class BackupMappingTest {
 
     @Test
     fun tipList_isWrittenWithPropertyNames() {
