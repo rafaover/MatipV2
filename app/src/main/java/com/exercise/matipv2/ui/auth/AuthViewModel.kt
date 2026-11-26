@@ -1,6 +1,5 @@
 package com.exercise.matipv2.ui.auth
 
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -54,10 +53,10 @@ class AuthViewModel(
         showDeleteAccountDialog = show
     }
 
-    fun signIn(context: Context, onError: (String) -> Unit) {
+    fun signIn(onError: (String) -> Unit) {
         viewModelScope.launch {
             isLoading = true
-            authRepository.signIn(context).onSuccess {
+            authRepository.signIn().onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
                 }

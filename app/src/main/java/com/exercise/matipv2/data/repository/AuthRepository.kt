@@ -1,13 +1,7 @@
 package com.exercise.matipv2.data.repository
 
-import android.content.Context
-import androidx.credentials.ClearCredentialStateRequest
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import com.exercise.matipv2.BuildConfig
 import com.exercise.matipv2.data.model.AuthUser
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.exercise.matipv2.platform.GoogleIdTokenProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 
 interface AuthRepository {
     val currentUser: StateFlow<AuthUser?>
-    suspend fun signIn(context: Context): Result<Unit>
+    suspend fun signIn(): Result<Unit>
     suspend fun signInWithEmail(email: String, password: String): Result<Unit>
     suspend fun signUpWithEmail(email: String, password: String): Result<Unit>
     suspend fun sendPasswordResetEmail(email: String): Result<Unit>
@@ -26,11 +20,10 @@ interface AuthRepository {
 }
 
 class FirebaseAuthRepository(
-    context: Context,
+    private val googleIdTokenProvider: GoogleIdTokenProvider,
 ) : AuthRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val credentialManager = CredentialManager.create(context)
 
     private val _currentUser = MutableStateFlow<AuthUser?>(null)
     override val currentUser: StateFlow<AuthUser?> = _currentUser.asStateFlow()
@@ -48,27 +41,10 @@ class FirebaseAuthRepository(
         }
     }
 
-    override suspend fun signIn(context: Context): Result<Unit> {
+    override suspend fun signIn(): Result<Unit> {
+        val idToken = googleIdTokenProvider.getIdToken().getOrElse { return Result.failure(it) }
         return try {
-            val googleIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(filterByAuthorizedAccounts = false)
-                .setServerClientId(BuildConfig.FIREBASE_WEB_CLIENT_ID)
-                .setAutoSelectEnabled(autoSelectEnabled = true)
-                .build()
-
-            val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
-                .build()
-
-            val result = credentialManager.getCredential(
-                context = context,
-                request = request
-            )
-
-            val credential = result.credential
-            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-            val authCredential = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
-            
+            val authCredential = GoogleAuthProvider.getCredential(idToken, null)
             auth.signInWithCredential(authCredential).await()
             Result.success(Unit)
         } catch (e: Exception) {
@@ -114,6 +90,6 @@ class FirebaseAuthRepository(
 
     override suspend fun signOut() {
         auth.signOut()
-        credentialManager.clearCredentialState(ClearCredentialStateRequest())
+        googleIdTokenProvider.clearCredentialState()
     }
 }
