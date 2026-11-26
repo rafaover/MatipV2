@@ -121,7 +121,7 @@ fun MainNavigationDrawerContent(
                         onClick = { /* Navigate to All Lists logic handled by caller */ },
                         modifier = Modifier.padding(horizontal = 28.dp)
                     ) {
-                        Text(text = "... more")
+                        Text(text = stringResource(R.string.more_lists))
                     }
                 }
             }

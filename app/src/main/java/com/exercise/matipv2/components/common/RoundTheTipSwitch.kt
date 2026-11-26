@@ -24,9 +24,10 @@ fun RoundTheTipSwitch(
     modifier: Modifier = Modifier
 )
 {
+    val switchDescription = stringResource(R.string.round_tip_switch_description)
     Row(
         modifier = modifier
-            .semantics { contentDescription = "Round The Tip Switch"}
+            .semantics { contentDescription = switchDescription }
             .fillMaxWidth()
             .size(50.dp),
         verticalAlignment = Alignment.CenterVertically

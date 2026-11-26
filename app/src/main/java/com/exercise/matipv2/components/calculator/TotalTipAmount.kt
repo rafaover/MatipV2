@@ -25,9 +25,10 @@ import com.exercise.matipv2.R
 
 @Composable
 fun TotalTipAmount(finalTip: String) {
+    val totalTipDescription = stringResource(R.string.total_tip_amount_description)
     Row(
         modifier = Modifier
-            .semantics { contentDescription = "Total Tip Amount" }
+            .semantics { contentDescription = totalTipDescription }
             .padding(bottom = dimensionResource(R.dimen.padding_sml))
             .fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween,

@@ -27,8 +27,9 @@ import com.exercise.matipv2.R
 fun MainTopBar(
     onNavigationClick: () -> Unit
 ) {
+    val topBarDescription = stringResource(R.string.top_bar_description)
     CenterAlignedTopAppBar(
-        modifier = Modifier.semantics { contentDescription = "Top Bar" },
+        modifier = Modifier.semantics { contentDescription = topBarDescription },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
             scrolledContainerColor = Color.Unspecified,

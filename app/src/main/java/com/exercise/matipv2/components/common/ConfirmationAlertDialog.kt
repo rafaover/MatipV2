@@ -7,12 +7,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import com.exercise.matipv2.R
+import com.exercise.matipv2.R
+import androidx.compose.ui.text.AnnotatedString
 
 @Composable
 fun ConfirmationAlertDialog(
     title: String,
-    message: String?,
+    message: AnnotatedString?,
     icon: ImageVector,
     confirmButtonText: String,
     onConfirm: () -> Unit,

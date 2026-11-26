@@ -53,6 +53,7 @@ fun MainScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val passwordResetSentMessage = stringResource(R.string.password_reset_sent)
+    val mainScreenDescription = stringResource(R.string.main_screen_description)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -140,8 +141,7 @@ fun MainScreen(
         ) {
             Scaffold(
                 modifier = Modifier.semantics {
-                    contentDescription = "Main Screen with a TopBar, Tip Calculator Screen and " +
-                            "bottom Navigation Bar"
+                    contentDescription = mainScreenDescription
                 },
                 topBar = {
                     MainTopBar(

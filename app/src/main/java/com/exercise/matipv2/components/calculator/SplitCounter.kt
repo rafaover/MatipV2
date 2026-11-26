@@ -33,9 +33,10 @@ fun SplitCounter(
     onclickPositive: () -> Unit,
     onclickNegative: () -> Unit
 ) {
+    val billSplitDescription = stringResource(R.string.bill_split_description)
     Row(
         modifier = Modifier
-            .semantics { contentDescription = "Bill Split" }
+            .semantics { contentDescription = billSplitDescription }
             .padding(bottom = dimensionResource(R.dimen.padding_mid))
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

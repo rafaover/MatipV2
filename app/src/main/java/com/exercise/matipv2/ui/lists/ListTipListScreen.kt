@@ -33,7 +33,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -78,7 +77,7 @@ fun ListTipListScreen(
     }.collectAsState(initial = emptyList())
 
     val platformActions: PlatformActions = koinInject()
-    val context = LocalContext.current
+    val deleteTipLabel = stringResource(R.string.tip_will_be_deleted)
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -139,7 +138,7 @@ fun ListTipListScreen(
                             viewModel.updateSearchQuery(it)
                         },
                         onClearSearch = { viewModel.clearSearch() },
-                        placeholder = "Search tips.. .",
+                        placeholder = stringResource(R.string.search_tips_placeholder),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Row(
@@ -176,7 +175,7 @@ fun ListTipListScreen(
                     )
                     if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
                         Text(
-                            text = "No tips found for '${searchState.searchQuery}'",
+                            text = stringResource(R.string.no_tips_found, searchState.searchQuery),
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -197,7 +196,7 @@ fun ListTipListScreen(
                                     listItemTrailingIcon = Icons.Default.DeleteForever,
                                     trailingIconContentDescription = stringResource(R.string.delete),
                                     onClickTrailingIcon = { viewModel.deleteTip(tip) },
-                                    onClickLabel = context.getString(R.string.tip_will_be_deleted),
+                                    onClickLabel = deleteTipLabel,
                                     modifier = Modifier.height(70.dp)
                                 )
                             }

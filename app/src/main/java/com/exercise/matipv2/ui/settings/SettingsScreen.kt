@@ -36,9 +36,9 @@ import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.ui.auth.AuthViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import androidx.compose.ui.text.AnnotatedString
 
 private const val FEEDBACK_EMAIL = "feeltheboardgame@gmail.com"
-private const val FEEDBACK_SUBJECT = "Feedback for MaTip App"
 private const val PRIVACY_POLICY_URL = "https://sites.google.com/view/matip-privacy-police/home"
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,11 +54,13 @@ fun SettingsScreen(
     val backupSuccessMessage = stringResource(R.string.backup_success)
     val restoreSuccessMessage = stringResource(R.string.restore_success)
     val accountDeletedMessage = stringResource(R.string.account_deleted)
+    val feedbackSubject = stringResource(R.string.feedback_subject)
+    val noEmailAppMessage = stringResource(R.string.no_email_app_found)
 
     if (authViewModel.showDeleteAccountDialog) {
         ConfirmationAlertDialog(
             title = stringResource(R.string.delete_account_confirm_title),
-            message = stringResource(R.string.delete_account_confirm_message),
+            message = AnnotatedString(stringResource(R.string.delete_account_confirm_message)),
             icon = Icons.Default.Warning,
             confirmButtonText = stringResource(R.string.delete),
             onConfirm = {
@@ -153,8 +155,8 @@ fun SettingsScreen(
                 headlineContent = { Text(stringResource(R.string.feedback)) },
                 leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
                 modifier = Modifier.clickable {
-                    if (!platformActions.sendEmail(FEEDBACK_EMAIL, FEEDBACK_SUBJECT)) {
-                        onShowMessage("No email app found")
+                    if (!platformActions.sendEmail(FEEDBACK_EMAIL, feedbackSubject)) {
+                        onShowMessage(noEmailAppMessage)
                     }
                 }
             )

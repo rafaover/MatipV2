@@ -36,12 +36,14 @@ fun TipCalculatorScreen(
     uiState: TipCalculatorScreenUiState,
 ) {
     val focusManager = LocalFocusManager.current
+    val screenDescription = stringResource(R.string.tip_calculator_screen_description)
+    val tipAddedMessage = stringResource(R.string.tip_added_to_list)
     val tipAmountInput = uiState.tipAmount
     val tipPercentInput = uiState.tipPercent
 
     Column(
         modifier = Modifier
-            .semantics { contentDescription = "Tip Calculator Screen" }
+            .semantics { contentDescription = screenDescription }
             .fillMaxSize()
             .padding(40.dp)
             .verticalScroll(rememberScrollState()),
@@ -130,7 +132,7 @@ fun TipCalculatorScreen(
                 onListSelected = {
                     viewModel.insertTip()
                     focusManager.clearFocus()
-                    viewModel.updateShowSnackBar(true, "Tip added to list")
+                    viewModel.updateShowSnackBar(true, tipAddedMessage)
                     viewModel.resetCalculateTipScreen()
                 }
             )

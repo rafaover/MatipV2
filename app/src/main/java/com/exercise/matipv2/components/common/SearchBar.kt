@@ -8,9 +8,9 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui. res.stringResource
 import androidx.compose.ui.unit.dp
 import com.exercise.matipv2.R
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,7 +19,7 @@ fun SearchBarComponent(
     onSearchQueryChange: (String) -> Unit,
     onClearSearch:  () -> Unit,
     modifier: Modifier = Modifier,
-    placeholder: String = "Search..."
+    placeholder: String = stringResource(R.string.search_placeholder)
 ) {
     OutlinedTextField(
         value = searchQuery,
@@ -31,7 +31,7 @@ fun SearchBarComponent(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search Icon"
+                contentDescription = stringResource(R.string.search_icon_description)
             )
         },
         trailingIcon = {
@@ -40,7 +40,7 @@ fun SearchBarComponent(
                     IconButton(onClick = onClearSearch) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "Clear Search"
+                            contentDescription = stringResource(R.string.clear_search_description)
                         )
                     }
                 }

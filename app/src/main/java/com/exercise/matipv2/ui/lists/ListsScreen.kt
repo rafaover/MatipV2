@@ -38,7 +38,9 @@ import com.exercise.matipv2.components.lists.EditListDialog
 import com.exercise.matipv2.components.lists.SwipeBox
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.launch
+import com.exercise.matipv2.components.common.stringResourceWithBoldArgument
+import androidx.compose.ui.res.pluralStringResource
 
 @Composable
 fun ListsScreen(
@@ -50,6 +52,7 @@ fun ListsScreen(
     var showEditListDialog by remember { mutableStateOf(false) }
     val searchState by viewModel.searchFilterState.collectAsState()
     val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsState(initial = emptyList())
+    val listsScreenDescription = pluralStringResource(R.plurals.lists_screen_description, allLists.size, allLists.size)
 
     Column(
         modifier = Modifier
@@ -61,11 +64,11 @@ fun ListsScreen(
             onSearchQueryChange = {
                 viewModel.updateSearchQuery(it)},
             onClearSearch = { viewModel.clearSearch() },
-            placeholder = "Search lists..."
+            placeholder = stringResource(R.string.search_lists_placeholder)
         )
         Box(
             modifier = Modifier
-                .semantics { contentDescription = "Lists Screen. ${allLists.size} lists" }
+                .semantics { contentDescription = listsScreenDescription }
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
@@ -103,7 +106,7 @@ fun ListsScreen(
                 }
             } else if(searchState.isSearchActive) {
                 Text(
-                    text = "No lists found for '${searchState.searchQuery}'",
+                    text = stringResource(R.string.no_lists_found, searchState.searchQuery),
                     modifier = Modifier. align(Alignment.Center),
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -114,7 +117,7 @@ fun ListsScreen(
                     .align(Alignment.BottomEnd)
                     .padding(dimensionResource(R.dimen.padding_mid)),
                 onClick = { viewModel.updateShowAddListDialog(true) },
-                text = "New List",
+                text = stringResource(R.string.new_list),
                 contentDescription = stringResource(R.string.add_a_list)
             )
 
@@ -135,9 +138,9 @@ fun ListsScreen(
                 val listName = selectedList?.name ?: "List"
                 ConfirmationAlertDialog(
                     title = stringResource(R.string.dialog_title),
-                    message = stringResource(
+                    message = stringResourceWithBoldArgument(
                         id = R.string.dialog_delete_list_text,
-                        listName
+                        argument = listName
                     ),
                     icon = Icons.Filled.Info,
                     confirmButtonText = stringResource(R.string.delete),
