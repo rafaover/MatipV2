@@ -72,17 +72,13 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlinx.serialization.json)
         }
         getByName("androidHostTest").dependencies {
             implementation(libs.kotlin.test.junit)
             implementation(libs.junit)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.mockito.core)
-            implementation(libs.mockito.kotlin)
-            implementation(libs.kotlinx.coroutines.test)
             implementation(libs.koin.test.junit4)
-            implementation(libs.androidx.runner)
-            implementation(libs.androidx.room.testing)
         }
         getByName("androidDeviceTest").dependencies {
             implementation(libs.kotlin.test)
