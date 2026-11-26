@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -29,7 +29,7 @@ fun TotalTipAmount(finalTip: String) {
     Row(
         modifier = Modifier
             .semantics { contentDescription = totalTipDescription }
-            .padding(bottom = dimensionResource(R.dimen.padding_sml))
+            .padding(bottom = MatipDimens.paddingSmall)
             .fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,

@@ -1,6 +1,5 @@
 package com.exercise.matipv2.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -107,7 +106,6 @@ class MainScreenViewModel (
         }
     }
 
-    @SuppressLint("VisibleForTests")
     fun updateFinalTip(): String {
         val calculatedTip = calculateTip(
             amount = uiState.value.tipAmount,

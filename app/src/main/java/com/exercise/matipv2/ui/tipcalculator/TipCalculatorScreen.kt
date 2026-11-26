@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -55,7 +55,7 @@ fun TipCalculatorScreen(
 
         Text(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             text = stringResource(R.string.calculate_tip),
             fontWeight = FontWeight.Bold,
@@ -66,7 +66,7 @@ fun TipCalculatorScreen(
 
         EditTextForm(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             label = R.string.bill_amount,
             value = tipAmountInput,
@@ -107,7 +107,7 @@ fun TipCalculatorScreen(
 
         RoundTheTipSwitch(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             roundUp = uiState.roundUp,
             onRoundUpChange = { viewModel.updateRoundUp(it) }

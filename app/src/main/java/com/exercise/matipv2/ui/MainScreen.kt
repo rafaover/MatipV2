@@ -1,6 +1,5 @@
 package com.exercise.matipv2.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
@@ -38,7 +37,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
-@SuppressLint("VisibleForTests")
 @Composable
 fun MainScreen(
     viewModel: MainScreenViewModel,

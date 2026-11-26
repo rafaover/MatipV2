@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -115,7 +115,7 @@ fun ListsScreen(
             FabAdd(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(dimensionResource(R.dimen.padding_mid)),
+                    .padding(MatipDimens.paddingMedium),
                 onClick = { viewModel.updateShowAddListDialog(true) },
                 text = stringResource(R.string.new_list),
                 contentDescription = stringResource(R.string.add_a_list)
