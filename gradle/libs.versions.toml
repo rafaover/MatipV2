@@ -2,7 +2,6 @@
 android-compileSdk = "37"
 android-minSdk = "24"
 android-targetSdk = "36"
-composeBom = "2026.05.01"
 androidActivity = "1.13.0"
 coreSplashscreen = "1.2.0"
 koin-bom = "4.2.2"
@@ -10,13 +9,14 @@ kotlin = "2.4.21"
 coreKtx = "1.18.0"
 kotlinxSerialization = "1.9.0"
 composeMultiplatform = "1.12.2"
+composeMaterial3 = "1.12.0-alpha03"
+# AndroidX Compose version that CMP 1.12.2 maps to on Android (only needed for ui-test-manifest, which JetBrains does not publish)
+androidxComposeUi = "1.12.0-beta01"
 coroutinesAndroid = "1.11.0"
 dateTime = "0.8.0"
 lifecycle = "2.10.0"
 navigationCompose = "2.9.8"
 roomdb = "2.8.4"
-composeui = "1.11.3"
-material3 = "1.4.0"
 junit = "4.13.2"
 mockitoCore = "5.23.0"
 mockitoKotlin = "6.3.0"
@@ -52,13 +52,13 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 #Compose
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
-androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "composeui" }
-androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeui" }
-androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeui" }
-androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeui" }
-androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeui" }
-androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
-androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "composeMultiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "composeMultiplatform" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMaterial3" }
+compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
+compose-uiTestJunit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "composeMultiplatform" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidxComposeUi" }
 
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
@@ -84,7 +84,6 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4" }
 junit = { module = "junit:junit", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeui"  }
 androidx-runner = { module = "androidx.test:runner", version.ref = "androidtestrunner" }
 androidx-rules = { module = "androidx.test:rules", version.ref = "androidXTestRules" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "testEspresso" }

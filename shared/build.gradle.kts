@@ -32,21 +32,20 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.material3)
             implementation(libs.compose.components.resources)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
-            implementation(project.dependencies.platform(libs.androidx.compose.bom))
             implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.lifecycle.runtime.ktx)
             implementation(libs.androidx.lifecycle.viewmodel.ktx)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.ui)
-            implementation(libs.androidx.ui.graphics)
-            implementation(libs.androidx.ui.tooling.preview)
-            implementation(libs.androidx.material3)
             implementation(libs.androidx.navigation.compose)
 
             implementation(libs.kotlinx.coroutines.android)
@@ -99,7 +98,7 @@ kotlin {
 
 dependencies {
     add("kspAndroid", libs.ksp.room)
-    androidRuntimeClasspath(libs.androidx.ui.tooling)
+    androidRuntimeClasspath(libs.compose.uiTooling)
 }
 
 compose.resources {

@@ -24,10 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import com.exercise.matipv2.generated.resources.Res
 import com.exercise.matipv2.generated.resources.tip_amount
 import com.exercise.matipv2.generated.resources.total_tip_amount_description
+import androidx.compose.ui.unit.IntOffset
 
 @Composable
 fun TotalTipAmount(finalTip: String) {
     val totalTipDescription = stringResource(Res.string.total_tip_amount_description)
+    val motionScheme = MaterialTheme.motionScheme
     Row(
         modifier = Modifier
             .semantics { contentDescription = totalTipDescription }
@@ -45,12 +47,14 @@ fun TotalTipAmount(finalTip: String) {
         AnimatedContent(
             targetState = finalTip,
             transitionSpec = {
+                val slideSpec = motionScheme.defaultSpatialSpec<IntOffset>()
+                val fadeSpec = motionScheme.defaultEffectsSpec<Float>()
                 if (targetState > initialState) {
-                    (slideInVertically { height -> height } + fadeIn()) togetherWith
-                            (slideOutVertically { height -> -height } + fadeOut())
+                    (slideInVertically(slideSpec) { height -> height } + fadeIn(fadeSpec)) togetherWith
+                            (slideOutVertically(slideSpec) { height -> -height } + fadeOut(fadeSpec))
                 } else {
-                    (slideInVertically { height -> -height } + fadeIn()) togetherWith
-                            (slideOutVertically { height -> height } + fadeOut())
+                    (slideInVertically(slideSpec) { height -> -height } + fadeIn(fadeSpec)) togetherWith
+                            (slideOutVertically(slideSpec) { height -> height } + fadeOut(fadeSpec))
                 }.using(
                     // Disable clipping since the letters may bounce outside the bounds of the container
                     androidx.compose.animation.SizeTransform(clip = false)

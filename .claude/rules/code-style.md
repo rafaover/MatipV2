@@ -29,7 +29,7 @@ description: Clean code and naming conventions
 
 # TDD
 - Before writing the final code. First build the test, make it fail. After that, build to pass the test. Focus in building these tests for only code that could break the app, not every single function.
-- Every Room migration needs its own test (`MigrationTestHelper`): create the database at the old schema version, run the migration, assert the new column/shape and that existing data survived. Exported schemas live in `app/schemas/`; commit them with the migration.
+- Every Room migration needs its own test (`MigrationTestHelper`): create the database at the old schema version, run the migration, assert the new column/shape and that existing data survived. Exported schemas live in `shared/schemas/`; commit them with the migration.
 
 # DOCUMENTATION
 - If necessary for future developers or myself. Add KDoc for non-obvious public APIs.

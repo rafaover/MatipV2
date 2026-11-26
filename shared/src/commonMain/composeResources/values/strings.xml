@@ -85,6 +85,8 @@
     <string name="round_tip_switch_description">Round The Tip Switch</string>
     <string name="search_icon_description">Search Icon</string>
     <string name="clear_search_description">Clear Search</string>
+    <string name="increase_split_description">Increase split</string>
+    <string name="decrease_split_description">Decrease split</string>
     <plurals name="lists_screen_description">
         <item quantity="one">Lists Screen. %1$d list</item>
         <item quantity="other">Lists Screen. %1$d lists</item>
