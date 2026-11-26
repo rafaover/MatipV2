@@ -14,7 +14,7 @@ import com.exercise.matipv2.ui.MainScreen
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.ui.theme.MaTIPv2Theme
 import org.koin.android.ext.android.inject
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 class MainActivity : ComponentActivity() {
 
