@@ -9,8 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
-import com.exercise.matipv2.shared.R
+import org.jetbrains.compose.resources.stringResource
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.cancel
+import com.exercise.matipv2.generated.resources.edit_list_dialog_title
+import com.exercise.matipv2.generated.resources.edit_list_name_prompt
+import com.exercise.matipv2.generated.resources.save
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.data.local.model.TipList
 
@@ -24,12 +28,12 @@ fun EditListDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = stringResource(R.string.edit_list_dialog_title)) },
+        title = { Text(text = stringResource(Res.string.edit_list_dialog_title)) },
         text = {
             Column {
                 EditTextForm(
                     value = newNameState,
-                    label = R.string.edit_list_name_prompt,
+                    label = Res.string.edit_list_name_prompt,
                     onValueChange = { newNameState = it }
                 )
             }
@@ -42,12 +46,12 @@ fun EditListDialog(
                     }
                 }
             ) {
-                Text(stringResource(R.string.save))
+                Text(stringResource(Res.string.save))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         }
     )

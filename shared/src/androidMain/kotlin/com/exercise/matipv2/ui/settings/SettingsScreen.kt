@@ -28,9 +28,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.account_deleted
+import com.exercise.matipv2.generated.resources.back
+import com.exercise.matipv2.generated.resources.backup_success
+import com.exercise.matipv2.generated.resources.cloud_backup
+import com.exercise.matipv2.generated.resources.delete
+import com.exercise.matipv2.generated.resources.delete_account
+import com.exercise.matipv2.generated.resources.delete_account_confirm_message
+import com.exercise.matipv2.generated.resources.delete_account_confirm_title
+import com.exercise.matipv2.generated.resources.feedback
+import com.exercise.matipv2.generated.resources.feedback_subject
+import com.exercise.matipv2.generated.resources.last_backup
+import com.exercise.matipv2.generated.resources.no_backup_found
+import com.exercise.matipv2.generated.resources.no_email_app_found
+import com.exercise.matipv2.generated.resources.privacy_policy
+import com.exercise.matipv2.generated.resources.restore_backup
+import com.exercise.matipv2.generated.resources.restore_success
+import com.exercise.matipv2.generated.resources.review_app
+import com.exercise.matipv2.generated.resources.settings
+import com.exercise.matipv2.generated.resources.support_legal
 import com.exercise.matipv2.components.common.ConfirmationAlertDialog
 import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.ui.auth.AuthViewModel
@@ -51,18 +70,18 @@ fun SettingsScreen(
 ) {
     val currentUser by authViewModel.currentUser.collectAsState()
     val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
-    val backupSuccessMessage = stringResource(R.string.backup_success)
-    val restoreSuccessMessage = stringResource(R.string.restore_success)
-    val accountDeletedMessage = stringResource(R.string.account_deleted)
-    val feedbackSubject = stringResource(R.string.feedback_subject)
-    val noEmailAppMessage = stringResource(R.string.no_email_app_found)
+    val backupSuccessMessage = stringResource(Res.string.backup_success)
+    val restoreSuccessMessage = stringResource(Res.string.restore_success)
+    val accountDeletedMessage = stringResource(Res.string.account_deleted)
+    val feedbackSubject = stringResource(Res.string.feedback_subject)
+    val noEmailAppMessage = stringResource(Res.string.no_email_app_found)
 
     if (authViewModel.showDeleteAccountDialog) {
         ConfirmationAlertDialog(
-            title = stringResource(R.string.delete_account_confirm_title),
-            message = AnnotatedString(stringResource(R.string.delete_account_confirm_message)),
+            title = stringResource(Res.string.delete_account_confirm_title),
+            message = AnnotatedString(stringResource(Res.string.delete_account_confirm_message)),
             icon = Icons.Default.Warning,
-            confirmButtonText = stringResource(R.string.delete),
+            confirmButtonText = stringResource(Res.string.delete),
             onConfirm = {
                 authViewModel.deleteAccount(
                     onSuccess = {
@@ -80,10 +99,10 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.settings)) },
+                title = { Text(stringResource(Res.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.back))
                     }
                 }
             )
@@ -97,14 +116,14 @@ fun SettingsScreen(
         ) {
             if (currentUser != null) {
                 Text(
-                    text = stringResource(R.string.cloud_backup),
+                    text = stringResource(Res.string.cloud_backup),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(16.dp)
                 )
 
                 ListItem(
-                    headlineContent = { Text(stringResource(R.string.cloud_backup)) },
+                    headlineContent = { Text(stringResource(Res.string.cloud_backup)) },
                     leadingContent = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
                     modifier = Modifier.clickable {
                         authViewModel.backupData(
@@ -115,13 +134,13 @@ fun SettingsScreen(
                 )
 
                 ListItem(
-                    headlineContent = { Text(stringResource(R.string.restore_backup)) },
+                    headlineContent = { Text(stringResource(Res.string.restore_backup)) },
                     supportingContent = {
                         Text(
                             text = if (lastBackupDate != null)
-                                stringResource(R.string.last_backup, lastBackupDate!!)
+                                stringResource(Res.string.last_backup, lastBackupDate!!)
                             else
-                                stringResource(R.string.no_backup_found)
+                                stringResource(Res.string.no_backup_found)
                         )
                     },
                     leadingContent = { Icon(Icons.Default.Restore, contentDescription = null) },
@@ -137,14 +156,14 @@ fun SettingsScreen(
             }
 
             Text(
-                text = stringResource(R.string.support_legal),
+                text = stringResource(Res.string.support_legal),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(16.dp)
             )
 
             ListItem(
-                headlineContent = { Text(stringResource(R.string.review_app)) },
+                headlineContent = { Text(stringResource(Res.string.review_app)) },
                 leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
                 modifier = Modifier.clickable {
                     platformActions.openStoreListing()
@@ -152,7 +171,7 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text(stringResource(R.string.feedback)) },
+                headlineContent = { Text(stringResource(Res.string.feedback)) },
                 leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
                 modifier = Modifier.clickable {
                     if (!platformActions.sendEmail(FEEDBACK_EMAIL, feedbackSubject)) {
@@ -162,7 +181,7 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text(stringResource(R.string.privacy_policy)) },
+                headlineContent = { Text(stringResource(Res.string.privacy_policy)) },
                 leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
                 modifier = Modifier.clickable {
                     platformActions.openUrl(PRIVACY_POLICY_URL)
@@ -175,7 +194,7 @@ fun SettingsScreen(
                 ListItem(
                     headlineContent = { 
                         Text(
-                            text = stringResource(R.string.delete_account),
+                            text = stringResource(Res.string.delete_account),
                             color = MaterialTheme.colorScheme.error
                         ) 
                     },

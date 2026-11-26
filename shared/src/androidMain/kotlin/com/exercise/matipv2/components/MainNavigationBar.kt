@@ -8,19 +8,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.exercise.matipv2.ui.navigation.NavBarItems
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.ui.navigation.NavBarItems
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.bottom_navigation_bar_description
 
 @Composable
 fun MainNavigationBar(
     navController: NavHostController
 ) {
-    val barDescription = stringResource(R.string.bottom_navigation_bar_description)
+    val barDescription = stringResource(Res.string.bottom_navigation_bar_description)
     NavigationBar(
         modifier = Modifier.semantics { contentDescription = barDescription }
     ) {

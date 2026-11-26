@@ -34,12 +34,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewModelScope
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.add_tip_to_list
+import com.exercise.matipv2.generated.resources.back
+import com.exercise.matipv2.generated.resources.delete
+import com.exercise.matipv2.generated.resources.no_tips_found
+import com.exercise.matipv2.generated.resources.search_tips_placeholder
+import com.exercise.matipv2.generated.resources.share_tip_list
+import com.exercise.matipv2.generated.resources.tip_list_title
+import com.exercise.matipv2.generated.resources.tip_will_be_deleted
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
 import com.exercise.matipv2.components.common.SearchBarComponent
@@ -77,7 +85,7 @@ fun ListTipListScreen(
     }.collectAsState(initial = emptyList())
 
     val platformActions: PlatformActions = koinInject()
-    val deleteTipLabel = stringResource(R.string.tip_will_be_deleted)
+    val deleteTipLabel = stringResource(Res.string.tip_will_be_deleted)
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -105,7 +113,7 @@ fun ListTipListScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.back)
+                                contentDescription = stringResource(Res.string.back)
                             )
                         }
                     }
@@ -118,7 +126,7 @@ fun ListTipListScreen(
             floatingActionButton = {
                 FabAdd(
                     onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
-                    contentDescription = stringResource(R.string.add_tip_to_list),
+                    contentDescription = stringResource(Res.string.add_tip_to_list),
                     icon = Icons.Filled.Add
                 )
             },
@@ -138,7 +146,7 @@ fun ListTipListScreen(
                             viewModel.updateSearchQuery(it)
                         },
                         onClearSearch = { viewModel.clearSearch() },
-                        placeholder = stringResource(R.string.search_tips_placeholder),
+                        placeholder = stringResource(Res.string.search_tips_placeholder),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Row(
@@ -147,7 +155,7 @@ fun ListTipListScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = stringResource(R.string.tip_list_title),
+                            text = stringResource(Res.string.tip_list_title),
                             style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(MatipDimens.paddingSmall)
                         )
@@ -166,7 +174,7 @@ fun ListTipListScreen(
                                 },
                             imageVector = Icons.Default.Share,
                             tint = MaterialTheme.colorScheme.primary,
-                            contentDescription = stringResource(R.string.share_tip_list)
+                            contentDescription = stringResource(Res.string.share_tip_list)
                         )
                     }
                     HorizontalDivider(
@@ -175,7 +183,7 @@ fun ListTipListScreen(
                     )
                     if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
                         Text(
-                            text = stringResource(R.string.no_tips_found, searchState.searchQuery),
+                            text = stringResource(Res.string.no_tips_found, searchState.searchQuery),
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -194,7 +202,7 @@ fun ListTipListScreen(
                                     getName = { tip.tipAmount },
                                     mainTrailItemInfo = { },
                                     listItemTrailingIcon = Icons.Default.DeleteForever,
-                                    trailingIconContentDescription = stringResource(R.string.delete),
+                                    trailingIconContentDescription = stringResource(Res.string.delete),
                                     onClickTrailingIcon = { viewModel.deleteTip(tip) },
                                     onClickLabel = deleteTipLabel,
                                     modifier = Modifier.height(70.dp)

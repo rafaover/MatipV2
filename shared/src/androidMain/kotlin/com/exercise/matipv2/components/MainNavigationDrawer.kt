@@ -25,10 +25,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.list_tab
+import com.exercise.matipv2.generated.resources.more_lists
+import com.exercise.matipv2.generated.resources.review_app
+import com.exercise.matipv2.generated.resources.settings
+import com.exercise.matipv2.generated.resources.sign_in
+import com.exercise.matipv2.generated.resources.sign_in_email
+import com.exercise.matipv2.generated.resources.sign_in_google
+import com.exercise.matipv2.generated.resources.sign_out
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.model.AuthUser
 
@@ -52,13 +60,13 @@ fun MainNavigationDrawerContent(
             if (currentUser == null) {
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.AccountCircle, contentDescription = null) },
-                    label = { Text(text = stringResource(R.string.sign_in_google)) },
+                    label = { Text(text = stringResource(Res.string.sign_in_google)) },
                     selected = false,
                     onClick = onSignInGoogle
                 )
                 NavigationDrawerItem(
                     icon = { Icon(Icons.Default.AccountCircle, contentDescription = null) },
-                    label = { Text(text = stringResource(R.string.sign_in_email)) },
+                    label = { Text(text = stringResource(Res.string.sign_in_email)) },
                     selected = false,
                     onClick = onSignInEmail
                 )
@@ -80,7 +88,7 @@ fun MainNavigationDrawerContent(
                     },
                     label = {
                         Column {
-                            Text(text = currentUser.name ?: currentUser.email ?: stringResource(R.string.sign_in))
+                            Text(text = currentUser.name ?: currentUser.email ?: stringResource(Res.string.sign_in))
                             if (currentUser.name != null) {
                                 Text(
                                     text = currentUser.email ?: "",
@@ -95,7 +103,7 @@ fun MainNavigationDrawerContent(
 
                 NavigationDrawerItem(
                     icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
-                    label = { Text(text = stringResource(R.string.sign_out)) },
+                    label = { Text(text = stringResource(Res.string.sign_out)) },
                     selected = false,
                     onClick = onSignOut
                 )
@@ -104,7 +112,7 @@ fun MainNavigationDrawerContent(
             if (userLists.isNotEmpty()) {
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 Text(
-                    text = stringResource(R.string.list_tab),
+                    text = stringResource(Res.string.list_tab),
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(horizontal = 28.dp, vertical = 8.dp)
                 )
@@ -121,7 +129,7 @@ fun MainNavigationDrawerContent(
                         onClick = { /* Navigate to All Lists logic handled by caller */ },
                         modifier = Modifier.padding(horizontal = 28.dp)
                     ) {
-                        Text(text = stringResource(R.string.more_lists))
+                        Text(text = stringResource(Res.string.more_lists))
                     }
                 }
             }
@@ -130,14 +138,14 @@ fun MainNavigationDrawerContent(
 
             NavigationDrawerItem(
                 icon = { Icon(Icons.Default.Settings, contentDescription = null) },
-                label = { Text(text = stringResource(R.string.settings)) },
+                label = { Text(text = stringResource(Res.string.settings)) },
                 selected = false,
                 onClick = onSettingsClick
             )
 
             NavigationDrawerItem(
                 icon = { Icon(Icons.Default.Star, contentDescription = null) },
-                label = { Text(text = stringResource(R.string.review_app)) },
+                label = { Text(text = stringResource(Res.string.review_app)) },
                 selected = false,
                 onClick = onReviewClick
             )

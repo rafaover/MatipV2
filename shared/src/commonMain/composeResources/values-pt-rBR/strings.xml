@@ -61,8 +61,8 @@
     <string name="search_placeholder">Buscar...</string>
     <string name="search_tips_placeholder">Buscar gorjetas...</string>
     <string name="search_lists_placeholder">Buscar listas...</string>
-    <string name="no_tips_found">Nenhuma gorjeta encontrada para \'%1$s\'</string>
-    <string name="no_lists_found">Nenhuma lista encontrada para \'%1$s\'</string>
+    <string name="no_tips_found">Nenhuma gorjeta encontrada para '%1$s'</string>
+    <string name="no_lists_found">Nenhuma lista encontrada para '%1$s'</string>
     <string name="new_list">Nova Lista</string>
     <string name="more_lists">... mais</string>
     <string name="main_screen_description">Tela principal com barra superior, calculadora de gorjeta e barra de navegação inferior</string>
@@ -75,11 +75,11 @@
     <string name="search_icon_description">Ícone de Busca</string>
     <string name="clear_search_description">Limpar Busca</string>
     <plurals name="lists_screen_description">
-        <item quantity="one">Tela de Listas. %d lista</item>
-        <item quantity="other">Tela de Listas. %d listas</item>
+        <item quantity="one">Tela de Listas. %1$d lista</item>
+        <item quantity="other">Tela de Listas. %1$d listas</item>
     </plurals>
     <plurals name="tips_count">
-        <item quantity="one">%d gorjeta</item>
-        <item quantity="other">%d gorjetas</item>
+        <item quantity="one">%1$d gorjeta</item>
+        <item quantity="other">%1$d gorjetas</item>
     </plurals>
 </resources>

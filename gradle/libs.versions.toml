@@ -9,6 +9,7 @@ koin-bom = "4.2.2"
 kotlin = "2.4.21"
 coreKtx = "1.18.0"
 kotlinxSerialization = "1.9.0"
+composeMultiplatform = "1.12.2"
 coroutinesAndroid = "1.11.0"
 dateTime = "0.8.0"
 lifecycle = "2.10.0"
@@ -51,6 +52,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 #Compose
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "composeui" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeui" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeui" }
@@ -108,6 +110,7 @@ android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = 'com.google.devtools.ksp', version.ref = "ksp" }
 roomDb = { id = 'androidx.room', version.ref = "roomdb" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleservices" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }

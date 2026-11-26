@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.multiplatform.library)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.roomDb)
@@ -31,6 +32,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.compose.components.resources)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
@@ -99,6 +101,11 @@ kotlin {
 dependencies {
     add("kspAndroid", libs.ksp.room)
     androidRuntimeClasspath(libs.androidx.ui.tooling)
+}
+
+compose.resources {
+    packageOfResClass = "com.exercise.matipv2.generated.resources"
+    generateResClass = always
 }
 
 room {

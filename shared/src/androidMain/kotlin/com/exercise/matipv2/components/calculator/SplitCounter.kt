@@ -19,13 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.bill_split_description
+import com.exercise.matipv2.generated.resources.split
 
 @Composable
 fun SplitCounter(
@@ -33,7 +35,7 @@ fun SplitCounter(
     onclickPositive: () -> Unit,
     onclickNegative: () -> Unit
 ) {
-    val billSplitDescription = stringResource(R.string.bill_split_description)
+    val billSplitDescription = stringResource(Res.string.bill_split_description)
     Row(
         modifier = Modifier
             .semantics { contentDescription = billSplitDescription }
@@ -43,7 +45,7 @@ fun SplitCounter(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.split),
+            text = stringResource(Res.string.split),
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
         )

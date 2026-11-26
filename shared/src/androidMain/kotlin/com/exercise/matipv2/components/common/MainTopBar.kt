@@ -16,18 +16,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.matip_logo
+import com.exercise.matipv2.generated.resources.matip_logo_sml
+import com.exercise.matipv2.generated.resources.matip_logo_sml_dark
+import com.exercise.matipv2.generated.resources.options_menu
+import com.exercise.matipv2.generated.resources.top_bar_description
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopBar(
     onNavigationClick: () -> Unit
 ) {
-    val topBarDescription = stringResource(R.string.top_bar_description)
+    val topBarDescription = stringResource(Res.string.top_bar_description)
     CenterAlignedTopAppBar(
         modifier = Modifier.semantics { contentDescription = topBarDescription },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -41,11 +46,11 @@ fun MainTopBar(
             Image(
                 modifier = Modifier.size(MatipDimens.topBarLogoSize),
                 painter = if (isSystemInDarkTheme()) {
-                    painterResource(R.drawable.matip_logo_sml_dark)
+                    painterResource(Res.drawable.matip_logo_sml_dark)
                 } else {
-                    painterResource(R.drawable.matip_logo_sml)
+                    painterResource(Res.drawable.matip_logo_sml)
                 },
-                contentDescription = stringResource(R.string.matip_logo),
+                contentDescription = stringResource(Res.string.matip_logo),
             )
         },
         navigationIcon = {
@@ -57,7 +62,7 @@ fun MainTopBar(
                     modifier = Modifier
                         .padding(start = MatipDimens.paddingMedium),
                     imageVector = Icons.Filled.Menu,
-                    contentDescription = stringResource(R.string.options_menu)
+                    contentDescription = stringResource(Res.string.options_menu)
                 )
             }
         },
