@@ -3,7 +3,7 @@ package com.exercise.matipv2.data.repository
 import androidx.test.filters.MediumTest
 import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.local.model.ListWithTips
 import com.exercise.matipv2.data.local.model.Tip
 import kotlinx.coroutines.flow.first
@@ -86,29 +86,29 @@ class OfflineLocalRepositoryTest {
 
     @Test
     fun insertList() = runBlocking {
-        val list = List(id = 1, name = "ListTest1")
+        val list = TipList(id = 1, name = "ListTest1")
         repository.insertList(list)
         verify(mockListDao).insertList(list)
     }
 
     @Test
     fun deleteList() = runBlocking {
-        val list = List(id = 1, name = "ListTest1")
+        val list = TipList(id = 1, name = "ListTest1")
         repository.deleteList(list)
         verify(mockListDao).deleteList(list)
     }
 
     @Test
     fun updateList() = runBlocking {
-        val list2 = List(id = 1, name = "ListTest2")
+        val list2 = TipList(id = 1, name = "ListTest2")
         repository.updateList(list2)
         verify(mockListDao).updateList(list2)
     }
 
     @Test
     fun getAllLists() = runBlocking {
-        val list1 = List(id = 1, name = "ListTest1")
-        val list2 = List(id = 2, name = "ListTest2")
+        val list1 = TipList(id = 1, name = "ListTest1")
+        val list2 = TipList(id = 2, name = "ListTest2")
         `when`(mockListDao.getAllLists(userId)).thenReturn(flowOf(listOf(list1, list2)))
         val allLists = repository.getAllLists(userId).first()
         verify(mockListDao).getAllLists(userId)
@@ -117,8 +117,8 @@ class OfflineLocalRepositoryTest {
 
     @Test
     fun getAllListsWithTips() = runBlocking {
-        val list1 = List(id = 1, name = "ListTest1")
-        val list2 = List(id = 2, name = "ListTest2")
+        val list1 = TipList(id = 1, name = "ListTest1")
+        val list2 = TipList(id = 2, name = "ListTest2")
         val tip1 = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 1, dateCreated = "10/10/2021")
         val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 2, dateCreated = "10/10/2021")
         val listWithTips1 = ListWithTips(list1, listOf(tip1))
@@ -133,7 +133,7 @@ class OfflineLocalRepositoryTest {
 
     @Test
     fun getListByName() = runBlocking {
-        val list = List(id = 1, name = "ListTest1")
+        val list = TipList(id = 1, name = "ListTest1")
         `when`(mockListDao.getListByName("ListTest1", userId)).thenReturn(flowOf(list))
         val listByName = repository.getListByName("ListTest1", userId).first()
         verify(mockListDao).getListByName("ListTest1", userId)

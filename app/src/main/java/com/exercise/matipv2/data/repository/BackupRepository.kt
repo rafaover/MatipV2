@@ -2,7 +2,7 @@ package com.exercise.matipv2.data.repository
 
 import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.util.localDateTimeFormated
 import com.google.firebase.firestore.FirebaseFirestore
@@ -92,7 +92,7 @@ class FirestoreBackupRepository(
 
             // 2. Insert cloud snapshot
             for (doc in cloudLists.documents) {
-                val list = doc.toObject(List::class.java)
+                val list = doc.toObject(TipList::class.java)
                 if (list != null) {
                     listDao.insertList(list) 
                 }

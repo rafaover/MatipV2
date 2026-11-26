@@ -36,17 +36,17 @@ import com.exercise.matipv2.components.lists.AddAnListDialog
 import com.exercise.matipv2.components.lists.AllTipsFromListCounter
 import com.exercise.matipv2.components.lists.EditListDialog
 import com.exercise.matipv2.components.lists.SwipeBox
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ListsScreen(
     viewModel: MainScreenViewModel,
-    navigateTo: (List) -> Unit
+    navigateTo: (TipList) -> Unit
 ) {
 
-    var selectedList by remember { mutableStateOf<List?>(null) }
+    var selectedList by remember { mutableStateOf<TipList?>(null) }
     var showEditListDialog by remember { mutableStateOf(false) }
     val searchState by viewModel.searchFilterState.collectAsState()
     val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsState(initial = emptyList())
@@ -73,14 +73,14 @@ fun ListsScreen(
                 LazyColumn(
                     userScrollEnabled = true
                 ) {
-                    itemsIndexed(allLists) { _, list: List ->
+                    itemsIndexed(allLists) { _, list: TipList ->
                         SwipeBox(
                             item = list,
-                            onDelete = { listToDelete: List ->
+                            onDelete = { listToDelete: TipList ->
                                 selectedList = listToDelete
                                 viewModel.updateShowDeleteListDialog(true)
                             },
-                            onEdit = { listToEdit: List ->
+                            onEdit = { listToEdit: TipList ->
                                 selectedList = listToEdit
                                 showEditListDialog = true
                             }
@@ -124,7 +124,7 @@ fun ListsScreen(
                     viewModel = viewModel,
                     onSaveRequest = {
                         viewModel.viewModelScope.launch {
-                            viewModel.insertList(List(name = viewModel.newListName))
+                            viewModel.insertList(TipList(name = viewModel.newListName))
                             viewModel.updateShowAddListDialog(false)
                         }
                     }

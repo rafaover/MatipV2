@@ -12,11 +12,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.EditTextForm
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 
 @Composable
 fun EditListDialog(
-    listToEdit: List,
+    listToEdit: TipList,
     onSave: (newName: String) -> Unit,
     onDismiss: () -> Unit
 ) {

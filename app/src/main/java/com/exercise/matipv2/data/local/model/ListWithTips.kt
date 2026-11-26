@@ -4,14 +4,14 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 /**
- * Collects an [List] with all their tips.
+ * Collects an [TipList] with all their tips.
  * Uses the foreign Key on [Tip].
 */
 data class ListWithTips(
-    @Embedded val list: List,
+    @Embedded val list: TipList,
     @Relation(
         parentColumn = "id",
         entityColumn = "list_id"
     )
-    val tips: kotlin.collections.List<Tip>
+    val tips: List<Tip>
 )

@@ -29,19 +29,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.exercise.matipv2.R
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun AddTipToListDialogBox(
     viewModel: MainScreenViewModel,
-    allLists: Flow<kotlin.collections.List<List>>,
-    onListSelected: (List) -> Unit
+    allLists: Flow<List<TipList>>,
+    onListSelected: (TipList) -> Unit
 ) {
     val allListsFlow by allLists.collectAsState(initial = emptyList())
     val (selectedOption, onOptionSelected) =
-        remember { mutableStateOf<List?>(null) }
+        remember { mutableStateOf<TipList?>(null) }
 
     Dialog(
         onDismissRequest = { viewModel.updateShowAddListDialog(false) }
