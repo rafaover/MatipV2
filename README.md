@@ -20,20 +20,24 @@ Crowdfunding life goals with a little tip
 
 ## TOOLS:
 
-- 100% Kotlin
-- Ui using Jetpack Compose
+- 100% Kotlin, Kotlin Multiplatform (Android first, iOS next)
+- UI with Compose Multiplatform and Material 3 Expressive
 - StateFlow and ViewModel for State management
-- Material Design 3
-- Navigation Compose
+- Navigation 3
 - Koin for Dependency Injection
-- Room for local storage
-- Coil for Image Loading
+- Room (multiplatform) for local storage
 - Coroutines
-- Authentication :: Credential Manager + Firebase
-- Cloud Backup :: Firestore
-- JUnit/Mockito for tests
+- Authentication :: Credential Manager + Firebase (GitLive)
+- Cloud Backup :: Firestore (GitLive)
+- kotlin.test with hand-made fakes for tests
+
+## Project layout
+
+- `shared/`: all app code (`commonMain`) and the little platform code (`androidMain`)
+- `androidApp/`: the Android app shell
+
+See `CLAUDE.md` for the build and test commands.
 
 Future Plans:
-- KMP Migration
-- Compose Multiplatform Implementation
+- iOS app
 - Seamless Payment (Stable or Crypto)
