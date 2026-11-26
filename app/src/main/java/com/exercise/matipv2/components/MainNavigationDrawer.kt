@@ -29,17 +29,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.exercise.matipv2.R
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.model.AuthUser
 
 @Composable
 fun MainNavigationDrawerContent(
     currentUser: AuthUser?,
-    userLists: kotlin.collections.List<List> = emptyList(),
+    userLists: List<TipList> = emptyList(),
     onSignInGoogle: () -> Unit,
     onSignInEmail: () -> Unit,
     onSignOut: () -> Unit,
-    onListClick: (List) -> Unit,
+    onListClick: (TipList) -> Unit,
     onSettingsClick: () -> Unit,
     onReviewClick: () -> Unit,
 ) {
@@ -121,7 +121,7 @@ fun MainNavigationDrawerContent(
                         onClick = { /* Navigate to All Lists logic handled by caller */ },
                         modifier = Modifier.padding(horizontal = 28.dp)
                     ) {
-                        Text(text = "... more")
+                        Text(text = stringResource(R.string.more_lists))
                     }
                 }
             }

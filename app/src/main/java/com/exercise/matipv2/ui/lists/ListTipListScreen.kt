@@ -33,8 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -44,10 +43,11 @@ import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
 import com.exercise.matipv2.components.common.SearchBarComponent
-import com.exercise.matipv2.components.common.shareTextWithApps
+import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.components.lists.AddTipValueToListDialog
 import com.exercise.matipv2.ui.MainScreenViewModel
 import com.exercise.matipv2.util.tipListToString
+import org.koin.compose.koinInject
 import kotlinx.coroutines.launch
 
 /**
@@ -76,8 +76,8 @@ fun ListTipListScreen(
         viewModel.updateFilteredTipsList(listId)
     }.collectAsState(initial = emptyList())
 
-    /** Share the list of tips using [shareTextWithApps] */
-    val context = LocalContext.current
+    val platformActions: PlatformActions = koinInject()
+    val deleteTipLabel = stringResource(R.string.tip_will_be_deleted)
 
     Dialog(
         onDismissRequest = { onDismissRequest() },
@@ -130,7 +130,7 @@ fun ListTipListScreen(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(dimensionResource(R.dimen.padding_mid))
+                        .padding(MatipDimens.paddingMedium)
                 ) {
                     SearchBarComponent(
                         searchQuery = searchState.searchQuery,
@@ -138,7 +138,7 @@ fun ListTipListScreen(
                             viewModel.updateSearchQuery(it)
                         },
                         onClearSearch = { viewModel.clearSearch() },
-                        placeholder = "Search tips.. .",
+                        placeholder = stringResource(R.string.search_tips_placeholder),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Row(
@@ -149,20 +149,19 @@ fun ListTipListScreen(
                         Text(
                             text = stringResource(R.string.tip_list_title),
                             style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_sml))
+                            modifier = Modifier.padding(MatipDimens.paddingSmall)
                         )
 
                         /**
-                         * Button to [shareTextWithApps]. Sharing list of Tips from List
+                         * Button to [PlatformActions.shareText]. Sharing list of Tips from List
                          */
                         Icon(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-                                    shareTextWithApps(
+                                    platformActions.shareText(
                                         title = list.value?.name!!,
-                                        content = tipListToString(listTipListState.value),
-                                        context = context
+                                        content = tipListToString(listTipListState.value)
                                     )
                                 },
                             imageVector = Icons.Default.Share,
@@ -172,11 +171,11 @@ fun ListTipListScreen(
                     }
                     HorizontalDivider(
                         modifier = Modifier
-                            .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                            .padding(bottom = MatipDimens.paddingMedium)
                     )
                     if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
                         Text(
-                            text = "No tips found for '${searchState.searchQuery}'",
+                            text = stringResource(R.string.no_tips_found, searchState.searchQuery),
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             style = MaterialTheme.typography.bodyLarge
                         )
@@ -197,7 +196,7 @@ fun ListTipListScreen(
                                     listItemTrailingIcon = Icons.Default.DeleteForever,
                                     trailingIconContentDescription = stringResource(R.string.delete),
                                     onClickTrailingIcon = { viewModel.deleteTip(tip) },
-                                    onClickLabel = context.getString(R.string.tip_will_be_deleted),
+                                    onClickLabel = deleteTipLabel,
                                     modifier = Modifier.height(70.dp)
                                 )
                             }

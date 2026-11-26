@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -36,20 +36,23 @@ import com.exercise.matipv2.components.lists.AddAnListDialog
 import com.exercise.matipv2.components.lists.AllTipsFromListCounter
 import com.exercise.matipv2.components.lists.EditListDialog
 import com.exercise.matipv2.components.lists.SwipeBox
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.launch
+import com.exercise.matipv2.components.common.stringResourceWithBoldArgument
+import androidx.compose.ui.res.pluralStringResource
 
 @Composable
 fun ListsScreen(
     viewModel: MainScreenViewModel,
-    navigateTo: (List) -> Unit
+    navigateTo: (TipList) -> Unit
 ) {
 
-    var selectedList by remember { mutableStateOf<List?>(null) }
+    var selectedList by remember { mutableStateOf<TipList?>(null) }
     var showEditListDialog by remember { mutableStateOf(false) }
     val searchState by viewModel.searchFilterState.collectAsState()
     val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsState(initial = emptyList())
+    val listsScreenDescription = pluralStringResource(R.plurals.lists_screen_description, allLists.size, allLists.size)
 
     Column(
         modifier = Modifier
@@ -61,11 +64,11 @@ fun ListsScreen(
             onSearchQueryChange = {
                 viewModel.updateSearchQuery(it)},
             onClearSearch = { viewModel.clearSearch() },
-            placeholder = "Search lists..."
+            placeholder = stringResource(R.string.search_lists_placeholder)
         )
         Box(
             modifier = Modifier
-                .semantics { contentDescription = "Lists Screen. ${allLists.size} lists" }
+                .semantics { contentDescription = listsScreenDescription }
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
@@ -73,14 +76,14 @@ fun ListsScreen(
                 LazyColumn(
                     userScrollEnabled = true
                 ) {
-                    itemsIndexed(allLists) { _, list: List ->
+                    itemsIndexed(allLists) { _, list: TipList ->
                         SwipeBox(
                             item = list,
-                            onDelete = { listToDelete: List ->
+                            onDelete = { listToDelete: TipList ->
                                 selectedList = listToDelete
                                 viewModel.updateShowDeleteListDialog(true)
                             },
-                            onEdit = { listToEdit: List ->
+                            onEdit = { listToEdit: TipList ->
                                 selectedList = listToEdit
                                 showEditListDialog = true
                             }
@@ -103,7 +106,7 @@ fun ListsScreen(
                 }
             } else if(searchState.isSearchActive) {
                 Text(
-                    text = "No lists found for '${searchState.searchQuery}'",
+                    text = stringResource(R.string.no_lists_found, searchState.searchQuery),
                     modifier = Modifier. align(Alignment.Center),
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -112,9 +115,9 @@ fun ListsScreen(
             FabAdd(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(dimensionResource(R.dimen.padding_mid)),
+                    .padding(MatipDimens.paddingMedium),
                 onClick = { viewModel.updateShowAddListDialog(true) },
-                text = "New List",
+                text = stringResource(R.string.new_list),
                 contentDescription = stringResource(R.string.add_a_list)
             )
 
@@ -124,7 +127,7 @@ fun ListsScreen(
                     viewModel = viewModel,
                     onSaveRequest = {
                         viewModel.viewModelScope.launch {
-                            viewModel.insertList(List(name = viewModel.newListName))
+                            viewModel.insertList(TipList(name = viewModel.newListName))
                             viewModel.updateShowAddListDialog(false)
                         }
                     }
@@ -135,9 +138,9 @@ fun ListsScreen(
                 val listName = selectedList?.name ?: "List"
                 ConfirmationAlertDialog(
                     title = stringResource(R.string.dialog_title),
-                    message = stringResource(
+                    message = stringResourceWithBoldArgument(
                         id = R.string.dialog_delete_list_text,
-                        listName
+                        argument = listName
                     ),
                     icon = Icons.Filled.Info,
                     confirmButtonText = stringResource(R.string.delete),

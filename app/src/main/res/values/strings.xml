@@ -29,7 +29,7 @@
 
 <!--    Dialogs Strings-->
     <string name="dialog_title">Delete List</string>
-    <string name="dialog_delete_list_text">Are you sure you want to delete <b>%1$S</b> and all its tips?</string>
+    <string name="dialog_delete_list_text">Are you sure you want to delete %1$s and all its tips?</string>
     <string name="add_a_list">Add a List</string>
     <string name="main_screen">Main Screen</string>
     <string name="fab_add_list">Add a List</string>
@@ -65,5 +65,34 @@
     <string name="account_deleted">Account deleted successfully.</string>
     <string name="support_legal">Support</string>
     <string name="review_app">Review App</string>
+
+<!--    Accessibility and Screen Strings-->
+    <string name="tip_added_to_list">Tip added to list</string>
+    <string name="no_email_app_found">No email app found</string>
+    <string name="feedback_subject" translatable="false">Feedback for MaTip App</string>
+    <string name="search_placeholder">Search...</string>
+    <string name="search_tips_placeholder">Search tips...</string>
+    <string name="search_lists_placeholder">Search lists...</string>
+    <string name="no_tips_found">No tips found for \'%1$s\'</string>
+    <string name="no_lists_found">No lists found for \'%1$s\'</string>
+    <string name="new_list">New List</string>
+    <string name="more_lists">... more</string>
+    <string name="main_screen_description">Main Screen with a top bar, tip calculator and bottom navigation bar</string>
+    <string name="tip_calculator_screen_description">Tip Calculator Screen</string>
+    <string name="bill_split_description">Bill Split</string>
+    <string name="bottom_navigation_bar_description">Bottom Navigation Bar</string>
+    <string name="top_bar_description">Top Bar</string>
+    <string name="total_tip_amount_description">Total Tip Amount</string>
+    <string name="round_tip_switch_description">Round The Tip Switch</string>
+    <string name="search_icon_description">Search Icon</string>
+    <string name="clear_search_description">Clear Search</string>
+    <plurals name="lists_screen_description">
+        <item quantity="one">Lists Screen. %d list</item>
+        <item quantity="other">Lists Screen. %d lists</item>
+    </plurals>
+    <plurals name="tips_count">
+        <item quantity="one">%d tip</item>
+        <item quantity="other">%d tips</item>
+    </plurals>
 
 </resources>

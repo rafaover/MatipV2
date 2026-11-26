@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -33,10 +33,11 @@ fun SplitCounter(
     onclickPositive: () -> Unit,
     onclickNegative: () -> Unit
 ) {
+    val billSplitDescription = stringResource(R.string.bill_split_description)
     Row(
         modifier = Modifier
-            .semantics { contentDescription = "Bill Split" }
-            .padding(bottom = dimensionResource(R.dimen.padding_mid))
+            .semantics { contentDescription = billSplitDescription }
+            .padding(bottom = MatipDimens.paddingMedium)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween

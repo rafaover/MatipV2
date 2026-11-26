@@ -13,14 +13,16 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.exercise.matipv2.ui.navigation.NavBarItems
+import com.exercise.matipv2.ui.navigation.NavBarItems
+import com.exercise.matipv2.R
 
 @Composable
 fun MainNavigationBar(
     navController: NavHostController
 ) {
+    val barDescription = stringResource(R.string.bottom_navigation_bar_description)
     NavigationBar(
-        modifier = Modifier.semantics { contentDescription = "Bottom Navigation Bar" }
+        modifier = Modifier.semantics { contentDescription = barDescription }
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

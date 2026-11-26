@@ -1,9 +1,5 @@
 package com.exercise.matipv2.util
 
-import androidx.annotation.VisibleForTesting
-import java.text.NumberFormat
-
-@VisibleForTesting
 fun calculateTip(
     amount: String,
     tipPercent: String,
@@ -16,5 +12,5 @@ fun calculateTip(
 
     if(roundUp)
         tip = kotlin.math.ceil(tip)
-    return NumberFormat.getCurrencyInstance().format(tip)
+    return formatCurrency(tip)
 }

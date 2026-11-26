@@ -2,7 +2,7 @@ package com.exercise.matipv2.data.repository
 
 import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.local.model.ListWithTips
 import com.exercise.matipv2.data.local.model.Tip
 import kotlinx.coroutines.flow.Flow
@@ -11,19 +11,19 @@ interface LocalRepository {
     suspend fun insertTip(tip: Tip): Long
     suspend fun deleteTip(tip: Tip)
     suspend fun updateTip(tip: Tip)
-    fun getAllTips(userId: String?): Flow<kotlin.collections.List<Tip>>
+    fun getAllTips(userId: String?): Flow<List<Tip>>
     suspend fun getLastTipSaved(userId: String?): Tip
-    fun getAllTipsFromList(listId: Int, userId: String?): Flow<kotlin.collections.List<Tip>>
-    fun searchTipsInList(listId: Int, query: String, userId: String?): Flow<kotlin.collections.List<Tip>>
+    fun getAllTipsFromList(listId: Int, userId: String?): Flow<List<Tip>>
+    fun searchTipsInList(listId: Int, query: String, userId: String?): Flow<List<Tip>>
 
-    suspend fun insertList(list: List): Long
-    suspend fun deleteList(list: List)
-    suspend fun updateList(list: List)
-    fun getAllLists(userId: String?): Flow<kotlin.collections.List<List>>
-    fun getListByName(listName: String, userId: String?): Flow<List>
-    fun getListById(listId: Int, userId: String?): Flow<List>
-    fun getAllListsWithTips(userId: String?): Flow<kotlin.collections.List<ListWithTips>>
-    fun searchLists(query: String, userId: String?): Flow<kotlin.collections.List<List>>
+    suspend fun insertList(list: TipList): Long
+    suspend fun deleteList(list: TipList)
+    suspend fun updateList(list: TipList)
+    fun getAllLists(userId: String?): Flow<List<TipList>>
+    fun getListByName(listName: String, userId: String?): Flow<TipList>
+    fun getListById(listId: Int, userId: String?): Flow<TipList>
+    fun getAllListsWithTips(userId: String?): Flow<List<ListWithTips>>
+    fun searchLists(query: String, userId: String?): Flow<List<TipList>>
 
     suspend fun migrateGuestData(userId: String)
     suspend fun deleteAllUserData(userId: String)
@@ -41,9 +41,9 @@ class OfflineLocalRepository(
     override fun getAllTipsFromList(listId: Int, userId: String?) = tipDao.getAllTipsFromList(listId, userId)
     override fun searchTipsInList(listId: Int, query: String, userId: String?) = tipDao.searchTipsInList(listId, query, userId)
 
-    override suspend fun insertList(list: List) = listDao.insertList(list)
-    override suspend fun deleteList(list: List) = listDao.deleteList(list)
-    override suspend fun updateList(list: List) = listDao.updateList(list)
+    override suspend fun insertList(list: TipList) = listDao.insertList(list)
+    override suspend fun deleteList(list: TipList) = listDao.deleteList(list)
+    override suspend fun updateList(list: TipList) = listDao.updateList(list)
     override fun getAllLists(userId: String?) = listDao.getAllLists(userId)
     override fun getListByName(listName: String, userId: String?) = listDao.getListByName(listName, userId)
     override fun getListById(listId: Int, userId: String?) = listDao.getListById(listId, userId)

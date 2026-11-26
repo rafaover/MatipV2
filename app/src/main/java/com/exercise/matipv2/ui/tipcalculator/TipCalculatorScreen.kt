@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -29,7 +29,6 @@ import com.exercise.matipv2.components.common.ButtonToOpenDialog
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.components.common.RoundTheTipSwitch
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun TipCalculatorScreen(
@@ -37,12 +36,14 @@ fun TipCalculatorScreen(
     uiState: TipCalculatorScreenUiState,
 ) {
     val focusManager = LocalFocusManager.current
+    val screenDescription = stringResource(R.string.tip_calculator_screen_description)
+    val tipAddedMessage = stringResource(R.string.tip_added_to_list)
     val tipAmountInput = uiState.tipAmount
     val tipPercentInput = uiState.tipPercent
 
     Column(
         modifier = Modifier
-            .semantics { contentDescription = "Tip Calculator Screen" }
+            .semantics { contentDescription = screenDescription }
             .fillMaxSize()
             .padding(40.dp)
             .verticalScroll(rememberScrollState()),
@@ -54,7 +55,7 @@ fun TipCalculatorScreen(
 
         Text(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             text = stringResource(R.string.calculate_tip),
             fontWeight = FontWeight.Bold,
@@ -65,7 +66,7 @@ fun TipCalculatorScreen(
 
         EditTextForm(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             label = R.string.bill_amount,
             value = tipAmountInput,
@@ -106,7 +107,7 @@ fun TipCalculatorScreen(
 
         RoundTheTipSwitch(
             modifier = Modifier
-                .padding(bottom = dimensionResource(R.dimen.padding_mid))
+                .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
             roundUp = uiState.roundUp,
             onRoundUpChange = { viewModel.updateRoundUp(it) }
@@ -129,11 +130,9 @@ fun TipCalculatorScreen(
                 viewModel = viewModel,
                 allLists = viewModel.getAllLists(),
                 onListSelected = {
-                    runBlocking {
-                        viewModel.insertTip()
-                    }
+                    viewModel.insertTip()
                     focusManager.clearFocus()
-                    viewModel.updateShowSnackBar(true, "Tip added to list")
+                    viewModel.updateShowSnackBar(true, tipAddedMessage)
                     viewModel.resetCalculateTipScreen()
                 }
             )

@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.exercise.matipv2.ui.MainScreen
@@ -29,7 +29,7 @@ class TipUITests {
     fun calculate_20_percent_tip() {
         composeTestRule.setContent {
             MaTIPv2Theme {
-                MainScreen(viewModel())
+                MainScreen(koinViewModel())
             }
         }
         composeTestRule.onNodeWithText("Bill Amount").performTextInput("10")
@@ -41,7 +41,7 @@ class TipUITests {
     fun calculate_20_percent_tip_NoRound() {
         composeTestRule.setContent {
             MaTIPv2Theme {
-                MainScreen(viewModel())
+                MainScreen(koinViewModel())
             }
         }
         composeTestRule.onNodeWithText("Bill Amount").performTextInput("13")
@@ -53,7 +53,7 @@ class TipUITests {
     fun calculate_20_percent_tip_Rounded() {
         composeTestRule.setContent {
             MaTIPv2Theme {
-                MainScreen(viewModel())
+                MainScreen(koinViewModel())
             }
         }
         composeTestRule.onNodeWithText("Bill Amount").performTextInput("13")
@@ -67,19 +67,19 @@ class TipUITests {
     fun splitCounter_afterClick_plusAndMinus() {
         composeTestRule.setContent {
             MaTIPv2Theme {
-                MainScreen(viewModel())
+                MainScreen(koinViewModel())
             }
         }
         composeTestRule.onNodeWithText("+").performClick().performClick()
-        composeTestRule.onNodeWithTag("SplitCounter").assert(hasText("2"))
+        composeTestRule.onNodeWithTag("SplitCounter").assert(hasText("3"))
         composeTestRule.onNodeWithText("-").performClick()
-        composeTestRule.onNodeWithTag("SplitCounter").assert(hasText("1"))
+        composeTestRule.onNodeWithTag("SplitCounter").assert(hasText("2"))
     }
     @Test
     fun splitCounter_nonNegative() {
         composeTestRule.setContent {
             MaTIPv2Theme {
-                MainScreen(viewModel())
+                MainScreen(koinViewModel())
             }
         }
         composeTestRule.onNodeWithText("-").performClick()

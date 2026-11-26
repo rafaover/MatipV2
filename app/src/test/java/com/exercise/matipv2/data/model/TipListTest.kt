@@ -1,12 +1,12 @@
 package com.exercise.matipv2.data.model
 
 import androidx.test.filters.SmallTest
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @SmallTest
-class ListTest {
+class TipListTest {
 
     @Test
     fun listModel_correctlyStoresData() {
@@ -15,7 +15,7 @@ class ListTest {
         val expectedName = "Test List"
 
         // When
-        val list = List(id = expectedId, name = expectedName)
+        val list = TipList(id = expectedId, name = expectedName)
 
         // Then
         assertEquals(expectedId, list.id)

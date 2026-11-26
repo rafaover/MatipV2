@@ -22,26 +22,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.exercise.matipv2.R
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
 import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun AddTipToListDialogBox(
     viewModel: MainScreenViewModel,
-    allLists: Flow<kotlin.collections.List<List>>,
-    onListSelected: (List) -> Unit
+    allLists: Flow<List<TipList>>,
+    onListSelected: (TipList) -> Unit
 ) {
     val allListsFlow by allLists.collectAsState(initial = emptyList())
     val (selectedOption, onOptionSelected) =
-        remember { mutableStateOf<List?>(null) }
+        remember { mutableStateOf<TipList?>(null) }
 
     Dialog(
         onDismissRequest = { viewModel.updateShowAddListDialog(false) }
@@ -54,8 +54,8 @@ fun AddTipToListDialogBox(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(dimensionResource(R.dimen.padding_dialog)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_mid))
+                    .padding(MatipDimens.paddingDialog),
+                verticalArrangement = Arrangement.spacedBy(MatipDimens.paddingMedium)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -79,7 +79,7 @@ fun AddTipToListDialogBox(
                             viewModel.updateShowAddListDialog(false)
                         },
                         modifier = Modifier
-                            .padding(dimensionResource(R.dimen.padding_button))
+                            .padding(MatipDimens.paddingButton)
                     ) {
                         Text(
                             text = stringResource(R.string.confirm),
@@ -115,7 +115,7 @@ fun AddTipToListDialogBox(
                                     text = list.name,
                                     style = MaterialTheme.typography.bodyLarge,
                                     modifier = Modifier
-                                        .padding(start = dimensionResource(R.dimen.padding_mid))
+                                        .padding(start = MatipDimens.paddingMedium)
                                 )
                             }
                         }

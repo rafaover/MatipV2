@@ -14,7 +14,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,8 +42,8 @@ fun AddAnListDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(dimensionResource(R.dimen.padding_dialog)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_mid))
+                    .padding(MatipDimens.paddingDialog),
+                verticalArrangement = Arrangement.spacedBy(MatipDimens.paddingMedium)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),

@@ -7,7 +7,7 @@ import androidx.test.filters.MediumTest
 import com.exercise.matipv2.data.local.MatipDatabase
 import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.local.model.Tip
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
@@ -49,9 +49,9 @@ class ListDaoTests {
     @Test
     @Throws(Exception::class)
     fun insertList_GetList() = runTest {
-        val list = List(id = 1, name = "ListTest")
+        val list = TipList(id = 1, name = "ListTest")
         listDao.insertList(list)
-        val byListName = listDao.getListByName("ListTest").first()
+        val byListName = listDao.getListByName("ListTest", null).first()
         assertEquals(byListName, list)
     }
 
@@ -59,11 +59,11 @@ class ListDaoTests {
     @Test
     @Throws(Exception::class)
     fun insertList_DeleteList() = runTest {
-        val list = List(id = 1, name = "ListTest")
+        val list = TipList(id = 1, name = "ListTest")
         listDao.insertList(list)
         listDao.deleteList(list)
-        val byListName = listDao.getListByName("ListTest").first()
-        assertEquals(byListName, null)
+        val allLists = listDao.getAllLists(null).first()
+        assertEquals(emptyList<TipList>(), allLists)
     }
 
     /* Test case to get all Lists and Read all */
@@ -71,10 +71,10 @@ class ListDaoTests {
     @Throws(Exception::class)
     fun insertLists_getAllLists() = runTest {
         for (i in 1..5) {
-            val list = List(id = i, name = "ListTest$i")
+            val list = TipList(id = i, name = "ListTest$i")
             listDao.insertList(list)
         }
-        val allLists = listDao.getAllLists().first()
+        val allLists = listDao.getAllLists(null).first()
         assertEquals(allLists.size, 5)
         assertEquals(allLists[0].name, "ListTest1")
         assertEquals(allLists[1].name, "ListTest2")
@@ -83,11 +83,11 @@ class ListDaoTests {
     @Test
     @Throws(Exception::class)
     fun updateList_getList() = runTest {
-        val list = List(id = 1, name = "ListTest")
+        val list = TipList(id = 1, name = "ListTest")
         listDao.insertList(list)
-        val updatedList = List(id = 1, name = "ListTestUpdated")
+        val updatedList = TipList(id = 1, name = "ListTestUpdated")
         listDao.updateList(updatedList)
-        val byListName = listDao.getListByName("ListTestUpdated").first()
+        val byListName = listDao.getListByName("ListTestUpdated", null).first()
         assertEquals(byListName, updatedList)
     }
 
@@ -96,7 +96,7 @@ class ListDaoTests {
     fun getAllListsWithTips() = runBlocking {
         // Add 10 Lists
         for (i in 1..10) {
-            val list = List(id = i, name = "ListTest$i")
+            val list = TipList(id = i, name = "ListTest$i")
             listDao.insertList(list)
         }
         // Add 3 tips to ListTest1
@@ -121,8 +121,8 @@ class ListDaoTests {
             )
             tipDao.insertTip(tip)
         }
-        val getAllLists = listDao.getAllLists().first() // 10
-        val listsWithTips = listDao.getAllListsWithTips().first() // 2
+        val getAllLists = listDao.getAllLists(null).first() // 10
+        val listsWithTips = listDao.getAllListsWithTips(null).first() // 2
         assertEquals(getAllLists.size, 10)
         assertEquals(listsWithTips.size, 2)
     }

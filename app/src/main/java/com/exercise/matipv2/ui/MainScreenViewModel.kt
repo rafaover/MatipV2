@@ -1,20 +1,19 @@
 package com.exercise.matipv2.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.exercise.matipv2.data.analytics.AnalyticsHelper
-import com.exercise.matipv2.data.local.model.List
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.repository.AuthRepository
 import com.exercise.matipv2.data.repository.LocalRepository
 import com.exercise.matipv2.ui.search.SearchFilterState
 import com.exercise.matipv2.ui.tipcalculator.TipCalculatorScreenUiState
 import com.exercise.matipv2.util.calculateTip
-import com.exercise.matipv2.util.convertTipAmountToCurrency
+import com.exercise.matipv2.util.formatCurrency
+import com.exercise.matipv2.util.stringAmountToDouble
 import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
 class MainScreenViewModel (
     private val localRepository: LocalRepository,
     private val authRepository: AuthRepository,
-    private val analyticsHelper: AnalyticsHelper,
 ) : ViewModel() {
 
     private val currentUserId: String?
@@ -73,7 +71,7 @@ class MainScreenViewModel (
         updateState { it.copy(dateCreated = localDateTimeFormated()) }
     }
 
-    fun updateList(list: List) {
+    fun updateList(list: TipList) {
         viewModelScope.launch(Dispatchers.IO) {
             localRepository.updateList(list)
         }
@@ -109,7 +107,6 @@ class MainScreenViewModel (
         }
     }
 
-    @SuppressLint("VisibleForTests")
     fun updateFinalTip(): String {
         val calculatedTip = calculateTip(
             amount = uiState.value.tipAmount,
@@ -136,21 +133,21 @@ class MainScreenViewModel (
     */
 
     fun insertTip() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val tip = Tip(
-                tipAmount = uiState.value.finalTip,
-                tipPercent = uiState.value.tipPercent,
-                listId = uiState.value.listId,
-                dateCreated = uiState.value.dateCreated,
-                userId = currentUserId
-            )
+        // Built before launching: the screen resets the state right after this call.
+        val tip = Tip(
+            tipAmount = uiState.value.finalTip,
+            tipPercent = uiState.value.tipPercent,
+            listId = uiState.value.listId,
+            dateCreated = uiState.value.dateCreated,
+            userId = currentUserId
+        )
+        viewModelScope.launch {
             localRepository.insertTip(tip)
-            analyticsHelper.logEvent("tip_inserted")
         }
     }
 
     fun insertTipValueToList(listId: Int) {
-        val tipAmountConverted = convertTipAmountToCurrency(uiState.value.tipAmount)
+        val tipAmountConverted = formatCurrency(stringAmountToDouble(uiState.value.tipAmount))
 
         viewModelScope.launch(Dispatchers.IO) {
             val tip = Tip(
@@ -161,16 +158,14 @@ class MainScreenViewModel (
                 userId = currentUserId
             )
             localRepository.insertTip(tip)
-            analyticsHelper.logEvent("tip_added_to_list")
             resetCalculateTipScreen()
         }
     }
 
-    fun insertList(list: List) {
+    fun insertList(list: TipList) {
         viewModelScope.launch(Dispatchers.IO) {
             val listWithUser = list.copy(userId = currentUserId)
             localRepository.insertList(listWithUser)
-            analyticsHelper.logEvent("list_created")
         }
         updateNewListName("")
     }
@@ -179,7 +174,7 @@ class MainScreenViewModel (
     * Delete Functions
     */
 
-    fun deleteList(list: List?) {
+    fun deleteList(list: TipList?) {
         viewModelScope.launch(Dispatchers.IO) {
             if (list != null) {
                 localRepository.deleteList(list)
@@ -207,15 +202,15 @@ class MainScreenViewModel (
     * Get Functions
     */
 
-    fun getAllLists(): Flow<kotlin.collections.List<List>> {
+    fun getAllLists(): Flow<List<TipList>> {
         return localRepository.getAllLists(currentUserId)
     }
 
-    fun getListById(listId: Int): Flow<List> {
+    fun getListById(listId: Int): Flow<TipList> {
         return localRepository.getListById(listId, currentUserId)
     }
 
-    fun getAllTipsFromList(eventId: Int): Flow<kotlin.collections.List<Tip>> {
+    fun getAllTipsFromList(eventId: Int): Flow<List<Tip>> {
         return localRepository.getAllTipsFromList(eventId, currentUserId)
     }
 
@@ -239,7 +234,7 @@ class MainScreenViewModel (
     /**
      * Get filtered tips from a specific list based on search query
      */
-    fun updateFilteredTipsList(listId: Int): Flow<kotlin.collections.List<Tip>> {
+    fun updateFilteredTipsList(listId: Int): Flow<List<Tip>> {
         val state = _searchFilterState.value
 
        return if (state.searchQuery.isNotEmpty()) {
@@ -252,7 +247,7 @@ class MainScreenViewModel (
     /**
      * Get filtered lists based on search query
      */
-    fun updateFilteredLists(): Flow<kotlin.collections.List<List>> {
+    fun updateFilteredLists(): Flow<List<TipList>> {
         val state = _searchFilterState.value
 
         return if (state.searchQuery.isNotEmpty()) {

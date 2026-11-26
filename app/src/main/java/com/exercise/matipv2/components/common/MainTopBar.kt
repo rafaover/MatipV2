@@ -15,7 +15,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
+import com.exercise.matipv2.ui.theme.MatipDimens
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -27,8 +27,9 @@ import com.exercise.matipv2.R
 fun MainTopBar(
     onNavigationClick: () -> Unit
 ) {
+    val topBarDescription = stringResource(R.string.top_bar_description)
     CenterAlignedTopAppBar(
-        modifier = Modifier.semantics { contentDescription = "Top Bar" },
+        modifier = Modifier.semantics { contentDescription = topBarDescription },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
             scrolledContainerColor = Color.Unspecified,
@@ -38,7 +39,7 @@ fun MainTopBar(
         ),
         title = {
             Image(
-                modifier = Modifier.size(dimensionResource(R.dimen.logo_topbar_size)),
+                modifier = Modifier.size(MatipDimens.topBarLogoSize),
                 painter = if (isSystemInDarkTheme()) {
                     painterResource(R.drawable.matip_logo_sml_dark)
                 } else {
@@ -54,7 +55,7 @@ fun MainTopBar(
             ) {
                 Icon(
                     modifier = Modifier
-                        .padding(start = dimensionResource(R.dimen.padding_mid)),
+                        .padding(start = MatipDimens.paddingMedium),
                     imageVector = Icons.Filled.Menu,
                     contentDescription = stringResource(R.string.options_menu)
                 )

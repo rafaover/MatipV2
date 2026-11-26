@@ -1,7 +1,5 @@
 package com.exercise.matipv2.ui.settings
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,14 +28,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import com.exercise.matipv2.R
 import com.exercise.matipv2.components.common.ConfirmationAlertDialog
+import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.ui.auth.AuthViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
+import androidx.compose.ui.text.AnnotatedString
+
+private const val FEEDBACK_EMAIL = "feeltheboardgame@gmail.com"
+private const val PRIVACY_POLICY_URL = "https://sites.google.com/view/matip-privacy-police/home"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,18 +47,20 @@ fun SettingsScreen(
     authViewModel: AuthViewModel = koinViewModel(),
     onBackClick: () -> Unit,
     onShowMessage: (String) -> Unit,
+    platformActions: PlatformActions = koinInject(),
 ) {
-    val context = LocalContext.current
     val currentUser by authViewModel.currentUser.collectAsState()
     val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
     val backupSuccessMessage = stringResource(R.string.backup_success)
     val restoreSuccessMessage = stringResource(R.string.restore_success)
     val accountDeletedMessage = stringResource(R.string.account_deleted)
+    val feedbackSubject = stringResource(R.string.feedback_subject)
+    val noEmailAppMessage = stringResource(R.string.no_email_app_found)
 
     if (authViewModel.showDeleteAccountDialog) {
         ConfirmationAlertDialog(
             title = stringResource(R.string.delete_account_confirm_title),
-            message = stringResource(R.string.delete_account_confirm_message),
+            message = AnnotatedString(stringResource(R.string.delete_account_confirm_message)),
             icon = Icons.Default.Warning,
             confirmButtonText = stringResource(R.string.delete),
             onConfirm = {
@@ -143,7 +147,7 @@ fun SettingsScreen(
                 headlineContent = { Text(stringResource(R.string.review_app)) },
                 leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
                 modifier = Modifier.clickable {
-                    openPlayStore(context)
+                    platformActions.openStoreListing()
                 }
             )
 
@@ -151,14 +155,8 @@ fun SettingsScreen(
                 headlineContent = { Text(stringResource(R.string.feedback)) },
                 leadingContent = { Icon(Icons.Default.Feedback, contentDescription = null) },
                 modifier = Modifier.clickable {
-                    val intent = Intent(Intent.ACTION_SENDTO).apply {
-                        data = "mailto:feeltheboardgame@gmail.com".toUri()
-                        putExtra(Intent.EXTRA_SUBJECT, "Feedback for MaTip App")
-                    }
-                    try {
-                        context.startActivity(intent)
-                    } catch (e: Exception) {
-                        onShowMessage("No email app found")
+                    if (!platformActions.sendEmail(FEEDBACK_EMAIL, feedbackSubject)) {
+                        onShowMessage(noEmailAppMessage)
                     }
                 }
             )
@@ -167,9 +165,7 @@ fun SettingsScreen(
                 headlineContent = { Text(stringResource(R.string.privacy_policy)) },
                 leadingContent = { Icon(Icons.Default.Description, contentDescription = null) },
                 modifier = Modifier.clickable {
-                    val intent = Intent(Intent.ACTION_VIEW,
-                        "https://sites.google.com/view/matip-privacy-police/home".toUri())
-                    context.startActivity(intent)
+                    platformActions.openUrl(PRIVACY_POLICY_URL)
                 }
             )
 
@@ -196,22 +192,5 @@ fun SettingsScreen(
                 )
             }
         }
-    }
-}
-
-private fun openPlayStore(context: Context) {
-    val packageName = context.packageName
-    val marketUri = "market://details?id=$packageName".toUri()
-    val intent = Intent(Intent.ACTION_VIEW, marketUri).apply {
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
-    try {
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        val webUri = "https://play.google.com/store/apps/details?id=$packageName".toUri()
-        val webIntent = Intent(Intent.ACTION_VIEW, webUri).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        context.startActivity(webIntent)
     }
 }
