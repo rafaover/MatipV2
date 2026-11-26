@@ -20,7 +20,7 @@ Crowdfunding life goals with a little tip
 
 ## TOOLS:
 
-- 100% Kotlin, Kotlin Multiplatform (Android first, iOS next)
+- 100% Kotlin, Kotlin Multiplatform (Android shipped, iOS in progress)
 - UI with Compose Multiplatform and Material 3 Expressive
 - StateFlow and ViewModel for State management
 - Navigation 3

@@ -8,7 +8,7 @@ description: Stack, architecture, and forbidden patterns for this codebase
 - Jetpack Compose only — no XML layouts.
 - MVVM architecture.
 - Coroutines and Flow only — no other async/reactive mechanisms.
-- Kotlin Multiplatform, Android first (iOS comes later). Two Gradle modules: `:shared` (all app code, `commonMain` and `androidMain`) and `:androidApp` (thin shell: activity, application, manifest, signing).
+- Kotlin Multiplatform, Android first (iOS shell in progress). Two Gradle modules: `:shared` (all app code, `commonMain` and `androidMain`) and `:androidApp` (thin shell: activity, application, manifest, signing).
 - Platform code goes behind an interface injected with Koin (`PlatformActions`, `GoogleIdTokenProvider`). Use expect/actual only for small functions or constants, like currency formatting.
 - Dependency injection with Koin.
 
