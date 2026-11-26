@@ -27,7 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -73,12 +73,12 @@ fun ListTipListScreen(
 ) {
     val list = viewModel
         .getListById(listId)
-        .collectAsState(null)
+        .collectAsStateWithLifecycle(null)
 
-    val searchState by viewModel.searchFilterState.collectAsState()
+    val searchState by viewModel.searchFilterState.collectAsStateWithLifecycle()
     val listTipListState = remember(searchState.searchQuery) {
         viewModel.updateFilteredTipsList(listId)
-    }.collectAsState(initial = emptyList())
+    }.collectAsStateWithLifecycle(initialValue = emptyList())
 
     val platformActions: PlatformActions = koinInject()
     val deleteTipLabel = stringResource(Res.string.tip_will_be_deleted)

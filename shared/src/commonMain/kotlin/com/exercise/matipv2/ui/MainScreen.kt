@@ -13,7 +13,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,9 +51,9 @@ fun MainScreen(
     authViewModel: AuthViewModel = koinViewModel(),
     platformActions: PlatformActions = koinInject(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val currentUser by authViewModel.currentUser.collectAsState()
-    val userLists by viewModel.getAllLists().collectAsState(initial = emptyList())
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val currentUser by authViewModel.currentUser.collectAsStateWithLifecycle()
+    val userLists by viewModel.getAllLists().collectAsStateWithLifecycle(initialValue = emptyList())
     val backStack = rememberNavBackStack(navigationSavedStateConfiguration, MatipRoute.TipCalculator)
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

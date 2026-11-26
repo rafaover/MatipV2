@@ -25,7 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
@@ -68,8 +68,8 @@ fun SettingsScreen(
     onShowMessage: (String) -> Unit,
     platformActions: PlatformActions = koinInject(),
 ) {
-    val currentUser by authViewModel.currentUser.collectAsState()
-    val lastBackupDate by authViewModel.lastBackupDate.collectAsState()
+    val currentUser by authViewModel.currentUser.collectAsStateWithLifecycle()
+    val lastBackupDate by authViewModel.lastBackupDate.collectAsStateWithLifecycle()
     val backupSuccessMessage = stringResource(Res.string.backup_success)
     val restoreSuccessMessage = stringResource(Res.string.restore_success)
     val accountDeletedMessage = stringResource(Res.string.account_deleted)

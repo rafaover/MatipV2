@@ -47,6 +47,7 @@ kotlin {
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.navigation3.ui)
             implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.runtime.compose)
             implementation(libs.lifecycle.viewmodel.navigation3)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.firestore)

@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,8 +58,8 @@ fun ListsScreen(
 
     var selectedList by remember { mutableStateOf<TipList?>(null) }
     var showEditListDialog by remember { mutableStateOf(false) }
-    val searchState by viewModel.searchFilterState.collectAsState()
-    val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsState(initial = emptyList())
+    val searchState by viewModel.searchFilterState.collectAsStateWithLifecycle()
+    val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsStateWithLifecycle(initialValue = emptyList())
     val listsScreenDescription = pluralStringResource(Res.plurals.lists_screen_description, allLists.size, allLists.size)
 
     Column(
