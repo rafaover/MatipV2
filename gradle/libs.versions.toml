@@ -1,4 +1,7 @@
 [versions]
+android-compileSdk = "37"
+android-minSdk = "24"
+android-targetSdk = "36"
 composeBom = "2026.05.01"
 androidActivity = "1.13.0"
 coreSplashscreen = "1.2.0"
@@ -41,6 +44,8 @@ jetbrains-kotlin-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", vers
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutinesAndroid" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutinesAndroid" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
@@ -99,7 +104,8 @@ androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compo
 
 [plugins]
 android-gradle-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-android-library = { id = 'com.android.library', version.ref = "androidGradlePlugin" }
+android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = 'com.google.devtools.ksp', version.ref = "ksp" }
 roomDb = { id = 'androidx.room', version.ref = "roomdb" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
