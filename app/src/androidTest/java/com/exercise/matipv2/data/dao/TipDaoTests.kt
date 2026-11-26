@@ -48,7 +48,7 @@ class TipDaoTests {
     fun insertTip_getTip() = runTest {
         val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip)
-        val getTip = tipDao.getAllTips().first()[0]
+        val getTip = tipDao.getAllTips(null).first()[0]
         assertEquals(getTip.tipAmount, "100")
     }
 
@@ -58,7 +58,7 @@ class TipDaoTests {
         val tip = Tip(id = 1, tipAmount = "100", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip)
         tipDao.deleteTip(tip)
-        val getTip = tipDao.getAllTips().first()
+        val getTip = tipDao.getAllTips(null).first()
         assertEquals(getTip.size, 0)
     }
 
@@ -69,7 +69,7 @@ class TipDaoTests {
         tipDao.insertTip(tip)
         val tip1 = Tip(id = 1, tipAmount = "200", tipPercent = "10", listId = 999, dateCreated = "12/07/2024")
         tipDao.updateTip(tip1)
-        val updatedTip = tipDao.getAllTips().first()[0]
+        val updatedTip = tipDao.getAllTips(null).first()[0]
         assertEquals(updatedTip.tipAmount, "200")
     }
 
@@ -80,7 +80,7 @@ class TipDaoTests {
         val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
-        val getTips = tipDao.getAllTips().first()
+        val getTips = tipDao.getAllTips(null).first()
         assertEquals(getTips.size, 2)
     }
 
@@ -91,7 +91,7 @@ class TipDaoTests {
         val tip2 = Tip(id = 2, tipAmount = "200", tipPercent = "20", listId = 999, dateCreated = "12/07/2024")
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
-        val lastTip = tipDao.getLastTipSaved()
+        val lastTip = tipDao.getLastTipSaved(null)
         assertEquals(lastTip.id, 2)
     }
 
@@ -104,7 +104,7 @@ class TipDaoTests {
         tipDao.insertTip(tip1)
         tipDao.insertTip(tip2)
         tipDao.insertTip(tip3)
-        val getTips = tipDao.getAllTipsFromList(1).first()
+        val getTips = tipDao.getAllTipsFromList(1, null).first()
         assertEquals(getTips.size, 2)
     }
 

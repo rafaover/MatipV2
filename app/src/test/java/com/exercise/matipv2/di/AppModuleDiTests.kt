@@ -1,16 +1,22 @@
 package com.exercise.matipv2.di
 
+import android.content.Context
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.verify.verify
 
-class CheckModulesTestL: KoinTest {
+class CheckModulesTestL : KoinTest {
 
+    /**
+     * The modules depend on each other (repositories need the DAOs), so they
+     * are verified together. Context comes from Koin's androidContext() at runtime.
+     */
     @OptIn(KoinExperimentalAPI::class)
     @Test
     fun checkAllModules() {
-        appModule.verify()
-        databaseModule.verify()
+        module { includes(appModule, databaseModule) }
+            .verify(extraTypes = listOf(Context::class))
     }
 }
