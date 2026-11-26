@@ -5,7 +5,6 @@ import com.exercise.matipv2.generated.resources.ic_arrow_back
 import com.exercise.matipv2.generated.resources.ic_delete_forever
 import com.exercise.matipv2.generated.resources.ic_share
 import org.jetbrains.compose.resources.painterResource
-import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,8 +35,6 @@ import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewModelScope
 import com.exercise.matipv2.generated.resources.Res
 import com.exercise.matipv2.generated.resources.add_tip_to_list
@@ -71,7 +68,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun ListTipListScreen(
     viewModel: MainScreenViewModel,
-    onDismissRequest: () -> Unit,
     listId: Int,
     onBackClick: () -> Unit,
 ) {
@@ -87,145 +83,135 @@ fun ListTipListScreen(
     val platformActions: PlatformActions = koinInject()
     val deleteTipLabel = stringResource(Res.string.tip_will_be_deleted)
 
-    Dialog(
-        onDismissRequest = { onDismissRequest() },
-        properties = DialogProperties(
-            usePlatformDefaultWidth = Build.VERSION.SDK_INT > Build.VERSION_CODES.UPSIDE_DOWN_CAKE,
-            dismissOnBackPress = true,
-            decorFitsSystemWindows = false,
-            dismissOnClickOutside = false
-        )
-    ) {
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
-                    ),
-                    title = {
-                        list.value?.let {
-                            Text(text = it.name)
-                        }
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.1f),
+                ),
+                title = {
+                    list.value?.let {
+                        Text(text = it.name)
+                    }
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onBackClick
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_arrow_back),
+                            contentDescription = stringResource(Res.string.back)
+                        )
+                    }
+                }
+            )
+        },
+
+        /** FAB to add a final tip value without calculation, to the current List
+         * and visualized inside [ListTipListScreen] *
+         **/
+        floatingActionButton = {
+            FabAdd(
+                onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
+                contentDescription = stringResource(Res.string.add_tip_to_list),
+                icon = Res.drawable.ic_add
+            )
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(MatipDimens.paddingMedium)
+            ) {
+                SearchBarComponent(
+                    searchQuery = searchState.searchQuery,
+                    onSearchQueryChange = {
+                        viewModel.updateSearchQuery(it)
                     },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = onBackClick
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_arrow_back),
-                                contentDescription = stringResource(Res.string.back)
+                    onClearSearch = { viewModel.clearSearch() },
+                    placeholder = stringResource(Res.string.search_tips_placeholder),
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(Res.string.tip_list_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(MatipDimens.paddingSmall)
+                    )
+
+                    /**
+                     * Button to [PlatformActions.shareText]. Sharing list of Tips from List
+                     */
+                    Icon(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable {
+                                platformActions.shareText(
+                                    title = list.value?.name!!,
+                                    content = tipListToString(listTipListState.value)
+                                )
+                            },
+                        painter = painterResource(Res.drawable.ic_share),
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = stringResource(Res.string.share_tip_list)
+                    )
+                }
+                HorizontalDivider(
+                    modifier = Modifier
+                        .padding(bottom = MatipDimens.paddingMedium)
+                )
+                if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
+                    Text(
+                        text = stringResource(Res.string.no_tips_found, searchState.searchQuery),
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                } else {
+                    LazyColumn(
+                        userScrollEnabled = true
+                    ) {
+
+                        /**
+                         * Display rows of tips from specific List(List).
+                         */
+                        itemsIndexed(listTipListState.value) { _, tip ->
+                            ListItemComponent(
+                                overLineContent = { Text(text = tip.dateCreated) },
+                                item = tip,
+                                getName = { tip.tipAmount },
+                                mainTrailItemInfo = { },
+                                listItemTrailingIcon = Res.drawable.ic_delete_forever,
+                                trailingIconContentDescription = stringResource(Res.string.delete),
+                                onClickTrailingIcon = { viewModel.deleteTip(tip) },
+                                onClickLabel = deleteTipLabel,
+                                modifier = Modifier.height(70.dp)
                             )
                         }
                     }
-                )
-            },
+                }
 
-            /** FAB to add a final tip value without calculation, to the current List
-             * and visualized inside [ListTipListScreen] *
-             **/
-            floatingActionButton = {
-                FabAdd(
-                    onClick = { viewModel.updateShowAddTipValueToListDialog(true) },
-                    contentDescription = stringResource(Res.string.add_tip_to_list),
-                    icon = Res.drawable.ic_add
-                )
-            },
-            floatingActionButtonPosition = FabPosition.End
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .padding(innerPadding)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(MatipDimens.paddingMedium)
-                ) {
-                    SearchBarComponent(
-                        searchQuery = searchState.searchQuery,
-                        onSearchQueryChange = {
-                            viewModel.updateSearchQuery(it)
-                        },
-                        onClearSearch = { viewModel.clearSearch() },
-                        placeholder = stringResource(Res.string.search_tips_placeholder),
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.tip_list_title),
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(MatipDimens.paddingSmall)
-                        )
-
-                        /**
-                         * Button to [PlatformActions.shareText]. Sharing list of Tips from List
-                         */
-                        Icon(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable {
-                                    platformActions.shareText(
-                                        title = list.value?.name!!,
-                                        content = tipListToString(listTipListState.value)
-                                    )
-                                },
-                            painter = painterResource(Res.drawable.ic_share),
-                            tint = MaterialTheme.colorScheme.primary,
-                            contentDescription = stringResource(Res.string.share_tip_list)
-                        )
-                    }
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .padding(bottom = MatipDimens.paddingMedium)
-                    )
-                    if (listTipListState.value.isEmpty() && searchState.isSearchActive) {
-                        Text(
-                            text = stringResource(Res.string.no_tips_found, searchState.searchQuery),
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    } else {
-                        LazyColumn(
-                            userScrollEnabled = true
-                        ) {
-
-                            /**
-                             * Display rows of tips from specific List(List).
-                             */
-                            itemsIndexed(listTipListState.value) { _, tip ->
-                                ListItemComponent(
-                                    overLineContent = { Text(text = tip.dateCreated) },
-                                    item = tip,
-                                    getName = { tip.tipAmount },
-                                    mainTrailItemInfo = { },
-                                    listItemTrailingIcon = Res.drawable.ic_delete_forever,
-                                    trailingIconContentDescription = stringResource(Res.string.delete),
-                                    onClickTrailingIcon = { viewModel.deleteTip(tip) },
-                                    onClickLabel = deleteTipLabel,
-                                    modifier = Modifier.height(70.dp)
-                                )
-                            }
+            }
+            /** Conditional attached to [FabAdd] composable above to
+             * show dialog when clicked
+             */
+            if (viewModel.showAddTipValueToListDialog) {
+                AddTipValueToListDialog(
+                    viewModel = viewModel,
+                    onSaveRequest = {
+                        viewModel.viewModelScope.launch {
+                            viewModel.insertTipValueToList(listId)
+                            viewModel.updateShowAddTipValueToListDialog(false)
                         }
                     }
-
-                }
-                /** Conditional attached to [FabAdd] composable above to
-                 * show dialog when clicked
-                 */
-                if (viewModel.showAddTipValueToListDialog) {
-                    AddTipValueToListDialog(
-                        viewModel = viewModel,
-                        onSaveRequest = {
-                            viewModel.viewModelScope.launch {
-                                viewModel.insertTipValueToList(listId)
-                                viewModel.updateShowAddTipValueToListDialog(false)
-                            }
-                        }
-                    )
-                }
+                )
             }
         }
     }

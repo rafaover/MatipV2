@@ -27,7 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.exercise.matipv2.generated.resources.Res
 import com.exercise.matipv2.generated.resources.list_tab
 import com.exercise.matipv2.generated.resources.more_lists
