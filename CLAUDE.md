@@ -6,6 +6,11 @@ Guidance for Claude Code in this repository. Detailed rules live in `.claude/rul
 
 MaTip is a tip calculator: split tips between friends, save them in lists, share a list, back everything up to the cloud. It is a Kotlin Multiplatform app: Android is shipped, iOS compiles and gets its app shell next. Compose Multiplatform UI, Material 3 Expressive, MVVM.
 
+## Docs
+
+- `docs/KMP_MIGRATION.md`: migration status, decisions, PR history and how to verify.
+- `docs/TODO.md`: open tasks (yours and next up) and known issues. Keep both current when work lands.
+
 ## Modules
 
 - `:shared`: all app code and resources.

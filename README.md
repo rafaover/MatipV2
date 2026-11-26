@@ -37,7 +37,7 @@ Crowdfunding life goals with a little tip
 - `androidApp/`: the Android app shell
 - `iosApp/`: the iOS app shell (Xcode)
 
-See `CLAUDE.md` for the build and test commands.
+See `CLAUDE.md` for the build and test commands, and `docs/` for the migration status and open tasks.
 
 Future Plans:
 - iOS app
