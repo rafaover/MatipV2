@@ -2,23 +2,31 @@ package com.exercise.matipv2.data.remote
 
 import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.local.model.TipList
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
- * Backups already stored in Firestore were written by the reflection mapper,
- * which uses the Kotlin property names as field names. These tests pin that
- * shape so new builds can restore old backups and the other way around.
+ * Backups already stored in Firestore use the Kotlin property names as field names.
+ * These tests pin that shape so new builds can restore old backups and the other way around.
+ * JSON is only a stand-in here: it uses the same serial names Firestore receives.
  */
 class BackupMappingTest {
+
+    private val json = Json {
+        encodeDefaults = true
+        explicitNulls = true
+        ignoreUnknownKeys = true
+    }
 
     @Test
     fun tipList_isWrittenWithPropertyNames() {
         val list = TipList(id = 3, name = "Dinner", userId = "user-1", cloudId = null)
 
         assertEquals(
-            mapOf("id" to 3, "name" to "Dinner", "userId" to "user-1", "cloudId" to null),
-            list.toBackupMap()
+            """{"id":3,"name":"Dinner","userId":"user-1","cloudId":null}""",
+            json.encodeToString(list.toBackupDto())
         )
     }
 
@@ -35,37 +43,26 @@ class BackupMappingTest {
         )
 
         assertEquals(
-            mapOf(
-                "id" to 9,
-                "tipAmount" to "$5.00",
-                "tipPercent" to "15",
-                "listId" to 3,
-                "dateCreated" to "1/2/2026",
-                "userId" to "user-1",
-                "cloudId" to "cloud-9"
-            ),
-            tip.toBackupMap()
+            """{"id":9,"tipAmount":"$5.00","tipPercent":"15","listId":3,""" +
+                """"dateCreated":"1/2/2026","userId":"user-1","cloudId":"cloud-9"}""",
+            json.encodeToString(tip.toBackupDto())
         )
     }
 
     @Test
     fun tipList_isReadFromFirestoreDocument() {
-        // Firestore returns every integer as a Long.
-        val document = mapOf("id" to 3L, "name" to "Dinner", "userId" to "user-1")
+        val document = """{"id":3,"name":"Dinner","userId":"user-1"}"""
 
-        assertEquals(TipList(id = 3, name = "Dinner", userId = "user-1"), document.toTipList())
+        assertEquals(
+            TipList(id = 3, name = "Dinner", userId = "user-1"),
+            json.decodeFromString<ListBackupDto>(document).toTipList()
+        )
     }
 
     @Test
     fun tip_isReadFromFirestoreDocument() {
-        val document = mapOf(
-            "id" to 9L,
-            "tipAmount" to "$5.00",
-            "tipPercent" to "15",
-            "listId" to 3L,
-            "dateCreated" to "1/2/2026",
-            "userId" to "user-1"
-        )
+        val document = """{"id":9,"tipAmount":"$5.00","tipPercent":"15","listId":3,""" +
+            """"dateCreated":"1/2/2026","userId":"user-1"}"""
 
         assertEquals(
             Tip(
@@ -76,14 +73,21 @@ class BackupMappingTest {
                 dateCreated = "1/2/2026",
                 userId = "user-1"
             ),
-            document.toTip()
+            json.decodeFromString<TipBackupDto>(document).toTip()
         )
     }
 
     @Test
     fun missingFields_fallBackToEntityDefaults() {
-        assertEquals(TipList(), emptyMap<String, Any?>().toTipList())
-        assertEquals(Tip(), emptyMap<String, Any?>().toTip())
+        assertEquals(TipList(), json.decodeFromString<ListBackupDto>("{}").toTipList())
+        assertEquals(Tip(), json.decodeFromString<TipBackupDto>("{}").toTip())
+    }
+
+    @Test
+    fun unknownFields_areIgnored() {
+        val document = """{"id":3,"name":"Dinner","addedByALaterVersion":true}"""
+
+        assertEquals(TipList(id = 3, name = "Dinner"), json.decodeFromString<ListBackupDto>(document).toTipList())
     }
 
     @Test
@@ -91,11 +95,12 @@ class BackupMappingTest {
         val tip = Tip(1, "$2.50", "10", 4, "5/6/2026", "user-2", "cloud-1")
         val list = TipList(4, "Lunch", "user-2", "cloud-2")
 
-        assertEquals(tip, tip.toBackupMap().toLongBackedDocument().toTip())
-        assertEquals(list, list.toBackupMap().toLongBackedDocument().toTipList())
+        assertEquals(tip, json.decodeFromString<TipBackupDto>(json.encodeToString(tip.toBackupDto())).toTip())
+        assertEquals(list, json.decodeFromString<ListBackupDto>(json.encodeToString(list.toBackupDto())).toTipList())
     }
 
-    /** Mimics Firestore, which hands back every stored integer as a Long. */
-    private fun Map<String, Any?>.toLongBackedDocument(): Map<String, Any?> =
-        mapValues { (_, value) -> if (value is Int) value.toLong() else value }
+    @Test
+    fun lastBackupDate_isWrittenAsLastBackup() {
+        assertEquals("""{"last_backup":"26/11/2026"}""", json.encodeToString(BackupMetadataDto("26/11/2026")))
+    }
 }

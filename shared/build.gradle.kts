@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.roomDb)
 }
@@ -15,7 +16,7 @@ kotlin {
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
+            jvmTarget = JvmTarget.JVM_17
         }
         androidResources {
             enable = true
@@ -44,6 +45,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.gitlive.firebase.auth)
+            implementation(libs.gitlive.firebase.firestore)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
@@ -56,15 +59,10 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
 
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.kotlinx.coroutines.play.services)
             // Room's MigrationTestHelper needs a newer serialization runtime than lifecycle/navigation bring
             implementation(libs.kotlinx.serialization.core)
 
             implementation(libs.koin.android)
-
-            implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation(libs.firebase.auth)
-            implementation(libs.firebase.firestore)
 
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
@@ -78,6 +76,7 @@ kotlin {
         getByName("androidHostTest").dependencies {
             implementation(libs.kotlin.test.junit)
             implementation(libs.junit)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.mockito.core)
             implementation(libs.mockito.kotlin)
             implementation(libs.kotlinx.coroutines.test)
