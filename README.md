@@ -35,6 +35,7 @@ Crowdfunding life goals with a little tip
 
 - `shared/`: all app code (`commonMain`) and the little platform code (`androidMain`)
 - `androidApp/`: the Android app shell
+- `iosApp/`: the iOS app shell (Xcode)
 
 See `CLAUDE.md` for the build and test commands.
 
