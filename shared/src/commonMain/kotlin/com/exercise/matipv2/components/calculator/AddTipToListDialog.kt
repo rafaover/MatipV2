@@ -16,8 +16,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,15 +31,13 @@ import com.exercise.matipv2.generated.resources.confirm
 import com.exercise.matipv2.generated.resources.select_list
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun AddTipToListDialogBox(
     viewModel: MainScreenViewModel,
-    allLists: Flow<List<TipList>>,
+    allLists: List<TipList>,
     onListSelected: (TipList) -> Unit
 ) {
-    val allListsFlow by allLists.collectAsStateWithLifecycle(initialValue = emptyList())
     val (selectedOption, onOptionSelected) =
         remember { mutableStateOf<TipList?>(null) }
 
@@ -89,12 +85,12 @@ fun AddTipToListDialogBox(
                         )
                     }
                 }
-                if (allListsFlow.isNotEmpty()) {
+                if (allLists.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier.weight(1f),
                         userScrollEnabled = true
                     ) {
-                        itemsIndexed(allListsFlow) { _, list ->
+                        itemsIndexed(allLists) { _, list ->
                             Row(
                                 Modifier
                                     .fillMaxWidth()

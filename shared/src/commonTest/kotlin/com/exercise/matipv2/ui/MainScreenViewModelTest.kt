@@ -1,12 +1,15 @@
 package com.exercise.matipv2.ui
 
+import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.data.model.AuthUser
 import com.exercise.matipv2.fakes.FakeAuthRepository
 import com.exercise.matipv2.fakes.FakeLocalRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -87,5 +90,23 @@ class MainScreenViewModelTest {
         assertEquals("", state.tipAmount)
         assertEquals("", state.tipPercent)
         assertEquals(1, state.splitShare)
+    }
+
+    @Test
+    fun userLists_areTheSignedInUsersListsAndFollowSignIn() = runTest {
+        localRepository.lists.value = listOf(
+            TipList(id = 1, name = "Guest list"),
+            TipList(id = 2, name = "Mine", userId = "user-1"),
+        )
+        val authRepository = FakeAuthRepository()
+        val viewModel = MainScreenViewModel(localRepository, authRepository)
+        // The lists are only collected while someone is looking at them, like a screen does.
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.userLists.collect {} }
+
+        assertEquals(listOf("Guest list"), viewModel.userLists.value.map { it.name })
+
+        authRepository.setUser(signedInUser)
+
+        assertEquals(listOf("Mine"), viewModel.userLists.value.map { it.name })
     }
 }

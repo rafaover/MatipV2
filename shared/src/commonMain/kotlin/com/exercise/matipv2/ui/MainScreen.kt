@@ -53,7 +53,7 @@ fun MainScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val currentUser by authViewModel.currentUser.collectAsStateWithLifecycle()
-    val userLists by viewModel.getAllLists().collectAsStateWithLifecycle(initialValue = emptyList())
+    val userLists by viewModel.userLists.collectAsStateWithLifecycle()
     val backStack = rememberNavBackStack(navigationSavedStateConfiguration, MatipRoute.TipCalculator)
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)

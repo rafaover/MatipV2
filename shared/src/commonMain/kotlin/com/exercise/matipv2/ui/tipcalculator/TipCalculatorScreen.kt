@@ -37,6 +37,8 @@ import com.exercise.matipv2.components.common.ButtonToOpenDialog
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.components.common.RoundTheTipSwitch
 import com.exercise.matipv2.ui.MainScreenViewModel
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun TipCalculatorScreen(
@@ -44,6 +46,7 @@ fun TipCalculatorScreen(
     uiState: TipCalculatorScreenUiState,
 ) {
     val focusManager = LocalFocusManager.current
+    val userLists by viewModel.userLists.collectAsStateWithLifecycle()
     val screenDescription = stringResource(Res.string.tip_calculator_screen_description)
     val tipAddedMessage = stringResource(Res.string.tip_added_to_list)
     val tipAmountInput = uiState.tipAmount
@@ -136,7 +139,7 @@ fun TipCalculatorScreen(
         if(viewModel.showAddListDialog) {
             AddTipToListDialogBox(
                 viewModel = viewModel,
-                allLists = viewModel.getAllLists(),
+                allLists = userLists,
                 onListSelected = {
                     viewModel.insertTip()
                     focusManager.clearFocus()

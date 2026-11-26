@@ -16,10 +16,18 @@ import com.exercise.matipv2.util.formatCurrency
 import com.exercise.matipv2.util.stringAmountToDouble
 import com.exercise.matipv2.util.localDateTimeFormated
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+/** Keeps the lists loaded for a moment after the last screen stops looking, so a rotation does not reload them. */
+private const val SUBSCRIPTION_TIMEOUT_MILLIS = 5_000L
 
 class MainScreenViewModel (
     private val localRepository: LocalRepository,
@@ -34,6 +42,16 @@ class MainScreenViewModel (
 
     private val _searchFilterState = MutableStateFlow(SearchFilterState())
     val searchFilterState = _searchFilterState.asStateFlow()
+
+    /** The lists of whoever is signed in (or the guest). Follows sign in and sign out. */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val userLists: StateFlow<List<TipList>> = authRepository.currentUser
+        .flatMapLatest { user -> localRepository.getAllLists(user?.id) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(SUBSCRIPTION_TIMEOUT_MILLIS),
+            initialValue = emptyList()
+        )
 
     var showAddListDialog by mutableStateOf(value = false)
     var showAddTipValueToListDialog by mutableStateOf(value = false)
@@ -202,9 +220,6 @@ class MainScreenViewModel (
     * Get Functions
     */
 
-    fun getAllLists(): Flow<List<TipList>> {
-        return localRepository.getAllLists(currentUserId)
-    }
 
     fun getListById(listId: Int): Flow<TipList> {
         return localRepository.getListById(listId, currentUserId)

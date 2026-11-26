@@ -12,6 +12,11 @@ class FakeAuthRepository(signedInUser: AuthUser? = null) : AuthRepository {
     private val _currentUser = MutableStateFlow(signedInUser)
     override val currentUser: StateFlow<AuthUser?> = _currentUser.asStateFlow()
 
+    /** Switches the signed-in user, like Firebase does after a sign-in or sign-out. */
+    fun setUser(user: AuthUser?) {
+        _currentUser.value = user
+    }
+
     override suspend fun signIn(): Result<Unit> = Result.success(Unit)
 
     override suspend fun signInWithEmail(email: String, password: String): Result<Unit> = Result.success(Unit)
