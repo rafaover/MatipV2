@@ -4,6 +4,10 @@ import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.exercise.matipv2.di.createMatipDatabase
+import com.exercise.matipv2.di.matipDatabaseBuilder
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import com.exercise.matipv2.data.local.MatipDatabase
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -52,6 +56,33 @@ class MatipDatabaseSchemaTest {
 
         assertEquals("Dinner", listName)
         assertEquals("\$2.50", tipAmount)
+    }
+
+    @Test
+    fun version7Database_opensWithProductionBuilderAndKeepsData() = runTest {
+        // Written by the framework SQLite, the way the shipped app created it.
+        helper.createDatabase(TEST_DATABASE_NAME, SHIPPED_VERSION).apply {
+            execSQL(
+                "INSERT INTO lists (id, list_name, user_id, cloud_id) " +
+                    "VALUES (1, 'Dinner', NULL, NULL)"
+            )
+            execSQL(
+                "INSERT INTO tips (id, tip_amount, tip_percent, list_id, date_created, user_id, cloud_id) " +
+                    "VALUES (1, '\$2.50', '15', 1, '26/11/2026', NULL, NULL)"
+            )
+            close()
+        }
+
+        val database = createMatipDatabase(
+            matipDatabaseBuilder(instrumentation.targetContext, TEST_DATABASE_NAME)
+        )
+
+        val lists = database.listDao().getAllLists(userId = null).first()
+        val tips = database.tipDao().getAllTips(userId = null).first()
+        database.close()
+
+        assertEquals(listOf("Dinner"), lists.map { it.name })
+        assertEquals(listOf("\$2.50"), tips.map { it.tipAmount })
     }
 
     private companion object {

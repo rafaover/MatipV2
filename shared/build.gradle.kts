@@ -42,6 +42,8 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
@@ -57,9 +59,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.play.services)
             // Room's MigrationTestHelper needs a newer serialization runtime than lifecycle/navigation bring
             implementation(libs.kotlinx.serialization.core)
-
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.room.ktx)
 
             implementation(libs.koin.android)
 

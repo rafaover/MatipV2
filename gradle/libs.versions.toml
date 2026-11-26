@@ -17,6 +17,7 @@ dateTime = "0.8.0"
 lifecycle = "2.10.0"
 navigationCompose = "2.9.8"
 roomdb = "2.8.4"
+sqlite = "2.6.2"
 junit = "4.13.2"
 mockitoCore = "5.23.0"
 mockitoKotlin = "6.3.0"
@@ -71,7 +72,7 @@ androidx-navigation-testing = { module = "androidx.navigation:navigation-testing
 
 #Room
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomdb" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomdb" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomdb" }
 ksp-room = { module = "androidx.room:room-compiler", version.ref = "roomdb" }
 
