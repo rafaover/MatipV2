@@ -47,6 +47,7 @@ kotlin {
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.navigation3.ui)
             implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.runtime.compose)
             implementation(libs.lifecycle.viewmodel.navigation3)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.firestore)
@@ -72,17 +73,13 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlinx.serialization.json)
         }
         getByName("androidHostTest").dependencies {
             implementation(libs.kotlin.test.junit)
             implementation(libs.junit)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.mockito.core)
-            implementation(libs.mockito.kotlin)
-            implementation(libs.kotlinx.coroutines.test)
             implementation(libs.koin.test.junit4)
-            implementation(libs.androidx.runner)
-            implementation(libs.androidx.room.testing)
         }
         getByName("androidDeviceTest").dependencies {
             implementation(libs.kotlin.test)

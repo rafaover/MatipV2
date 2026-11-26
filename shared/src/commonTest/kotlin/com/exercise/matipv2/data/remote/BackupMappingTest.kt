@@ -4,8 +4,8 @@ import com.exercise.matipv2.data.local.model.Tip
 import com.exercise.matipv2.data.local.model.TipList
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 /**
  * Backups already stored in Firestore use the Kotlin property names as field names.

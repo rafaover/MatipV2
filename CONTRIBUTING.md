@@ -22,6 +22,14 @@ Scan through existing issues to find one that interests you.
 
 Commit the changes once you are happy with them.
 
+### Build and test
+
+- The code is in `shared/` (Kotlin Multiplatform) and `androidApp/` (Android shell).
+- Run the unit tests with `./gradlew :shared:testAndroidHostTest`.
+- Run the device tests on an emulator with `./gradlew :shared:connectedAndroidDeviceTest :androidApp:connectedDebugAndroidTest`.
+- A change to the Room schema needs a migration and a migration test.
+- More detail in `CLAUDE.md` and `.claude/rules/`.
+
 ### Pull Request
 
 When you're finished with the changes, create a pull request.
