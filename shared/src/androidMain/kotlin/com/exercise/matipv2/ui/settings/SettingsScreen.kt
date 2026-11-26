@@ -53,7 +53,7 @@ import com.exercise.matipv2.generated.resources.support_legal
 import com.exercise.matipv2.components.common.ConfirmationAlertDialog
 import com.exercise.matipv2.platform.PlatformActions
 import com.exercise.matipv2.ui.auth.AuthViewModel
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.compose.koinInject
 import androidx.compose.ui.text.AnnotatedString
 

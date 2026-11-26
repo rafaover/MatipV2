@@ -37,6 +37,11 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
             implementation(libs.compose.components.resources)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
@@ -56,9 +61,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.room.ktx)
 
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.core)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.koin.android)
 
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.auth)

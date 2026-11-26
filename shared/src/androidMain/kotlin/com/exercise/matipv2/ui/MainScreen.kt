@@ -37,7 +37,7 @@ import com.exercise.matipv2.ui.auth.AuthViewModel
 import com.exercise.matipv2.ui.navigation.NavBarItems
 import com.exercise.matipv2.ui.navigation.NavigationGraph
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
