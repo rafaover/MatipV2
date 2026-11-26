@@ -11,6 +11,16 @@ plugins {
 }
 
 kotlin {
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "Shared"
+            isStatic = true
+            binaryOption("bundleId", "com.exercise.matipv2.shared")
+        }
+    }
     android {
         namespace = "com.exercise.matipv2.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -96,6 +106,8 @@ kotlin {
 
 dependencies {
     add("kspAndroid", libs.ksp.room)
+    add("kspIosArm64", libs.ksp.room)
+    add("kspIosSimulatorArm64", libs.ksp.room)
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
 
