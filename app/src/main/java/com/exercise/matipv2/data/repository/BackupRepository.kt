@@ -2,8 +2,9 @@ package com.exercise.matipv2.data.repository
 
 import com.exercise.matipv2.data.local.dao.ListDao
 import com.exercise.matipv2.data.local.dao.TipDao
-import com.exercise.matipv2.data.local.model.TipList
-import com.exercise.matipv2.data.local.model.Tip
+import com.exercise.matipv2.data.remote.toBackupMap
+import com.exercise.matipv2.data.remote.toTip
+import com.exercise.matipv2.data.remote.toTipList
 import com.exercise.matipv2.util.localDateTimeFormated
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -59,11 +60,11 @@ class FirestoreBackupRepository(
             // 3. Upload/Update current items
             for (list in localLists) {
                 val docRef = userListsRef(userId).document(list.id.toString())
-                batch.set(docRef, list)
+                batch.set(docRef, list.toBackupMap())
             }
             for (tip in localTips) {
                 val docRef = userTipsRef(userId).document(tip.id.toString())
-                batch.set(docRef, tip)
+                batch.set(docRef, tip.toBackupMap())
             }
             
             // 4. Update last backup timestamp
@@ -92,16 +93,12 @@ class FirestoreBackupRepository(
 
             // 2. Insert cloud snapshot
             for (doc in cloudLists.documents) {
-                val list = doc.toObject(TipList::class.java)
-                if (list != null) {
-                    listDao.insertList(list) 
-                }
+                val fields = doc.data ?: continue
+                listDao.insertList(fields.toTipList())
             }
             for (doc in cloudTips.documents) {
-                val tip = doc.toObject(Tip::class.java)
-                if (tip != null) {
-                    tipDao.insertTip(tip)
-                }
+                val fields = doc.data ?: continue
+                tipDao.insertTip(fields.toTip())
             }
             
             Result.success(Unit)
