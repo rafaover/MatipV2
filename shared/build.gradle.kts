@@ -48,8 +48,6 @@ kotlin {
             implementation(libs.navigation3.ui)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.lifecycle.viewmodel.navigation3)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.kotlinx.datetime)
@@ -66,7 +64,6 @@ kotlin {
             implementation(libs.kotlinx.serialization.core)
 
             implementation(libs.koin.android)
-            implementation(libs.ktor.client.okhttp)
 
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
