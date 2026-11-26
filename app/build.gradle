@@ -118,10 +118,13 @@ dependencies {
     implementation libs.core.ktx
 
     // Room
+    // Room's MigrationTestHelper needs a newer serialization runtime than lifecycle/navigation bring
+    implementation libs.kotlinx.serialization.core
     implementation libs.androidx.room.runtime
     ksp libs.ksp.room
     implementation libs.androidx.room.ktx
     testImplementation libs.androidx.room.testing
+    androidTestImplementation libs.androidx.room.testing
 
     // Navigation
     implementation libs.androidx.navigation.compose
