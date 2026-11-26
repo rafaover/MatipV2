@@ -30,6 +30,9 @@ kotlin {
     }
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.datetime)
+        }
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.androidx.compose.bom))
             implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
@@ -45,7 +48,6 @@ kotlin {
             implementation(libs.androidx.material.icons.extended.android)
             implementation(libs.androidx.navigation.compose)
 
-            implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.kotlinx.coroutines.play.services)
             // Room's MigrationTestHelper needs a newer serialization runtime than lifecycle/navigation bring
