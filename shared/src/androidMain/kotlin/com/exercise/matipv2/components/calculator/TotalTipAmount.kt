@@ -17,15 +17,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.tip_amount
+import com.exercise.matipv2.generated.resources.total_tip_amount_description
 
 @Composable
 fun TotalTipAmount(finalTip: String) {
-    val totalTipDescription = stringResource(R.string.total_tip_amount_description)
+    val totalTipDescription = stringResource(Res.string.total_tip_amount_description)
     Row(
         modifier = Modifier
             .semantics { contentDescription = totalTipDescription }
@@ -35,7 +37,7 @@ fun TotalTipAmount(finalTip: String) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = stringResource(R.string.tip_amount),
+            text = stringResource(Res.string.tip_amount),
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
         )

@@ -15,11 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.create_list
+import com.exercise.matipv2.generated.resources.list_name
+import com.exercise.matipv2.generated.resources.save
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.ui.MainScreenViewModel
 
@@ -52,7 +55,7 @@ fun AddAnListDialog(
                 ) {
                     /* Button to save an List */
                     Text(
-                        text = stringResource(R.string.create_list),
+                        text = stringResource(Res.string.create_list),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -61,7 +64,7 @@ fun AddAnListDialog(
                         onClick = { onSaveRequest() },
                     ) {
                         Text(
-                            text = stringResource(R.string.save),
+                            text = stringResource(Res.string.save),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
@@ -71,7 +74,7 @@ fun AddAnListDialog(
                         .fillMaxWidth()
                         .padding(top = 24.dp),
                     value = viewModel.newListName,
-                    label = R.string.list_name,
+                    label = Res.string.list_name,
                     keyboardOptions = KeyboardOptions.Default,
                     onValueChange = { viewModel.updateNewListName(it) }
                 )

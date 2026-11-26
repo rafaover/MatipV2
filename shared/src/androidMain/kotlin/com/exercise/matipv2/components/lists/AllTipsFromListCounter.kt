@@ -6,8 +6,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
-import androidx.compose.ui.res.pluralStringResource
-import com.exercise.matipv2.shared.R
+import org.jetbrains.compose.resources.pluralStringResource
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.tips_count
 
 @Composable
 fun AllTipsFromListCounter(
@@ -17,5 +18,5 @@ fun AllTipsFromListCounter(
     val tipsFromList by viewModel
         .getAllTipsFromList(list.id).collectAsState(initial = emptyList())
 
-    Text(pluralStringResource(R.plurals.tips_count, tipsFromList.size, tipsFromList.size))
+    Text(pluralStringResource(Res.plurals.tips_count, tipsFromList.size, tipsFromList.size))
 }

@@ -19,11 +19,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.already_have_account
+import com.exercise.matipv2.generated.resources.cancel
+import com.exercise.matipv2.generated.resources.confirm
+import com.exercise.matipv2.generated.resources.dont_have_account
+import com.exercise.matipv2.generated.resources.email
+import com.exercise.matipv2.generated.resources.forgot_password
+import com.exercise.matipv2.generated.resources.password
+import com.exercise.matipv2.generated.resources.register
+import com.exercise.matipv2.generated.resources.sign_in
 
 @Composable
 fun AuthDialog(
@@ -40,14 +49,14 @@ fun AuthDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         title = {
-            Text(text = if (isRegistering) stringResource(R.string.register) else stringResource(R.string.sign_in))
+            Text(text = if (isRegistering) stringResource(Res.string.register) else stringResource(Res.string.sign_in))
         },
         text = {
             Column {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text(stringResource(R.string.email)) },
+                    label = { Text(stringResource(Res.string.email)) },
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     singleLine = true
@@ -56,7 +65,7 @@ fun AuthDialog(
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text(stringResource(R.string.password)) },
+                    label = { Text(stringResource(Res.string.password)) },
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -69,8 +78,8 @@ fun AuthDialog(
                     enabled = !isLoading
                 ) {
                     Text(
-                        text = if (isRegistering) stringResource(R.string.already_have_account)
-                        else stringResource(R.string.dont_have_account),
+                        text = if (isRegistering) stringResource(Res.string.already_have_account)
+                        else stringResource(Res.string.dont_have_account),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -81,7 +90,7 @@ fun AuthDialog(
                         enabled = !isLoading && email.isNotBlank()
                     ) {
                         Text(
-                            text = stringResource(R.string.forgot_password),
+                            text = stringResource(Res.string.forgot_password),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -103,13 +112,13 @@ fun AuthDialog(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    Text(text = if (isRegistering) stringResource(R.string.register) else stringResource(R.string.confirm))
+                    Text(text = if (isRegistering) stringResource(Res.string.register) else stringResource(Res.string.confirm))
                 }
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest, enabled = !isLoading) {
-                Text(text = stringResource(R.string.cancel))
+                Text(text = stringResource(Res.string.cancel))
             }
         }
     )

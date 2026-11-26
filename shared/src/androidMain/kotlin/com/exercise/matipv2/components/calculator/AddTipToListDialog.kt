@@ -23,12 +23,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.confirm
+import com.exercise.matipv2.generated.resources.select_list
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
 import kotlinx.coroutines.flow.Flow
@@ -63,7 +65,7 @@ fun AddTipToListDialogBox(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = stringResource(R.string.select_list),
+                        text = stringResource(Res.string.select_list),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -82,7 +84,7 @@ fun AddTipToListDialogBox(
                             .padding(MatipDimens.paddingButton)
                     ) {
                         Text(
-                            text = stringResource(R.string.confirm),
+                            text = stringResource(Res.string.confirm),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }

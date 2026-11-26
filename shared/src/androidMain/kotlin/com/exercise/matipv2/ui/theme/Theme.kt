@@ -106,7 +106,7 @@ fun MaTIPv2Theme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = matipTypography(),
         content = content
     )
 }

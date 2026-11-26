@@ -19,13 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.add_tip_to_list
+import com.exercise.matipv2.generated.resources.attach_money
+import com.exercise.matipv2.generated.resources.save
+import com.exercise.matipv2.generated.resources.tip
 import com.exercise.matipv2.components.common.EditTextForm
 import com.exercise.matipv2.ui.MainScreenViewModel
 
@@ -70,7 +74,7 @@ fun AddTipValueToListDialog(
                 ) {
                     /* Button to add tip to current List */
                     Text(
-                        text = stringResource(R.string.add_tip_to_list),
+                        text = stringResource(Res.string.add_tip_to_list),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                     )
@@ -79,7 +83,7 @@ fun AddTipValueToListDialog(
                         onClick = { onSaveRequest() },
                     ) {
                         Text(
-                            text = stringResource(R.string.save),
+                            text = stringResource(Res.string.save),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
@@ -88,9 +92,9 @@ fun AddTipValueToListDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 24.dp),
-                    leadingIcon = R.drawable.attach_money,
+                    leadingIcon = Res.drawable.attach_money,
                     value = tipValue,
-                    label = R.string.tip,
+                    label = Res.string.tip,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done

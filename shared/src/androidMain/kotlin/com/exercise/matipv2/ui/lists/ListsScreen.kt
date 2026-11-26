@@ -1,5 +1,8 @@
 package com.exercise.matipv2.ui.lists
 
+import com.exercise.matipv2.generated.resources.ic_chevron_right
+import com.exercise.matipv2.generated.resources.ic_info
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,12 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.add_a_list
+import com.exercise.matipv2.generated.resources.delete
+import com.exercise.matipv2.generated.resources.dialog_delete_list_text
+import com.exercise.matipv2.generated.resources.dialog_title
+import com.exercise.matipv2.generated.resources.lists_screen_description
+import com.exercise.matipv2.generated.resources.new_list
+import com.exercise.matipv2.generated.resources.no_lists_found
+import com.exercise.matipv2.generated.resources.search_lists_placeholder
 import com.exercise.matipv2.components.common.ConfirmationAlertDialog
 import com.exercise.matipv2.components.common.FabAdd
 import com.exercise.matipv2.components.common.ListItemComponent
@@ -38,9 +46,9 @@ import com.exercise.matipv2.components.lists.EditListDialog
 import com.exercise.matipv2.components.lists.SwipeBox
 import com.exercise.matipv2.data.local.model.TipList
 import com.exercise.matipv2.ui.MainScreenViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.launch
 import com.exercise.matipv2.components.common.stringResourceWithBoldArgument
-import androidx.compose.ui.res.pluralStringResource
+import org.jetbrains.compose.resources.pluralStringResource
 
 @Composable
 fun ListsScreen(
@@ -52,7 +60,7 @@ fun ListsScreen(
     var showEditListDialog by remember { mutableStateOf(false) }
     val searchState by viewModel.searchFilterState.collectAsState()
     val allLists by remember(searchState.searchQuery) {  viewModel.updateFilteredLists() }.collectAsState(initial = emptyList())
-    val listsScreenDescription = pluralStringResource(R.plurals.lists_screen_description, allLists.size, allLists.size)
+    val listsScreenDescription = pluralStringResource(Res.plurals.lists_screen_description, allLists.size, allLists.size)
 
     Column(
         modifier = Modifier
@@ -64,7 +72,7 @@ fun ListsScreen(
             onSearchQueryChange = {
                 viewModel.updateSearchQuery(it)},
             onClearSearch = { viewModel.clearSearch() },
-            placeholder = stringResource(R.string.search_lists_placeholder)
+            placeholder = stringResource(Res.string.search_lists_placeholder)
         )
         Box(
             modifier = Modifier
@@ -99,14 +107,14 @@ fun ListsScreen(
                                 mainTrailItemInfo = {
                                     AllTipsFromListCounter(viewModel, list)
                                 },
-                                listItemTrailingIcon = Icons.Filled.ChevronRight
+                                listItemTrailingIcon = Res.drawable.ic_chevron_right
                             )
                         }
                     }
                 }
             } else if(searchState.isSearchActive) {
                 Text(
-                    text = stringResource(R.string.no_lists_found, searchState.searchQuery),
+                    text = stringResource(Res.string.no_lists_found, searchState.searchQuery),
                     modifier = Modifier. align(Alignment.Center),
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -117,8 +125,8 @@ fun ListsScreen(
                     .align(Alignment.BottomEnd)
                     .padding(MatipDimens.paddingMedium),
                 onClick = { viewModel.updateShowAddListDialog(true) },
-                text = stringResource(R.string.new_list),
-                contentDescription = stringResource(R.string.add_a_list)
+                text = stringResource(Res.string.new_list),
+                contentDescription = stringResource(Res.string.add_a_list)
             )
 
 
@@ -137,13 +145,13 @@ fun ListsScreen(
             if (viewModel.showDeleteListDialog && selectedList != null) {
                 val listName = selectedList?.name ?: "List"
                 ConfirmationAlertDialog(
-                    title = stringResource(R.string.dialog_title),
+                    title = stringResource(Res.string.dialog_title),
                     message = stringResourceWithBoldArgument(
-                        id = R.string.dialog_delete_list_text,
+                        id = Res.string.dialog_delete_list_text,
                         argument = listName
                     ),
-                    icon = Icons.Filled.Info,
-                    confirmButtonText = stringResource(R.string.delete),
+                    icon = Res.drawable.ic_info,
+                    confirmButtonText = stringResource(Res.string.delete),
                     onConfirm = {
                         selectedList?.let { listToDelete ->
                             viewModel.deleteList(listToDelete)

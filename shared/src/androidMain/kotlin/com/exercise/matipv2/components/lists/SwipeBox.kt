@@ -1,12 +1,13 @@
 package com.exercise.matipv2.components.lists
 
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.ic_delete_outlined
+import com.exercise.matipv2.generated.resources.ic_edit_outlined
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.DrawableResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,25 +34,25 @@ fun <T> SwipeBox(
 ) {
     val swipeState = rememberSwipeToDismissBoxState()
 
-    lateinit var icon: ImageVector
+    lateinit var icon: DrawableResource
     lateinit var alignment: Alignment
     val color: Color
 
     when (swipeState.dismissDirection) {
         SwipeToDismissBoxValue.EndToStart -> {
-            icon = Icons.Outlined.Delete
+            icon = Res.drawable.ic_delete_outlined
             alignment = Alignment.CenterEnd
             color = MaterialTheme.colorScheme.errorContainer
         }
 
         SwipeToDismissBoxValue.StartToEnd -> {
-            icon = Icons.Outlined.Edit
+            icon = Res.drawable.ic_edit_outlined
             alignment = Alignment.CenterStart
             color = Color.Green.copy(alpha = 0.3f)
         }
 
         SwipeToDismissBoxValue.Settled -> {
-            icon = Icons.Outlined.Delete // Default or fallback icon
+            icon = Res.drawable.ic_delete_outlined // Default or fallback icon
             alignment = Alignment.CenterEnd // Default or fallback alignment
             color = MaterialTheme.colorScheme.errorContainer // Default or fallback color
         }
@@ -69,7 +70,7 @@ fun <T> SwipeBox(
             ) {
                 Icon(
                     modifier = Modifier.minimumInteractiveComponentSize(),
-                    imageVector = icon,
+                    painter = painterResource(icon),
                     contentDescription = null
                 )
             }

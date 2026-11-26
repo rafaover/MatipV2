@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.multiplatform.library)
+    alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.roomDb)
@@ -30,6 +31,10 @@ kotlin {
     }
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(libs.compose.components.resources)
+            implementation(libs.kotlinx.datetime)
+        }
         androidMain.dependencies {
             implementation(project.dependencies.platform(libs.androidx.compose.bom))
             implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
@@ -42,10 +47,8 @@ kotlin {
             implementation(libs.androidx.ui.graphics)
             implementation(libs.androidx.ui.tooling.preview)
             implementation(libs.androidx.material3)
-            implementation(libs.androidx.material.icons.extended.android)
             implementation(libs.androidx.navigation.compose)
 
-            implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.kotlinx.coroutines.play.services)
             // Room's MigrationTestHelper needs a newer serialization runtime than lifecycle/navigation bring
@@ -97,6 +100,11 @@ kotlin {
 dependencies {
     add("kspAndroid", libs.ksp.room)
     androidRuntimeClasspath(libs.androidx.ui.tooling)
+}
+
+compose.resources {
+    packageOfResClass = "com.exercise.matipv2.generated.resources"
+    generateResClass = always
 }
 
 room {

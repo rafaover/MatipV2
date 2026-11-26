@@ -9,13 +9,13 @@ koin-bom = "4.2.2"
 kotlin = "2.4.21"
 coreKtx = "1.18.0"
 kotlinxSerialization = "1.9.0"
+composeMultiplatform = "1.12.2"
 coroutinesAndroid = "1.11.0"
 dateTime = "0.8.0"
 lifecycle = "2.10.0"
 navigationCompose = "2.9.8"
 roomdb = "2.8.4"
 composeui = "1.11.3"
-material = "1.7.8"
 material3 = "1.4.0"
 junit = "4.13.2"
 mockitoCore = "5.23.0"
@@ -51,6 +51,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 #Compose
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "composeui" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeui" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeui" }
@@ -58,7 +59,6 @@ androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref =
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeui" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-androidx-material-icons-extended-android = { module = "androidx.compose.material:material-icons-extended-android", version.ref = "material" }
 
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle"}
@@ -108,6 +108,7 @@ android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 ksp = { id = 'com.google.devtools.ksp', version.ref = "ksp" }
 roomDb = { id = 'androidx.room', version.ref = "roomdb" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleservices" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }

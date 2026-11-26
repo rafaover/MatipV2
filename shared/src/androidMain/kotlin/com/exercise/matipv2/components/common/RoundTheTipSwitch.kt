@@ -10,12 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.round_tip_switch_description
+import com.exercise.matipv2.generated.resources.round_up_tip
 
 @Composable
 fun RoundTheTipSwitch(
@@ -24,7 +26,7 @@ fun RoundTheTipSwitch(
     modifier: Modifier = Modifier
 )
 {
-    val switchDescription = stringResource(R.string.round_tip_switch_description)
+    val switchDescription = stringResource(Res.string.round_tip_switch_description)
     Row(
         modifier = modifier
             .semantics { contentDescription = switchDescription }
@@ -32,7 +34,7 @@ fun RoundTheTipSwitch(
             .size(50.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
-        Text(text = stringResource(R.string.round_up_tip))
+        Text(text = stringResource(Res.string.round_up_tip))
         Switch(
             modifier = Modifier
                 .fillMaxWidth()

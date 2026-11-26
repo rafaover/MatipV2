@@ -19,13 +19,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.main_screen_description
+import com.exercise.matipv2.generated.resources.password_reset_sent
 import com.exercise.matipv2.components.MainNavigationDrawerContent
 import com.exercise.matipv2.components.auth.AuthDialog
 import com.exercise.matipv2.components.common.MainTopBar
@@ -50,8 +53,8 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val passwordResetSentMessage = stringResource(R.string.password_reset_sent)
-    val mainScreenDescription = stringResource(R.string.main_screen_description)
+    val passwordResetSentMessage = stringResource(Res.string.password_reset_sent)
+    val mainScreenDescription = stringResource(Res.string.main_screen_description)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -121,9 +124,11 @@ fun MainScreen(
                         },
                         icon = {
                             Icon(
-                                imageVector = if (currentDestination?.hierarchy?.any { it.route == item.route } == true) {
-                                    item.selectedIcon
-                                } else item.unselectedIcon,
+                                painter = painterResource(
+                                    if (currentDestination?.hierarchy?.any { it.route == item.route } == true) {
+                                        item.selectedIcon
+                                    } else item.unselectedIcon
+                                ),
                                 contentDescription = null
                             )
                         },

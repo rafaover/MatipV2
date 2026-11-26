@@ -14,14 +14,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import com.exercise.matipv2.ui.theme.MatipDimens
-import androidx.compose.ui.res.stringResource
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.exercise.matipv2.shared.R
+import com.exercise.matipv2.generated.resources.Res
+import com.exercise.matipv2.generated.resources.add_tip_to_list
+import com.exercise.matipv2.generated.resources.attach_money
+import com.exercise.matipv2.generated.resources.bill_amount
+import com.exercise.matipv2.generated.resources.calculate_tip
+import com.exercise.matipv2.generated.resources.percent
+import com.exercise.matipv2.generated.resources.tip_added_to_list
+import com.exercise.matipv2.generated.resources.tip_calculator_screen_description
+import com.exercise.matipv2.generated.resources.tip_percentage
 import com.exercise.matipv2.components.calculator.AddTipToListDialogBox
 import com.exercise.matipv2.components.calculator.SplitCounter
 import com.exercise.matipv2.components.calculator.TotalTipAmount
@@ -36,8 +44,8 @@ fun TipCalculatorScreen(
     uiState: TipCalculatorScreenUiState,
 ) {
     val focusManager = LocalFocusManager.current
-    val screenDescription = stringResource(R.string.tip_calculator_screen_description)
-    val tipAddedMessage = stringResource(R.string.tip_added_to_list)
+    val screenDescription = stringResource(Res.string.tip_calculator_screen_description)
+    val tipAddedMessage = stringResource(Res.string.tip_added_to_list)
     val tipAmountInput = uiState.tipAmount
     val tipPercentInput = uiState.tipPercent
 
@@ -57,7 +65,7 @@ fun TipCalculatorScreen(
             modifier = Modifier
                 .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
-            text = stringResource(R.string.calculate_tip),
+            text = stringResource(Res.string.calculate_tip),
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
         )
@@ -68,14 +76,14 @@ fun TipCalculatorScreen(
             modifier = Modifier
                 .padding(bottom = MatipDimens.paddingMedium)
                 .align(alignment = Alignment.Start),
-            label = R.string.bill_amount,
+            label = Res.string.bill_amount,
             value = tipAmountInput,
             onValueChange = { viewModel.updateTipAmount(it) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
             ),
-            leadingIcon = R.drawable.attach_money
+            leadingIcon = Res.drawable.attach_money
         )
 
         /** EditTextForm for Tip percentage **/
@@ -84,14 +92,14 @@ fun TipCalculatorScreen(
             modifier = Modifier
                 .padding(bottom = 40.dp)
                 .align(alignment = Alignment.Start),
-            label = R.string.tip_percentage,
+            label = Res.string.tip_percentage,
             value = tipPercentInput,
             onValueChange = { viewModel.updateTipPercent(it) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
-            leadingIcon = R.drawable.percent
+            leadingIcon = Res.drawable.percent
         )
 
         SplitCounter(
@@ -120,7 +128,7 @@ fun TipCalculatorScreen(
         ButtonToOpenDialog(
             dataIsPresent = tipAmountInput.isNotEmpty() && tipPercentInput.isNotEmpty(),
             updateShowDialog = { viewModel.updateShowAddListDialog(true) },
-            buttonText = stringResource(R.string.add_tip_to_list)
+            buttonText = stringResource(Res.string.add_tip_to_list)
         )
 
         /** Conditional attached to [ButtonToOpenDialog] above, opening dialog */
