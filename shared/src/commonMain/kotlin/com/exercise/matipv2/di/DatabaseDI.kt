@@ -2,6 +2,7 @@ package com.exercise.matipv2.di
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.exercise.matipv2.data.local.MATIP_MIGRATIONS
 import com.exercise.matipv2.data.local.MatipDatabase
 import kotlinx.coroutines.Dispatchers
 
@@ -13,5 +14,6 @@ fun createMatipDatabase(builder: RoomDatabase.Builder<MatipDatabase>): MatipData
     builder
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
-        .fallbackToDestructiveMigration(dropAllTables = true)
+        // No destructive fallback: a missing migration must fail loudly, never wipe the user's tips.
+        .addMigrations(*MATIP_MIGRATIONS)
         .build()
