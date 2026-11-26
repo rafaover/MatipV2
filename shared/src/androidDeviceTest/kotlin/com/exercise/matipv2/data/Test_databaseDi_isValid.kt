@@ -6,9 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.exercise.matipv2.data.local.MatipDatabase
-import com.exercise.matipv2.di.provideDatabase
-import com.exercise.matipv2.di.provideListDao
-import com.exercise.matipv2.di.provideTipDao
+import com.exercise.matipv2.di.createMatipDatabase
+import com.exercise.matipv2.di.matipDatabaseBuilder
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -30,20 +29,21 @@ class DatabaseDiIsValidTest {
     }
 
     @Test
-    fun provideDatabaseReturnsNonNullDatabase() {
-        val database = provideDatabase(context)
+    fun createMatipDatabaseReturnsNonNullDatabase() {
+        val database = createMatipDatabase(matipDatabaseBuilder(context, name = "di_is_valid_test"))
         assertNotNull(database)
+        database.close()
     }
 
     @Test
-    fun provideListDaoReturnsNonNullListDao() {
-        val listDao = provideListDao(mockDatabase)
+    fun listDaoIsNotNull() {
+        val listDao = mockDatabase.listDao()
         assertNotNull(listDao)
     }
 
     @Test
-    fun provideTipDaoReturnsNonNullTipDao() {
-        val tipDao = provideTipDao(mockDatabase)
+    fun tipDaoIsNotNull() {
+        val tipDao = mockDatabase.tipDao()
         assertNotNull(tipDao)
     }
 }

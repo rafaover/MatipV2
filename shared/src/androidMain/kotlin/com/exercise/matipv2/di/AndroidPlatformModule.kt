@@ -10,6 +10,7 @@ import org.koin.dsl.module
 
 /** Android implementations of the platform interfaces. [googleWebClientId] comes from the app module. */
 fun androidPlatformModule(googleWebClientId: String) = module {
+    single { matipDatabaseBuilder(androidContext()) }
     single { CurrentActivity() }
     single<PlatformActions> { AndroidPlatformActions(androidContext(), get()) }
     single<GoogleIdTokenProvider> {
