@@ -14,13 +14,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 
-interface BackupRepository {
-    suspend fun backupDataToCloud(userId: String): Result<Unit>
-    suspend fun restoreDataFromCloud(userId: String): Result<Unit>
-    suspend fun deleteCloudData(userId: String): Result<Unit>
-    fun getLastBackupDate(userId: String): Flow<String?>
-}
-
 class FirestoreBackupRepository(
     private val tipDao: TipDao,
     private val listDao: ListDao,

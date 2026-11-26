@@ -9,16 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 
-interface AuthRepository {
-    val currentUser: StateFlow<AuthUser?>
-    suspend fun signIn(): Result<Unit>
-    suspend fun signInWithEmail(email: String, password: String): Result<Unit>
-    suspend fun signUpWithEmail(email: String, password: String): Result<Unit>
-    suspend fun sendPasswordResetEmail(email: String): Result<Unit>
-    suspend fun deleteAccount(): Result<Unit>
-    suspend fun signOut()
-}
-
 class FirebaseAuthRepository(
     private val googleIdTokenProvider: GoogleIdTokenProvider,
 ) : AuthRepository {
