@@ -146,28 +146,20 @@ fun MainScreen(
                     if (authViewModel.showAuthDialog) {
                         AuthDialog(
                             isLoading = authViewModel.isLoading,
+                            errorMessage = authViewModel.authErrorMessage,
                             onDismissRequest = { authViewModel.updateShowAuthDialog(false) },
                             onSignIn = { email, password ->
-                                authViewModel.signInWithEmail(email, password) { error ->
-                                    viewModel.updateShowSnackBar(true, error)
-                                }
+                                authViewModel.signInWithEmail(email, password)
                             },
                             onSignUp = { email, password ->
-                                authViewModel.signUpWithEmail(email, password) { error ->
-                                    viewModel.updateShowSnackBar(true, error)
-                                }
+                                authViewModel.signUpWithEmail(email, password)
                             },
                             onForgotPassword = { email ->
-                                authViewModel.sendPasswordResetEmail(
-                                    email = email,
-                                    onSuccess = {
-                                        viewModel.updateShowSnackBar(true, passwordResetSentMessage)
-                                    },
-                                    onError = { error ->
-                                        viewModel.updateShowSnackBar(true, error)
-                                    }
-                                )
-                            }
+                                authViewModel.sendPasswordResetEmail(email = email) {
+                                    viewModel.updateShowSnackBar(true, passwordResetSentMessage)
+                                }
+                            },
+                            onErrorShown = authViewModel::clearAuthError
                         )
                     }
                     // The bars' space is taken here, so a screen's imePadding only adds the part of the keyboard above them.

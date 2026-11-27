@@ -19,6 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,10 +40,12 @@ import com.exercise.matipv2.generated.resources.sign_in
 @Composable
 fun AuthDialog(
     isLoading: Boolean,
+    errorMessage: String?,
     onDismissRequest: () -> Unit,
     onSignIn: (String, String) -> Unit,
     onSignUp: (String, String) -> Unit,
-    onForgotPassword: (String) -> Unit
+    onForgotPassword: (String) -> Unit,
+    onErrorShown: () -> Unit,
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -71,9 +76,22 @@ fun AuthDialog(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     singleLine = true
                 )
+                if (errorMessage != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    // Live region: TalkBack reads the error as soon as it appears.
+                    Text(
+                        text = errorMessage,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 TextButton(
-                    onClick = { isRegistering = !isRegistering },
+                    onClick = {
+                        isRegistering = !isRegistering
+                        onErrorShown()
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isLoading
                 ) {

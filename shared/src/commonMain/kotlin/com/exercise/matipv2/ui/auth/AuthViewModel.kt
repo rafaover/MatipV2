@@ -45,8 +45,17 @@ class AuthViewModel(
     var isLoading by mutableStateOf(value = false)
         private set
 
+    /** Last email sign in, register or reset error. The auth dialog shows it, since it covers the snackbar. */
+    var authErrorMessage by mutableStateOf<String?>(value = null)
+        private set
+
     fun updateShowAuthDialog(show: Boolean) {
         showAuthDialog = show
+        clearAuthError()
+    }
+
+    fun clearAuthError() {
+        authErrorMessage = null
     }
 
     fun updateShowDeleteAccountDialog(show: Boolean) {
@@ -67,40 +76,43 @@ class AuthViewModel(
         }
     }
 
-    fun signInWithEmail(email: String, password: String, onError: (String) -> Unit) {
+    fun signInWithEmail(email: String, password: String) {
         viewModelScope.launch {
             isLoading = true
+            clearAuthError()
             authRepository.signInWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
                 }
-            }.onFailure { 
-                onError(it.message ?: "Auth Error") 
+            }.onFailure {
+                authErrorMessage = it.message ?: "Auth Error"
             }
             isLoading = false
         }
     }
 
-    fun signUpWithEmail(email: String, password: String, onError: (String) -> Unit) {
+    fun signUpWithEmail(email: String, password: String) {
         viewModelScope.launch {
             isLoading = true
+            clearAuthError()
             authRepository.signUpWithEmail(email, password).onSuccess {
                 currentUser.value?.id?.let { userId ->
                     localRepository.migrateGuestData(userId)
                 }
             }.onFailure {
-                onError(it.message ?: "Auth Error") 
+                authErrorMessage = it.message ?: "Auth Error"
             }
             isLoading = false
         }
     }
 
-    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onError: (String) -> Unit) {
+    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
             isLoading = true
+            clearAuthError()
             authRepository.sendPasswordResetEmail(email)
                 .onSuccess { onSuccess() }
-                .onFailure { onError(it.message ?: "Error") }
+                .onFailure { authErrorMessage = it.message ?: "Error" }
             isLoading = false
         }
     }

@@ -28,7 +28,6 @@ What is left, so work can continue later. Last updated 2026-11-26. Status and de
 ## Next up (can be done with Claude)
 
 - [ ] **Hardcoded English errors:** "Backup failed", "Restore failed", "Failed to delete account", "Failed to delete cloud data" in `AuthViewModel`, and "No backup found" in `FirestoreBackupRepository`. Move to string resources (the ViewModel should expose an error type, the UI picks the text), with pt-BR.
-- [ ] **Sign in error is not visible in the email dialog.** The Firebase error arrives but the snackbar seems to sit behind the dialog. Cause not confirmed.
 - [ ] **Expressive pass, remaining:** `MaterialShapes` (cookie or organic polygon) on the icon FAB, `AnimatedVisibility` for empty states and the clear-search button, more TalkBack labels (the "+" and "-" text, tip rows), spring motion in the dialogs.
 - [ ] **Magic numbers** in components (`20.dp`, `36.dp`, `56.dp`, `70.dp`, `80.dp`, `25.dp`...): move to `MatipDimens`.
 - [ ] **iOS UI smoke test** as an XCUITest target, so it can run from `xcodebuild test` without clicking.
