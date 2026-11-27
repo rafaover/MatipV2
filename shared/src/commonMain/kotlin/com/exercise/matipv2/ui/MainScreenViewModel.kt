@@ -15,7 +15,6 @@ import com.exercise.matipv2.util.calculateTip
 import com.exercise.matipv2.util.formatCurrency
 import com.exercise.matipv2.util.stringAmountToDouble
 import com.exercise.matipv2.util.localDateTimeFormated
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -90,7 +89,7 @@ class MainScreenViewModel (
     }
 
     fun updateList(list: TipList) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             localRepository.updateList(list)
         }
     }
@@ -167,7 +166,7 @@ class MainScreenViewModel (
     fun insertTipValueToList(listId: Int) {
         val tipAmountConverted = formatCurrency(stringAmountToDouble(uiState.value.tipAmount))
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val tip = Tip(
                 tipAmount = tipAmountConverted,
                 tipPercent = "0",
@@ -181,7 +180,7 @@ class MainScreenViewModel (
     }
 
     fun insertList(list: TipList) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val listWithUser = list.copy(userId = currentUserId)
             localRepository.insertList(listWithUser)
         }
@@ -193,7 +192,7 @@ class MainScreenViewModel (
     */
 
     fun deleteList(list: TipList?) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (list != null) {
                 localRepository.deleteList(list)
             }
@@ -201,13 +200,13 @@ class MainScreenViewModel (
     }
 
     fun deleteTip(tip: Tip) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             localRepository.deleteTip(tip)
         }
     }
 
     fun deleteTipsFromList(listId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getAllTipsFromList(listId).collect { tips ->
                 tips.forEach { tip ->
                     deleteTip(tip)

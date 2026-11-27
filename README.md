@@ -20,7 +20,7 @@ Crowdfunding life goals with a little tip
 
 ## TOOLS:
 
-- 100% Kotlin, Kotlin Multiplatform (Android first, iOS next)
+- 100% Kotlin, Kotlin Multiplatform (Android shipped, iOS in progress)
 - UI with Compose Multiplatform and Material 3 Expressive
 - StateFlow and ViewModel for State management
 - Navigation 3
@@ -35,8 +35,9 @@ Crowdfunding life goals with a little tip
 
 - `shared/`: all app code (`commonMain`) and the little platform code (`androidMain`)
 - `androidApp/`: the Android app shell
+- `iosApp/`: the iOS app shell (Xcode)
 
-See `CLAUDE.md` for the build and test commands.
+See `CLAUDE.md` for the build and test commands, and `docs/` for the migration status and open tasks.
 
 Future Plans:
 - iOS app

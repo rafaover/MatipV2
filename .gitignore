@@ -267,3 +267,7 @@ google-services.json
 # Android Profiling
 *.hprof
 
+# iOS: Firebase config (like google-services.json) and Xcode user state
+iosApp/iosApp/GoogleService-Info.plist
+xcuserdata/
+*.xcuserstate

@@ -16,4 +16,4 @@ paths:
 - Use `LazyColumn` for large lists.
 - Avoid unnecessary recompositions.
 - Avoid blocking the main thread.
-- Use `Dispatchers.IO` for data operations.
+- Data operations run on `Dispatchers.IO`: Room does it through the query context set on the database builder, so ViewModels use plain `viewModelScope.launch`.

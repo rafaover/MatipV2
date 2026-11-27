@@ -27,6 +27,7 @@ import com.exercise.matipv2.generated.resources.password_reset_sent
 import com.exercise.matipv2.components.MainNavigationDrawerContent
 import com.exercise.matipv2.components.auth.AuthDialog
 import com.exercise.matipv2.components.common.MainTopBar
+import com.exercise.matipv2.platform.GoogleIdTokenProvider
 import com.exercise.matipv2.platform.PlatformActions
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -50,6 +51,7 @@ fun MainScreen(
     viewModel: MainScreenViewModel,
     authViewModel: AuthViewModel = koinViewModel(),
     platformActions: PlatformActions = koinInject(),
+    googleIdTokenProvider: GoogleIdTokenProvider = koinInject(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val currentUser by authViewModel.currentUser.collectAsStateWithLifecycle()
@@ -81,6 +83,7 @@ fun MainScreen(
             MainNavigationDrawerContent(
                 currentUser = currentUser,
                 userLists = userLists,
+                isGoogleSignInAvailable = googleIdTokenProvider.isAvailable,
                 onSignInGoogle = {
                     authViewModel.signIn { error ->
                         viewModel.updateShowSnackBar(true, error)

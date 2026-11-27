@@ -39,6 +39,7 @@ import com.exercise.matipv2.data.model.AuthUser
 fun MainNavigationDrawerContent(
     currentUser: AuthUser?,
     userLists: List<TipList> = emptyList(),
+    isGoogleSignInAvailable: Boolean,
     onSignInGoogle: () -> Unit,
     onSignInEmail: () -> Unit,
     onSignOut: () -> Unit,
@@ -53,12 +54,14 @@ fun MainNavigationDrawerContent(
         ) {
             Spacer(Modifier.height(12.dp))
             if (currentUser == null) {
-                NavigationDrawerItem(
-                    icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
-                    label = { Text(text = stringResource(Res.string.sign_in_google)) },
-                    selected = false,
-                    onClick = onSignInGoogle
-                )
+                if (isGoogleSignInAvailable) {
+                    NavigationDrawerItem(
+                        icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
+                        label = { Text(text = stringResource(Res.string.sign_in_google)) },
+                        selected = false,
+                        onClick = onSignInGoogle
+                    )
+                }
                 NavigationDrawerItem(
                     icon = { Icon(painterResource(Res.drawable.ic_account_circle), contentDescription = null) },
                     label = { Text(text = stringResource(Res.string.sign_in_email)) },

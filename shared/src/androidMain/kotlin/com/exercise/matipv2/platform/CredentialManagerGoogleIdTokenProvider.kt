@@ -13,6 +13,8 @@ class CredentialManagerGoogleIdTokenProvider(
     private val googleWebClientId: String,
 ) : GoogleIdTokenProvider {
 
+    override val isAvailable: Boolean = true
+
     private val credentialManager = CredentialManager.create(applicationContext)
 
     override suspend fun getIdToken(): Result<String> {
